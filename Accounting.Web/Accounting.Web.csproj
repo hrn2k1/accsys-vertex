@@ -402,10 +402,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Tools\Tools.csproj">
-      <Project>{593e7e70-eaef-431a-b732-00faf7c147fb}</Project>
-      <Name>Tools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ACCOUNTING.DATAACCESS\AccountingWeb.DataAccess.csproj">
       <Project>{db4e0d1a-e8a5-409a-baba-97e58a50cef9}</Project>
       <Name>AccountingWeb.DataAccess</Name>
@@ -425,6 +421,10 @@
     <ProjectReference Include="..\DropDownChosen\DropDownChosen.csproj">
       <Project>{61034352-74e2-409d-8f9b-fdc5b4030524}</Project>
       <Name>DropDownChosen</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{593e7e70-eaef-431a-b732-00faf7c147fb}</Project>
+      <Name>Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
