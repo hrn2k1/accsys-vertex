@@ -3,4 +3,6 @@
 *.suo
 bin/
 obj/
-.vs
+.vs/
+Debug/
+Release/
