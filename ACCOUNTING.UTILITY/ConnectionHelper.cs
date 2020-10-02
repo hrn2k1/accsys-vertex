@@ -19,17 +19,35 @@ namespace Accounting.Utility
 
         static string connectionString = "";
         static SqlConnection con = null;
-       
+
+        public static string DefaultConnectionString {
+            get
+            {
+                if (connectionString == "")
+                {
+                    NameValueCollection configaration = ConfigurationSettings.AppSettings;
+                    connectionString = "Data Source=" + configaration.Get("Data Source") + ";";
+                    connectionString += "Database=" + configaration.Get("Database") + ";";
+                    connectionString += "User ID=" + configaration.Get("User ID") + ";";
+                    connectionString += "Password=" + configaration.Get("Password") + ";";
+                }
+                return connectionString;
+            }
+        }
+
         public static SqlConnection getConnection()
         {
             // connectionString = ConfigurationSettings.AppSettings["ConnectionString"];
             NameValueCollection configaration = ConfigurationSettings.AppSettings;
-            foreach (string keys in configaration.AllKeys)
-            {
-                if (keys == "RegKey" || keys == "VisitedCount") continue;
-                connectionString = connectionString + keys + "=" + configaration.Get(keys) + ";";
-            }
-
+            //foreach (string keys in configaration.AllKeys)
+            //{
+            //    if (keys == "RegKey" || keys == "VisitedCount") continue;
+            //    connectionString = connectionString + keys + "=" + configaration.Get(keys) + ";";
+            //}
+            connectionString = "Data Source=" + configaration.Get("Data Source") + ";";
+            connectionString += "Database=" + configaration.Get("Database") + ";";
+            connectionString += "User ID=" + configaration.Get("User ID") + ";";
+            connectionString += "Password=" + configaration.Get("Password") + ";";
             try
             {
 

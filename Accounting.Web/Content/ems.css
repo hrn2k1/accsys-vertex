@@ -1,0 +1,46 @@
+﻿input[type="radio"]{
+    vertical-align: sub;
+}
+input[type="checkbox"]{
+    vertical-align: sub;
+}
+
+.panel-heading {
+    padding: 0 !important;
+    padding-left: 5px !important;
+}
+
+    .panel-heading input {
+        height: 26px !important;
+    }
+
+    .panel-heading select {
+        height: 26px !important;
+    }
+
+    .panel-heading label {
+        margin: 5px !important;
+    }
+
+/*Over write bootstrap*/
+
+.container{
+    padding-left:0 !important;
+    padding-right:0 !important;
+}
+fieldset {
+    border: 1px solid silver !important;
+    padding:   0 5px 8px 5px !important;
+}
+
+legend {
+    display: block !important;
+    width: auto !important;
+    padding: 0 !important;
+    margin-bottom: 0px !important;
+    font-size: 21px !important;
+    line-height: inherit !important;
+    color: #333 !important;
+    border: 0 !important;
+    /* border-bottom: 1px solid #e5e5e5; */
+}

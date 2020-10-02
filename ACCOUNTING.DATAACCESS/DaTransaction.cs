@@ -13,7 +13,26 @@ namespace Accounting.DataAccess
     {
        public DaTransaction() { }
 
-       private int VoucherNoDigitLength = 6;
+        public static DataTable GetTransactionMethods(string pWhere, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM T_TransactionMethod WHERE " + pWhere + " ORDER BY " + OrderBy, ConnectionHelper.getConnection()))
+                {
+
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        private int VoucherNoDigitLength = 6;
        
        public int SaveEditTransactionMaster(TransactionMaster objTM, SqlConnection con, SqlTransaction trans)
        {

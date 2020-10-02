@@ -1,4 +1,6 @@
 *.scc
 *.vspscc
+*.suo
 bin/
 obj/
+.vs

@@ -12,8 +12,26 @@ namespace Accounting.DataAccess
    public class DaCurrency
     {
        public DaCurrency() { }
+        public static DataTable GetCurrencies(string pWhere, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Currency WHERE " + pWhere + " ORDER BY " + OrderBy, ConnectionHelper.getConnection()))
+                {
 
-       public void saveUpdate(Currency obCurrency, SqlConnection con)
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public void saveUpdate(Currency obCurrency, SqlConnection con)
        {
            SqlCommand com = null;
            SqlTransaction trans = null;

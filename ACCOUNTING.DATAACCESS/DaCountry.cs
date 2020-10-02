@@ -13,7 +13,26 @@ namespace Accounting.DataAccess
     {
        public DaCountry() { }
 
-       public DataTable getCountry(SqlConnection con)
+        public static DataTable GetCountries(string pWhere, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Country WHERE " + pWhere + " ORDER BY " + OrderBy, ConnectionHelper.getConnection()))
+                {
+
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public DataTable getCountry(SqlConnection con)
        {
            try
            {

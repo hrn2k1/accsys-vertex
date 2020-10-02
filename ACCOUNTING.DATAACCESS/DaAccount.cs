@@ -67,9 +67,25 @@ namespace Accounting.DataAccess
            int ID = 0;
            try
            {
-
-               SqlCommand com = new SqlCommand();
-
+                Account objParentAccount = null;
+                if (objAcc.ParentID > 0 && (objAcc.AccountDepth == -1 || objAcc.AccountNature == 0))
+                {
+                    objParentAccount = GetAccount(con, trans, objAcc.ParentID);
+                    if(objParentAccount != null)
+                    {
+                        objAcc.AccountDepth = objParentAccount.AccountDepth + 1;
+                        objAcc.AccountNature = objParentAccount.AccountNature;
+                    }
+                }
+                if(objAcc.CompanyID <= 0)
+                {
+                    objAcc.CompanyID = LogInInfo.CompanyID;
+                }
+                if (objAcc.UserID <= 0)
+                {
+                    objAcc.UserID = LogInInfo.UserID;
+                }
+                SqlCommand com = new SqlCommand();
               
                com.Connection = con;
                com.Transaction = trans;
@@ -94,8 +110,8 @@ namespace Accounting.DataAccess
                else
                    com.Parameters.Add("@LedgerID", SqlDbType.Int).Value = objAcc.LedgerID;
 
-               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-               com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = objAcc.CompanyID;
+               com.Parameters.Add("@UserID", SqlDbType.Int).Value = objAcc.UserID;
 
                com.ExecuteNonQuery();
 
@@ -285,6 +301,49 @@ namespace Accounting.DataAccess
 
 
        }
+       public Account GetAccount(int AccountID)
+        {
+            return GetAccount(ConnectionHelper.getConnection(), AccountID);
+        }
+        public Account GetAccount(SqlConnection con, SqlTransaction trans, int AccountID)
+        {
+            Account objAcc = new Account();
+            DataTable ds = new DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("select * from T_Account WHERE AccountID=" + AccountID.ToString(), con, trans);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(ds);
+                da.Dispose();
+                if (ds.Rows.Count == 0) return null;
+                objAcc = map(ds.Rows[0]);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return objAcc;
+        }
+        private Account map(DataRow row)
+        {
+            Account objAcc = new Account();
+            objAcc.AccountID = row.Field<int>("AccountID");
+            objAcc.AccountTitle = row.Field<string>("AccountTitle");
+            objAcc.AccountOrGroup = row.Field<string>("AccOrGroup");
+            objAcc.AccountNo = row.Field<string>("AccountNo");
+            objAcc.AccountNature = row.Field<int>("Nature");
+            objAcc.AccountStatus = row.Field<string>("AccountStatus");
+            objAcc.AccountCreateDate = row.Field<object>("AccCreateDate") == null || row.Field<object>("AccCreateDate") == DBNull.Value ? DateTime.Now : row.Field<DateTime>("AccCreateDate");
+            objAcc.AccountDepth = row.Field<int>("AccDepth");
+            objAcc.OpeningBalance = Convert.ToDouble(row.Field<object>("OpeningBalance"));
+            objAcc.CurrentBalance = Convert.ToDouble(row.Field<object>("CurrentBalance"));
+            objAcc.IsInventoryRelated = row.Field<int>("IsInventoryRelated");
+            objAcc.LedgerTypeID = row.Field<object>("LedgerTypeID") == DBNull.Value || row.Field<object>("LedgerTypeID") == null ? 0 : row.Field<int>("LedgerTypeID");
+            objAcc.LedgerID = row.Field<object>("LedgerID") == null || row.Field<object>("LedgerID") == DBNull.Value ? -1 : row.Field<int>("LedgerID");
+            objAcc.ParentID = row.Field<object>("parentID") == null || row.Field<object>("parentID") == DBNull.Value ? -1 : row.Field<int>("parentID");
+            objAcc.UserID = row.Field<object>("UserID") == DBNull.Value || row.Field<object>("UserID") == null ? 0 : row.Field<int>("UserID");
+            return objAcc;
+        }
        public Account GetAccount(SqlConnection con, int AccountID)
        {
            Account objAcc = new Account();
@@ -296,21 +355,7 @@ namespace Accounting.DataAccess
                da.Fill(ds);
                da.Dispose();
                if (ds.Rows.Count==0) return null;
-               objAcc.AccountID = ds.Rows[0].Field<int>("AccountID");
-               objAcc.AccountTitle  = ds.Rows[0].Field<string>("AccountTitle");
-               objAcc.AccountOrGroup  = ds.Rows[0].Field<string>("AccOrGroup");
-               objAcc.AccountNo = ds.Rows[0].Field<string>("AccountNo");
-               objAcc.AccountNature = ds.Rows[0].Field<int>("Nature");
-               objAcc.AccountStatus = ds.Rows[0].Field<string>("AccountStatus");
-               objAcc.AccountCreateDate = ds.Rows[0].Field<object>("AccCreateDate") == null || ds.Rows[0].Field<object>("AccCreateDate") ==DBNull.Value? DateTime.Now : ds.Rows[0].Field<DateTime>("AccCreateDate");
-               objAcc.AccountDepth = ds.Rows[0].Field<int>("AccDepth");
-               objAcc.OpeningBalance = Convert.ToDouble( ds.Rows[0].Field<object>("OpeningBalance"));
-               objAcc.CurrentBalance =Convert.ToDouble( ds.Rows[0].Field<object>("CurrentBalance"));
-               objAcc.IsInventoryRelated = ds.Rows[0].Field<int>("IsInventoryRelated");
-               objAcc.LedgerTypeID =ds.Rows[0].Field<object>("LedgerTypeID")==DBNull.Value||ds.Rows[0].Field<object>("LedgerTypeID")==null?0:ds.Rows[0].Field<int>("LedgerTypeID");
-               objAcc.LedgerID = ds.Rows[0].Field<object>("LedgerID") == null || ds.Rows[0].Field<object>("LedgerID") == DBNull.Value ? -1 : ds.Rows[0].Field<int>("LedgerID");
-               objAcc.ParentID = ds.Rows[0].Field<object>("parentID") == null || ds.Rows[0].Field<object>("parentID") == DBNull.Value ? -1 : ds.Rows[0].Field<int>("parentID");
-               objAcc.UserID = ds.Rows[0].Field<object>("UserID") == DBNull.Value || ds.Rows[0].Field<object>("UserID") == null ? 0 : ds.Rows[0].Field<int>("UserID");
+                objAcc = map(ds.Rows[0]);
            }
            catch (Exception ex)
            {
@@ -375,7 +420,69 @@ namespace Accounting.DataAccess
 
 
        }
-       public DataTable getLedgerType(SqlConnection con)
+
+        public static DataTable GetAccounts(string Where, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SP_GET_Accounts", ConnectionHelper.getConnection()))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@Where", SqlDbType.NVarChar, 500).Value = Where;
+                    if (OrderBy != string.Empty)
+                        da.SelectCommand.Parameters.Add("@OrderBy", SqlDbType.NVarChar, 500).Value = OrderBy;
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public static DataTable GetAccounts(string pWhere)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM T_Account WHERE " + pWhere, ConnectionHelper.getConnection()))
+                {
+
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public static DataTable GetAccountGroups(int CompanyId)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SP_GET_AccountGroups", ConnectionHelper.getConnection()))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = CompanyId;
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public DataTable getLedgerType(SqlConnection con)
         {
             try
             {
@@ -425,8 +532,24 @@ namespace Accounting.DataAccess
            }
            return strAccNo;
        }
+        public static string GenerateAccountNo(int parentID)
+        {
+            string strAccNo = string.Empty;
+            try
+            {
 
-       public DataTable getAccountsLedgers(SqlConnection con,string searchBy,int LedgerTypeID,string Title)
+                SqlCommand cmd = new SqlCommand("SELECT dbo.fnGenerateAccountNo(@parentID)", ConnectionHelper.getConnection());
+                cmd.Parameters.Add("@parentID", SqlDbType.Int).Value = parentID;
+                //cmd.CommandType = CommandType.StoredProcedure;
+                strAccNo = cmd.ExecuteScalar().ToString();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return strAccNo;
+        }
+        public DataTable getAccountsLedgers(SqlConnection con,string searchBy,int LedgerTypeID,string Title)
        {
            try
            {

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="Default.aspx" title="Home"  description="Dash Board">
+    <siteMapNode url="CompanyInfo.aspx" title="Company Information"  description="Company Information" />
+    <siteMapNode url="Setup.aspx" title="Misc. Settings"  description="Misc. Settings" />
+    <siteMapNode url="ChartOfAccounts.aspx" title="Chart Of Accounts"  description="Chart Of Accounts" />
+    <siteMapNode url="VoucherPosting.aspx" title="Voucher Posting"  description="Voucher Posting" />
+    <siteMapNode url="VoucherRegister.aspx" title="Voucher Register"  description="Voucher Register" />
+    <siteMapNode url="BillReceivable.aspx" title="Customer Bill"  description="Customer Bill" />
+    <siteMapNode url="BillPayable.aspx" title="Supplier Bill"  description="Supplier Bill" />
+    <siteMapNode url="rptCOA.aspx" title="Report: Chart of Accounts"  description="Chart of Accounts" />
+    <siteMapNode url="rptJournalBook.aspx" title="Report: Voucher History"  description="Voucher History" />
+    <siteMapNode url="rptBillReceivable.aspx" title="Report: Bills Receivable"  description="Bills Receivable" />
+    <siteMapNode url="rptBillPayable.aspx" title="Report: Bills Payable"  description="Bills Payable" />
+    <siteMapNode url="rptLedgerBook.aspx" title="Report: Ledger Book"  description="Ledger Book" />
+    
+  </siteMapNode>
+</siteMap>

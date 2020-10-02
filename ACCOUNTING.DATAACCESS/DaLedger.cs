@@ -67,7 +67,15 @@ namespace Accounting.DataAccess
           int ID = 0;
           try
           {
-              SqlCommand com = new SqlCommand();
+                if (objLdgr.CompanyID <= 0)
+                {
+                    objLdgr.CompanyID = LogInInfo.CompanyID;
+                }
+                if (objLdgr.UserID <= 0)
+                {
+                    objLdgr.UserID = LogInInfo.UserID;
+                }
+                SqlCommand com = new SqlCommand();
 
 
               com.Connection = con;
@@ -100,8 +108,8 @@ namespace Accounting.DataAccess
                   com.Parameters.Add("@AccountID", SqlDbType.Int).Value = DBNull.Value;
               else
                   com.Parameters.Add("@AccountID", SqlDbType.Int).Value = objLdgr.AccountID;
-              com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-              com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+              com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = objLdgr.CompanyID;
+              com.Parameters.Add("@UserID", SqlDbType.Int).Value = objLdgr.UserID;
 
               com.ExecuteNonQuery();
 
@@ -240,6 +248,10 @@ namespace Accounting.DataAccess
 
 
       }
+        public Ledgers GetLedger(int LedgerID)
+        {
+            return GetLedger(ConnectionHelper.getConnection(), LedgerID);
+        }
       public Ledgers GetLedger(SqlConnection con, int LedgerID)
       {
           DataTable ds = new DataTable();
