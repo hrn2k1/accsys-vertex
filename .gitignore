@@ -1,0 +1,4 @@
+*.scc
+*.vspscc
+bin/
+obj/
