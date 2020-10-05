@@ -1,8 +1,10 @@
-﻿using Accounting.Entity;
+﻿using Accounting.DataAccess;
+using Accounting.Entity;
 using Accounting.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -24,53 +26,61 @@ namespace Accounting.Web.UserControls
             {
                 if (!IsPostBack)
                 {
-                    if (VoucherId == 0)
+                    using (var connection = new SqlConnection(ConnectionHelper.DefaultConnectionString))
                     {
-                        Session["JrVAccs"] = null;
-                        lblTransMID.Text = "0";
-                        txtApprovedDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                        txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                        //txtVoucherNo.Text = DalTransactionMaster.GenerateVoucherNo("J", Session.CompanyId());
-                        txtApprovedBy.Text = Context.User.Identity.Name;
-                        txtDescription.Text = "";
-                        btnSave.Text = "Post";
-
-                        txtTotalDrAmount.Text = string.Format("{0:0.00}", 0);
-                        txtTotalCrAmount.Text = string.Format("{0:0.00}", 0);
-                    }
-                    else
-                    {
-                        TransactionMaster objTransMaster = null; // DalTransactionMaster.getAS_Transaction_Master(string.Format("TransMID={0}", VoucherId));
-                        lblTransMID.Text = VoucherId.ToString();
-                        txtVoucherNo.Text = objTransMaster.VoucherNo;
-                        txtDate.Text = string.Format("{0:dd/MM/yyyy}", objTransMaster.TransactionDate);
-                        txtDescription.Text = objTransMaster.TransactionDescription;
-                        chkApprovedBy.Checked = objTransMaster.ApprovedBy != "";
-                        txtApprovedBy.Text = objTransMaster.ApprovedBy;
-                        txtApprovedDate.Text = string.Format("{0:dd/MM/yyyy}", objTransMaster.ApprovedDate);
-                        btnSave.Text = "Change";
-                        DataTable dtVAccs = new DataTable(); // DalTransactionDetail.getVoucherAccounts(VoucherId);
-                        DataTable dtJrVAccs = new DataTable();
-                        dtJrVAccs.Columns.Add("AccountID", typeof(int));
-                        dtJrVAccs.Columns.Add("AccountNo", typeof(string));
-                        dtJrVAccs.Columns.Add("AccountTitle", typeof(string));
-                        dtJrVAccs.Columns.Add("DrAmount", typeof(double));
-                        dtJrVAccs.Columns.Add("CrAmount", typeof(double));
-
-                        double totalDrAmt = 0.0;
-                        double totalCrAmt = 0.0;
-                        foreach (DataRow row in dtVAccs.Rows)
+                        connection.Open();
+                        var objDaTrans = new DaTransaction();
+                        TransactionMaster objTransMaster = null;
+                        if (VoucherId > 0)
+                            objTransMaster = objDaTrans.getTransMaster(connection, VoucherId);
+                        if (objTransMaster == null)
                         {
-                            dtJrVAccs.Rows.Add(row["AccountID"], row["AccountNo"], row["AccountTitle"], row["DebitAmt"], row["CreditAmt"]);
-                            totalDrAmt += Tools.Utility.IsNull<double>(row["DebitAmt"], 0.0);
-                            totalCrAmt += Tools.Utility.IsNull<double>(row["CreditAmt"], 0.0);
+                            Session["JrVAccs"] = null;
+                            lblTransMID.Text = "0";
+                            txtApprovedDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                            txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                            txtVoucherNo.Text = objDaTrans.getVoucherNo(connection, "J", Tools.Utility.IsNull<int>(Session["CompanyId"], 0));
+                            txtApprovedBy.Text = Context.User.Identity.Name;
+                            txtDescription.Text = "";
+                            btnSave.Text = "Post";
+                            chkApprovedBy.Checked = false;
+                            txtTotalDrAmount.Text = string.Format("{0:0.00}", 0);
+                            txtTotalCrAmount.Text = string.Format("{0:0.00}", 0);
                         }
-                        txtTotalDrAmount.Text = string.Format("{0:0.00}", totalDrAmt);
-                        txtTotalCrAmount.Text = string.Format("{0:0.00}", totalCrAmt);
-                        Session["JrVAccs"] = dtJrVAccs;
-                        gvData.DataSource = dtJrVAccs;
-                        gvData.DataBind();
+                        else
+                        {
+                            lblTransMID.Text = objTransMaster.TransactionMasterID.ToString();
+                            txtVoucherNo.Text = objTransMaster.VoucherNo;
+                            txtDate.Text = string.Format("{0:dd/MM/yyyy}", objTransMaster.TransactionDate);
+                            txtDescription.Text = objTransMaster.TransactionDescription;
+                            chkApprovedBy.Checked = objTransMaster.ApprovedBy != "";
+                            txtApprovedBy.Text = objTransMaster.ApprovedBy;
+                            txtApprovedDate.Text = string.Format("{0:dd/MM/yyyy}", objTransMaster.ApprovedDate);
+                            btnSave.Text = "Update&Post";
+                            DataTable dtVAccs = objDaTrans.GetVoucherAccounts(connection, objTransMaster.TransactionMasterID);
+                            DataTable dtJrVAccs = new DataTable();
+                            dtJrVAccs.Columns.Add("AccountID", typeof(int));
+                            dtJrVAccs.Columns.Add("AccountNo", typeof(string));
+                            dtJrVAccs.Columns.Add("AccountTitle", typeof(string));
+                            dtJrVAccs.Columns.Add("DrAmount", typeof(double));
+                            dtJrVAccs.Columns.Add("CrAmount", typeof(double));
 
+                            double totalDrAmt = 0.0;
+                            double totalCrAmt = 0.0;
+                            foreach (DataRow row in dtVAccs.Rows)
+                            {
+                                dtJrVAccs.Rows.Add(row["AccountID"], row["AccountNo"], row["AccountTitle"], row["DebitAmt"], row["CreditAmt"]);
+                                totalDrAmt += Tools.Utility.IsNull<double>(row["DebitAmt"], 0.0);
+                                totalCrAmt += Tools.Utility.IsNull<double>(row["CreditAmt"], 0.0);
+                            }
+                            txtTotalDrAmount.Text = string.Format("{0:0.00}", totalDrAmt);
+                            txtTotalCrAmount.Text = string.Format("{0:0.00}", totalCrAmt);
+                            Session["JrVAccs"] = dtJrVAccs;
+                            gvData.DataSource = dtJrVAccs;
+                            gvData.DataBind();
+
+                        }
+                        connection.Close();
                     }
                 }
             }
@@ -101,6 +111,7 @@ namespace Accounting.Web.UserControls
                     dtJrVAccs = (DataTable)Session["JrVAccs"];
                 }
                 int AccID = Convert.ToInt32(ddlVoucherAC.SelectedValue);
+                if (AccID <= 0) return;
                 foreach (DataRow r in dtJrVAccs.Rows)
                 {
                     if (Tools.Utility.IsNull<int>(r["AccountID"], 0) == AccID)
@@ -304,19 +315,25 @@ namespace Accounting.Web.UserControls
         {
             try
             {
-                txtDescription.Text = "";
-                txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
-                txtTotalDrAmount.Text = "0.00";
-                txtTotalCrAmount.Text = "0.00";
-                txtAmount.Text = "";
-                gvData.DataSource = null;
-                gvData.DataBind();
-                Session["JrVAccs"] = null;
-                lblTransMID.Text = "0";
-                lblMsg.Text = "";
-                //txtVoucherNo.Text = DalTransactionMaster.GenerateVoucherNo("J", Session.CompanyId());
-                ddlVoucherAC.Bind();
-                btnSave.Text = "Post";
+                using (var connection = new SqlConnection(ConnectionHelper.DefaultConnectionString))
+                {
+                    connection.Open();
+                    var objDaTrans = new DaTransaction();
+                    txtDescription.Text = "";
+                    txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                    txtTotalDrAmount.Text = "0.00";
+                    txtTotalCrAmount.Text = "0.00";
+                    txtAmount.Text = "";
+                    gvData.DataSource = null;
+                    gvData.DataBind();
+                    Session["JrVAccs"] = null;
+                    lblTransMID.Text = "0";
+                    lblMsg.Text = "";
+                    txtVoucherNo.Text = objDaTrans.getVoucherNo(connection, "J", Tools.Utility.IsNull<int>(Session["CompanyId"], 0));
+                    ddlVoucherAC.Bind();
+                    btnSave.Text = "Post";
+                    connection.Close();
+                }
             }
             catch (Exception ex)
             {

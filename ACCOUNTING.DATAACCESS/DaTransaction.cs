@@ -39,7 +39,8 @@ namespace Accounting.DataAccess
            int ID = 0;
            try
            {
-
+                if(objTM.CompanyID <= 0) objTM.CompanyID = LogInInfo.CompanyID;
+                if (objTM.UserID <= 0) objTM.UserID = LogInInfo.UserID;
                SqlCommand com = new SqlCommand("spInsertUpdateTransMaster", con, trans);
                com.CommandType = CommandType.StoredProcedure;
                com.Parameters.Add("@TransMID", SqlDbType.Int).Value = objTM.TransactionMasterID;
@@ -67,8 +68,8 @@ namespace Accounting.DataAccess
                    com.Parameters.Add("@ApprovedDate", SqlDbType.DateTime).Value = objTM.ApprovedDate;
 
 
-               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-               com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = objTM.CompanyID;
+               com.Parameters.Add("@UserID", SqlDbType.Int).Value = objTM.UserID;
                com.Parameters.Add("@Module", SqlDbType.VarChar, 500).Value = objTM.Module;
                com.ExecuteNonQuery();
 
@@ -192,7 +193,29 @@ namespace Accounting.DataAccess
                throw ex;
            }
        }
-
+       public DataTable GetVoucherAccounts(SqlConnection con, int voucherId)
+       {
+           DataTable dt = null;
+           try
+           {
+               if (con == null)
+               {
+                   con = ConnectionHelper.getConnection();
+               }
+               if (con.State != ConnectionState.Open) con.Open();
+               string qstr = "SELECT TransDID,T.AccountID,A.AccountNo,A.AccountTitle, T.DebitAmt, T.CreditAmt FROM T_Transaction_Detail AS T INNER JOIN T_Account AS A ON T.AccountID=A.AccountID  WHERE TransMID= @TransMID Order By AccountTitle";
+               dt = new DataTable();
+               SqlDataAdapter da = new SqlDataAdapter(qstr, con);
+               da.SelectCommand.Parameters.Add("@TransMID", SqlDbType.Int).Value = voucherId;
+               da.Fill(dt);
+               da.Dispose();
+               return dt;
+           }
+           catch (Exception ex)
+           {
+               throw ex;
+           }
+       }
        public DataTable getVoucher(SqlConnection con, int VoucherType, DateTime stDate, DateTime edDate)
        {
            DataTable dt = null;
@@ -217,13 +240,17 @@ namespace Accounting.DataAccess
            return dt;
        }
 
-       public string getVoucherNo(SqlConnection con, string preFix)
+        public string getVoucherNo(SqlConnection con, string preFix)
+        {
+            return getVoucherNo(con, preFix, LogInInfo.CompanyID);
+        }
+       public string getVoucherNo(SqlConnection con, string preFix, int companyId)
        {
            string Vno = string.Empty;
            try
            {
                SqlCommand cmd = new SqlCommand("SELECT ISNULL((SELECT SUBSTRING(MAX(VoucherNo), 2, 50) + 1 FROM T_Transaction_Master WHERE CompanyID=@CompanyID AND (VoucherNo LIKE @DCJ + '%')),1)", con);
-               cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+               cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
                cmd.Parameters.Add("@DCJ", SqlDbType.VarChar, 5).Value = preFix;
                Vno = cmd.ExecuteScalar().ToString();
                Vno = preFix.ToUpper() + Vno.PadLeft(VoucherNoDigitLength, '0');
@@ -270,7 +297,30 @@ namespace Accounting.DataAccess
                throw ex;
            }
        }
-       public void DeleteTransaction(int TMID, SqlConnection con, SqlTransaction trans)
+        public void DeleteTransAccounts(SqlConnection connection, SqlTransaction trans, int transMID)
+        {
+            try
+            {
+                using (var da = new SqlDataAdapter(new SqlCommand("SELECT TransDID FROM T_Transaction_Detail WHERE TransMID=" + transMID.ToString(), connection, trans)))
+                {
+                    var dtTDIds = new DataTable();
+                    da.Fill(dtTDIds);
+                    da.Dispose();
+                    foreach (DataRow row in dtTDIds.Rows)
+                    {
+                        SqlCommand cmd = new SqlCommand("spDeleteTransAccount", connection, trans);
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Add("@TransDID", SqlDbType.Int).Value = row["TransDID"];
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void DeleteTransaction(int TMID, SqlConnection con, SqlTransaction trans)
        {
            try
            {

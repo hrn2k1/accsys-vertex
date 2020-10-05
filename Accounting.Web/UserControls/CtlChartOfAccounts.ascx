@@ -254,7 +254,7 @@
                                  <td class="InputLabel"> </td>
                                 <td colspan="4" align="left">
                                     <asp:LinkButton ID="btnSave" runat="server" Text="Save" SecurityCommandName="Add" CssClass="btn btn-default glyphicon glyphicon-saved"
-                                        ValidationGroup="AccSave1" OnClick="btnSave_Click" />
+                                        ValidationGroup="AccSave" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
                                 </td>
@@ -321,7 +321,7 @@
                         <div class="panel-body">
                             <asp:GridView ID="gvData" runat="server" AllowPaging="True" CssClass="datatable"
                                 GridLines="None" AllowSorting="True" AutoGenerateColumns="False" OnPageIndexChanging="gvData_PageIndexChanging"
-                                EmptyDataText="No Account Found." OnSorting="gvData_Sorting" PageSize="20">
+                                EmptyDataText="No Account Found." OnSorting="gvData_Sorting" PageSize="20" OnPageIndexChanged="gvData_PageIndexChanged">
                                 <Columns>
                                     <asp:TemplateField HeaderText="S/L">
                                         <ItemTemplate>

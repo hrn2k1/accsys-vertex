@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
@@ -17,7 +13,7 @@ namespace Accounting.Web.UserControls
             {
                 txtFromDate.Text = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
                 txtToDate.Text = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
-
+                btnSearch_Click(null, null);
             }
         }
 
@@ -32,12 +28,15 @@ namespace Accounting.Web.UserControls
             {
                 where = string.Format(" CompanyID={0}", Tools.Utility.IsNull<int>(Session["CompanyId"], 0));
                 where += string.Format(" AND (TransDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim()), Tools.Utility.GetDateValue(txtToDate.Text.Trim()));
-                if (ddlAccount.SelectedValue != "0")
-                    where += (where != "" ? " AND " : "") + string.Format(" AccountID={0} ", ddlAccount.SelectedValue);
-                if (ddlVoucherType.SelectedValue != "0")
-                    where += (where != "" ? " AND " : "") + string.Format(" VoucherTypeID={0} ", ddlVoucherType.SelectedValue);
-                
-                
+                if (ddlAccount.SelectedValue != "0" && ddlAccount.SelectedValue != "")
+                    where += (where != "" ? " AND " : "") + string.Format(" TransMID IN (SELECT TransMID FROM T_Transaction_Detail WHERE AccountID={0}) ", ddlAccount.SelectedValue);
+                if (ddlVoucherType.SelectedValue != "0" && ddlVoucherType.SelectedValue != "")
+                    where += (where != "" ? " AND " : "") + string.Format(" VoucherType={0} ", ddlVoucherType.SelectedValue);
+                if (!string.IsNullOrWhiteSpace(txtVoucherNo.Text))
+                {
+                    where += (where != "" ? " AND " : "") + string.Format(" VoucherNo ='{0}' ", txtVoucherNo.Text.Trim());
+                }
+
             }
             catch (Exception ex)
             {
@@ -50,17 +49,13 @@ namespace Accounting.Web.UserControls
             try
             {
                 gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" * ";
-                odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
+                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" RowID, TransMID, TransDate, VoucherNo, VoucherType, AccountNo, AccountTitle, DebitAmt, CreditAmt ";
+                //odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
                 odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
                 odsCommon.SelectParameters["OrderBy"].DefaultValue = " TransDate DESC,VoucherNo";
-
                 if (sender != null)
                     gvData.PageIndex = 0;
                 gvData.DataBind();
-
-                ArrangeGrid();
-
                 lblMsg.Text = "";
             }
             catch (Exception ex)
@@ -73,25 +68,24 @@ namespace Accounting.Web.UserControls
             string vn = "";
             foreach (GridViewRow row in gvData.Rows)
             {
-               HyperLink lnkVoucher = (HyperLink)row.Cells[1].FindControl("lnkVoucher");
+                if (row.Cells[7].Text == "0.00") row.Cells[7].Text = "";
+                if (row.Cells[8].Text == "0.00") row.Cells[8].Text = "";
+                HyperLink lnkVoucher = (HyperLink)row.Cells[2].FindControl("lnkVoucher");
                 if (lnkVoucher.Text != vn)
                 {
                     vn = lnkVoucher.Text;
-                    lnkVoucher.NavigateUrl = string.Format("~/frm{0}Voucher.aspx?id={1}", row.Cells[2].Text, lnkVoucher.ToolTip);
+                    lnkVoucher.NavigateUrl = string.Format("~/frm{0}Voucher.aspx?id={1}", row.Cells[3].Text, lnkVoucher.ToolTip);
                     lnkVoucher.ToolTip = string.Format("{0}", lnkVoucher.Text);
                 }
                 else
                 {
                     row.Cells[0].Text = "";
+                    row.Cells[1].Text = "";
                     lnkVoucher.Text = "";
-                    row.Cells[2].Text = "";
+                    row.Cells[3].Text = "";
                 }
             }
 
-        }
-        protected void gvData_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            btnSearch_Click(null, null);
         }
 
         protected void gvData_Sorting(object sender, GridViewSortEventArgs e)
@@ -103,8 +97,8 @@ namespace Accounting.Web.UserControls
                     sOrder = ViewState[e.SortExpression.Replace(".", "_")].ToString();
 
                 gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" * ";
-                odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
+                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" RowID, TransMID, TransDate, VoucherNo, VoucherType, AccountNo, AccountTitle, DebitAmt, CreditAmt ";
+                //odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
                 odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
                 odsCommon.SelectParameters["OrderBy"].DefaultValue = string.Format("{0} {1}", e.SortExpression, sOrder);
                 gvData.DataBind();
@@ -118,6 +112,11 @@ namespace Accounting.Web.UserControls
             {
                 lblMsg.Text = ex.Message;
             }
+        }
+
+        protected void gvData_DataBound(object sender, EventArgs e)
+        {
+            ArrangeGrid();
         }
     }
 }

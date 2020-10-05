@@ -87,7 +87,7 @@ namespace Accounting.Web.UserControls
                       T_LedgerType AS LedgerType ON Account.LedgerTypeID = LedgerType.LedgerTypeID LEFT OUTER JOIN
                       T_Account AS Parent ON Account.ParentID = Parent.AccountID";
                 odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
-                odsCommon.SelectParameters["OrderBy"].DefaultValue = "SUBSTRING(Account.AccountNo,2,6)";
+                odsCommon.SelectParameters["OrderBy"].DefaultValue = "Account.AccountNo";
 
                 if (sender != null)
                     gvData.PageIndex = 0;
@@ -103,7 +103,7 @@ namespace Accounting.Web.UserControls
 
         protected void gvData_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
-            btnSearch_Click(null, null);
+            
         }
 
         protected void gvData_Sorting(object sender, GridViewSortEventArgs e)
@@ -399,51 +399,7 @@ namespace Accounting.Web.UserControls
                 else
                     lblPanel1Msg.Text = ex.CustomDialogMessage();
             }
-            /////////////////////////////////////////////////////////////
-            //if (chkLedger.Checked == false && chkAccount.Checked == false)
-            //{
-            //    return;
-            //}
-            //SqlTransaction trans = null;
-            //try
-            //{
-            //    SqlConnection objCon = new SqlConnection(ConnectionHelper.DefaultConnectionString);
-
-            //    objCon.Open();
-            //    trans = objCon.BeginTransaction();
-
-            //    Account objAccount = CreateAccount();
-
-            //    int AccountID = 0;
-            //    if (chkAccount.Checked)
-            //        AccountID = DaAccount.SaveAS_Accounts(objAccount, objCon, trans);
-            //    else
-            //    {
-            //        if (objAccount.AccountID > 0)
-            //            DaAccount.DeleteFromAS_Accounts(" AccountID=" + objAccount.AccountID, objCon, trans);
-            //    }
-            //    Ledgers objLdgr = CreateLedger(AccountID);
-            //    int LedgerID = 0;
-            //    if (chkLedger.Checked)
-            //        LedgerID = DaLedger.SaveAS_Ledgers(objLdgr, objCon, trans);
-            //    else
-            //    {
-            //        if (objLdgr.LedgerID > 0)
-            //            DaLedger.DeleteFromAS_Ledgers(" LedgerID=" + objLdgr.LedgerID, objCon, trans);
-            //    }
-            //    trans.Commit();
-            //    objCon.Close();
-
-
-            //    btnSearch_Click(sender, e);
-            //    btnReset_Click(sender, e);
-            //    lblMsg.Text = "Successfully Saved";
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (trans != null) trans.Rollback();
-            //    lblMsg.Text = ex.Message;
-            //}
+            
         }
 
         protected void btnReset_Click(object sender, EventArgs e)
@@ -572,6 +528,11 @@ namespace Accounting.Web.UserControls
             {
                 lblMsg.Text = ex.Message;
             }
+        }
+
+        protected void gvData_PageIndexChanged(object sender, EventArgs e)
+        {
+            btnSearch_Click(null, null);
         }
     }
 }

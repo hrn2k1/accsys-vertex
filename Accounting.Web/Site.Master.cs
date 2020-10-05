@@ -12,7 +12,10 @@ namespace Accounting.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //if(Session["CompanyId"] == null)
+            //{
+            //    Server.TransferRequest("")
+            //}
         }
         protected void LoginStatus2_LoggedOut(object sender, EventArgs e)
         {

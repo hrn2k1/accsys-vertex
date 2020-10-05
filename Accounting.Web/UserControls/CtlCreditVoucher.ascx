@@ -78,9 +78,7 @@
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal8" Text="Collected By" runat="server"></asp:Literal></td>
                                 <td class="InputField" colspan="3">
-
                                     <asp:TextBox ID="txtVoucherPerson" runat="server"></asp:TextBox>
-
                                 </td>
                             </tr>
                             <tr class="row">
@@ -90,6 +88,7 @@
                                     <cc1:CustomAccountDropDownListChosen ID="ddlToAC" runat="server"
                                         FilterBy="(ParentID=2 OR ParentID=7)">
                                     </cc1:CustomAccountDropDownListChosen>
+                                    <asp:Label ID="lblToAccTDId" runat="server" Text="0" Visible="false" />
                                 </td>
                                 <td></td>
                             </tr>
@@ -104,8 +103,7 @@
                                                             <asp:Literal ID="ltlTitle" runat="server" Text="Colleceted From A/C" />
                                                         </label>
 
-
-                                                        <cc1:AccountDropDownListChosen ID="ddlFromAC" runat="server" Width="420px">
+                                                        <cc1:AccountDropDownListChosen ID="ddlFromAC" runat="server" Width="420px" NullItemText="Select an account" NullItemValue="0">
                                                         </cc1:AccountDropDownListChosen>
                                                         <asp:TextBox ID="txtAmount" runat="server" Width="100px" ValidationGroup="add"></asp:TextBox>
                                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
@@ -121,13 +119,15 @@
                                                     GridLines="None" AutoGenerateColumns="False" 
                                                     Width="100%">
                                                     <Columns>
+                                                        <asp:TemplateField HeaderText="TransDID"  Visible="False">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblTransDID" runat="server" Text='<%# Bind("TransDID") %>'></asp:Label>
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="AccountID" SortExpression="AccountID" Visible="False">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblAccountID" runat="server" Text='<%# Bind("AccountID") %>'></asp:Label>
                                                             </ItemTemplate>
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("AccountID") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="AccountNo" HeaderText="AccountNo" ItemStyle-HorizontalAlign="Left"
                                                             SortExpression="AccountNo" />
@@ -135,18 +135,12 @@
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblACTitle" runat="server" Text='<%# Bind("AccountTitle") %>'></asp:Label>
                                                             </ItemTemplate>
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("AccountTitle") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Amount" SortExpression="Amount" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblAmt" runat="server" Font-Bold="True" 
                                                                     Text='<%# Bind("Amount", "{0:0.00}") %>'></asp:Label>
                                                             </ItemTemplate>
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("Amount") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField  ItemStyle-Width="50px">
                                                             <ItemTemplate>

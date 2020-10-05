@@ -7,5 +7,5 @@
     <asp:HiddenField runat="server" ID="HfCanAdd" />
     <asp:HiddenField runat="server" ID="HfCanEdit" />
     <asp:HiddenField runat="server" ID="HfCanDelete" />
-    <uc1:CtlCreditVoucher ID="CtlCreditVoucher1" runat="server" />
+    <uc1:CtlCreditVoucher ID="CtlCreditVoucher1" runat="server" VoucherId ="0" />
 </asp:Content>

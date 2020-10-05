@@ -70,7 +70,7 @@
                                                         <label style="float: left;">
                                                             <asp:Literal ID="ltlTitle" runat="server" Text="Voucher A/C" />
                                                         </label>
-                                                        <cc1:AccountDropDownListChosen ID="ddlVoucherAC" runat="server" Width="385px">
+                                                        <cc1:AccountDropDownListChosen ID="ddlVoucherAC" runat="server" Width="385px" NullItemText="Select an account" NullItemValue="0">
                                                         </cc1:AccountDropDownListChosen>
                                                         <asp:DropDownList ID="ddlDrCr" runat="server">
                                                             <asp:ListItem>Dr</asp:ListItem>

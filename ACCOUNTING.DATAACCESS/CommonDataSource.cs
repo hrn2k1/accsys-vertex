@@ -80,5 +80,65 @@ namespace Accounting.DataAccess
             }
             return dtData;
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public Int32 GetVoucherCount(string SelectedColumns, string Where, int VouchersPerPage, string OrderBy)
+        {
+            // Data adapter to retrieve data from SQL Server based on the page size of the grid.
+            // The Select statement uses the maximumRows and startRowIndex parameters provided
+            // by WebGrid to query for data between the start row index for the page, up to the page size.
+
+
+
+            int Count = 0;
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConnectionHelper.DefaultConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(TransMID) FROM T_Transaction_Master WHERE " + Where, con))
+                    {
+                        con.Open();
+                        var countObj = cmd.ExecuteScalar();
+                        Count = Convert.ToInt32(countObj);
+                        con.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return Count;
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select, true)]
+        public static DataTable GetVouchers(string SelectedColumns, string Where, int VouchersPerPage, string OrderBy, int MaximumRows, int StartRowIndex)
+        {
+            // Data adapter to retrieve data from SQL Server based on the page size of the grid.
+            // The Select statement uses the maximumRows and startRowIndex parameters provided
+            // by WebGrid to query for data between the start row index for the page, up to the page size.
+
+            int PageSize = VouchersPerPage;
+            int PageIndex = StartRowIndex / MaximumRows;
+            int startRowNo = (PageIndex * PageSize) + 1;
+            int endRowNo = (PageIndex + 1) * PageSize;
+            DataTable dtData = new DataTable();
+            try
+            {
+                string qstr = string.Format("WITH myCTE AS (SELECT ROW_NUMBER() OVER ( ORDER BY {2} ) AS RowID, TransMID AS Id FROM T_Transaction_Master WHERE {0} ) SELECT {1} FROM VW_Transactions INNER JOIN myCTE ON TransMID=Id WHERE RowID BETWEEN @StartRowNo AND @EndRowNo ORDER BY {2}", Where, SelectedColumns, OrderBy);
+                using (SqlDataAdapter DataAdapter = new SqlDataAdapter(qstr, ConnectionHelper.DefaultConnectionString))
+                {
+                    DataAdapter.SelectCommand.Parameters.Add("@StartRowNo", SqlDbType.Int).Value = startRowNo;
+                    DataAdapter.SelectCommand.Parameters.Add("@EndRowNo", SqlDbType.Int).Value = endRowNo;
+                    DataAdapter.Fill(dtData);
+                    DataAdapter.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dtData;
+        }
     }
 }
