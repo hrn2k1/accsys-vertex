@@ -7,6 +7,13 @@
     .GridAmount a {
         padding-right: 6px !important;
     }
+    tr.row.voucher {
+    border-top: 2px solid black !important;
+    }
+    tr.row.voucher a {
+    text-decoration: underline !important;
+    color: blue;
+    }
 </style>
 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
     <ContentTemplate>
@@ -19,12 +26,18 @@
                     <div class="control-group">
                         <div class="controls form-inline" style="text-align: right;">
                             <label style="float: left;">
-                                <asp:Literal ID="ltlTitle" runat="server" Text="Search by" />
+                                <asp:Literal ID="ltlTitle" runat="server" Text="Top" />
                             </label>
-                           <%-- <asp:Literal ID="Literal3" Text="Voucher No." runat="server"></asp:Literal></label>--%>
+                            <asp:DropDownList ID="ddlTop" runat="server">
+                                <asp:ListItem Selected="True">10</asp:ListItem>
+                                <asp:ListItem>50</asp:ListItem>
+                                <asp:ListItem>100</asp:ListItem>
+                                <asp:ListItem>500</asp:ListItem>
+                                <asp:ListItem>1000</asp:ListItem>
+                            </asp:DropDownList>
                             <asp:TextBox ID="txtVoucherNo" runat="server" Width="100px" PlaceHolder="Voucher No."></asp:TextBox>
                             <cc1:AccountDropDownListChosen ID="ddlAccount" runat="server"
-                                NullItemText="Select Account" NullItemValue="0" Width="250px">
+                                NullItemText="Select Account" NullItemValue="0" Width="200px">
                             </cc1:AccountDropDownListChosen>
                             <cc1:VoucherTypeDropDownList ID="ddlVoucherType" runat="server"
                                 NullItemText="Voucher Type" NullItemValue="0">
@@ -43,14 +56,14 @@
                     </div>
                 </div>
                 <div class="panel-body">
-                    <asp:GridView ID="gvData" runat="server" AllowPaging="True" CssClass="datatable"
-                        GridLines="None" AllowSorting="True" AutoGenerateColumns="False"
-                        EmptyDataText="No Voucher Found." OnSorting="gvData_Sorting" PageSize="200"
+                    <asp:GridView ID="gvData" runat="server" CssClass="datatable"
+                        GridLines="None"  AutoGenerateColumns="False"
+                        EmptyDataText="No Voucher Found." 
                         Width="100%" ShowHeaderWhenEmpty="True" OnDataBound="gvData_DataBound">
                         <Columns>
                             <asp:TemplateField HeaderText="S/L">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label2" runat="server" Text='<%# Bind("RowID") %>'></asp:Label>
+                                    <%--<%# Container.DataItemIndex + 1 %>--%>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:BoundField DataField="TransDate" HeaderText="Date"
@@ -76,17 +89,16 @@
                                 SortExpression="CreditAmt" DataFormatString="{0:0.00}" >
                                 <HeaderStyle HorizontalAlign="Right" CssClass="GridAmount" />
                                 <ItemStyle HorizontalAlign="Right" CssClass="GridAmount" />
-                            </asp:BoundField>
-                            
+                            </asp:BoundField>                           
                         </Columns>
                         <EmptyDataTemplate>
                             <asp:Label EnableViewState="false" ID="EmptyTemp" runat="server" Text="No Voucher Found"></asp:Label>
                         </EmptyDataTemplate>
                         <RowStyle CssClass="row" />
                         <HeaderStyle CssClass="row" />
-                        <PagerStyle CssClass="pager" />
+                        <%--<PagerStyle CssClass="pager" />--%>
                     </asp:GridView>
-                   <asp:ObjectDataSource ID="odsCommon" runat="server" EnablePaging="True" MaximumRowsParameterName="MaximumRows"
+                   <%--<asp:ObjectDataSource ID="odsCommon" runat="server" EnablePaging="True" MaximumRowsParameterName="MaximumRows"
                         OldValuesParameterFormatString="original_{0}" SelectCountMethod="GetVoucherCount"
                         SelectMethod="GetVouchers" StartRowIndexParameterName="StartRowIndex" TypeName="Accounting.DataAccess.CommonDataSource">
                         <SelectParameters>
@@ -95,7 +107,7 @@
                             <asp:Parameter Name="VouchersPerPage" Type="Int32" DefaultValue="10" />
                             <asp:Parameter Name="OrderBy" Type="String" />
                         </SelectParameters>
-                    </asp:ObjectDataSource>
+                    </asp:ObjectDataSource>--%>
                 </div>
             </div>
         </div>

@@ -40,6 +40,15 @@ namespace Accounting.Web.UserControls {
         protected global::System.Web.UI.WebControls.Literal ltlTitle;
         
         /// <summary>
+        /// ddlTop control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTop;
+        
+        /// <summary>
         /// txtVoucherNo control.
         /// </summary>
         /// <remarks>
@@ -137,15 +146,6 @@ namespace Accounting.Web.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvData;
-        
-        /// <summary>
-        /// odsCommon control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource odsCommon;
         
         /// <summary>
         /// UpdateProgress1 control.

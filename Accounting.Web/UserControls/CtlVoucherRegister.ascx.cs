@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Accounting.DataAccess;
+using System;
 using System.Web.UI.WebControls;
 using Tools;
 
@@ -11,7 +12,7 @@ namespace Accounting.Web.UserControls
 
             if (!IsPostBack)
             {
-                txtFromDate.Text = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
+                txtFromDate.Text = string.Format("{0:dd/MM/yyyy}", DateTime.Now.AddDays(-7));
                 txtToDate.Text = string.Format("{0:dd/MM/yyyy}", DateTime.Now);
                 btnSearch_Click(null, null);
             }
@@ -48,13 +49,9 @@ namespace Accounting.Web.UserControls
         {
             try
             {
-                gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" RowID, TransMID, TransDate, VoucherNo, VoucherType, AccountNo, AccountTitle, DebitAmt, CreditAmt ";
-                //odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
-                odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
-                odsCommon.SelectParameters["OrderBy"].DefaultValue = " TransDate DESC,VoucherNo";
-                if (sender != null)
-                    gvData.PageIndex = 0;
+                int top = Convert.ToInt32(ddlTop.SelectedItem.Value);
+                var dtVouchers = DaTransaction.SearchVouchers(top, CreateWhere(), null, " TransMID, TransDate, VoucherNo, VoucherType, AccountNo, AccountTitle, DebitAmt, CreditAmt ");
+                gvData.DataSource = dtVouchers;
                 gvData.DataBind();
                 lblMsg.Text = "";
             }
@@ -66,6 +63,7 @@ namespace Accounting.Web.UserControls
         private void ArrangeGrid()
         {
             string vn = "";
+            int voucherNo = 0;
             foreach (GridViewRow row in gvData.Rows)
             {
                 if (row.Cells[7].Text == "0.00") row.Cells[7].Text = "";
@@ -73,6 +71,8 @@ namespace Accounting.Web.UserControls
                 HyperLink lnkVoucher = (HyperLink)row.Cells[2].FindControl("lnkVoucher");
                 if (lnkVoucher.Text != vn)
                 {
+                    row.CssClass = "row voucher";
+                    row.Cells[0].Text = (++voucherNo).ToString();
                     vn = lnkVoucher.Text;
                     lnkVoucher.NavigateUrl = string.Format("~/frm{0}Voucher.aspx?id={1}", row.Cells[3].Text, lnkVoucher.ToolTip);
                     lnkVoucher.ToolTip = string.Format("{0}", lnkVoucher.Text);
@@ -88,32 +88,7 @@ namespace Accounting.Web.UserControls
 
         }
 
-        protected void gvData_Sorting(object sender, GridViewSortEventArgs e)
-        {
-            try
-            {
-                string sOrder = "ASC";
-                if (ViewState[e.SortExpression.Replace(".", "_")] != null)
-                    sOrder = ViewState[e.SortExpression.Replace(".", "_")].ToString();
-
-                gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" RowID, TransMID, TransDate, VoucherNo, VoucherType, AccountNo, AccountTitle, DebitAmt, CreditAmt ";
-                //odsCommon.SelectParameters["FromTable"].DefaultValue = @" VW_Transactions ";
-                odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
-                odsCommon.SelectParameters["OrderBy"].DefaultValue = string.Format("{0} {1}", e.SortExpression, sOrder);
-                gvData.DataBind();
-
-
-                ViewState[e.SortExpression.Replace(".", "_")] = sOrder == "DESC" ? "ASC" : "DESC";
-                ArrangeGrid();
-                lblMsg.Text = "";
-            }
-            catch (Exception ex)
-            {
-                lblMsg.Text = ex.Message;
-            }
-        }
-
+        
         protected void gvData_DataBound(object sender, EventArgs e)
         {
             ArrangeGrid();
