@@ -147,7 +147,34 @@ namespace Accounting.DataAccess
             return list;
 
         }
-
+        public Company GetCompany(int companyId)
+        {
+            Company company = null;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionHelper.DefaultConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand("Select * FROM Company WHERE CompanyID = @CompanyID", connection))
+                    {
+                        cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
+                        connection.Open();
+                        IDataReader objReader = cmd.ExecuteReader();
+                        while (objReader.Read())
+                        {
+                            company = CreateObject(objReader);
+                            break;
+                        }
+                        objReader.Close();
+                        connection.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return company;
+        }
         public void Delete(int numCompanyID)
         {
             SqlConnection con = null;

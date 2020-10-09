@@ -40,13 +40,13 @@ namespace Accounting.Web {
         protected global::System.Web.UI.WebControls.Image ImgLogo;
         
         /// <summary>
-        /// lblInstituteName control.
+        /// lblCompanyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInstituteName;
+        protected global::System.Web.UI.WebControls.Label lblCompanyName;
         
         /// <summary>
         /// Form1 control.
@@ -139,15 +139,6 @@ namespace Accounting.Web {
         protected global::System.Web.UI.WebControls.Literal BillPayable;
         
         /// <summary>
-        /// AssetSchedule control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal AssetSchedule;
-        
-        /// <summary>
         /// UserManagement control.
         /// </summary>
         /// <remarks>
@@ -164,69 +155,6 @@ namespace Accounting.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal Reports;
-        
-        /// <summary>
-        /// rptCOA control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal rptCOA;
-        
-        /// <summary>
-        /// rptJournalBook control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal rptJournalBook;
-        
-        /// <summary>
-        /// rptBillReceivable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal rptBillReceivable;
-        
-        /// <summary>
-        /// rptBillPayable control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal rptBillPayable;
-        
-        /// <summary>
-        /// rptLedgerBook control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal rptLedgerBook;
-        
-        /// <summary>
-        /// CashBook control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal CashBook;
-        
-        /// <summary>
-        /// BankBook control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal BankBook;
         
         /// <summary>
         /// SecurityManagement control.

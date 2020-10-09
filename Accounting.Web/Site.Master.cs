@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Accounting.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,10 +13,20 @@ namespace Accounting.Web
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if(Session["CompanyId"] == null)
-            //{
-            //    Server.TransferRequest("")
-            //}
+            if (!IsPostBack)
+            {
+                if (Session["CompanyId"] == null)
+                {
+                    Server.TransferRequest("~/Login.aspx");
+                }
+
+                if(Session["Company"] != null)
+                {
+                    var company = (CompanyInformation)Session["Company"];
+                    lblCompanyName.Text = company.CompanyName;
+                    lblCompanyName.ToolTip = company.CompanyName;
+                }
+            }
         }
         protected void LoginStatus2_LoggedOut(object sender, EventArgs e)
         {

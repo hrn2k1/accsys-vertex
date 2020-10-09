@@ -77,6 +77,9 @@
             color: rgb(51, 102, 204);
             padding: 0px;
         }
+        .chzn-container .chzn-drop {
+            min-width: 500px;
+        }
     </style>
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
@@ -85,15 +88,14 @@
     <div class="container" id="pageTable" style="width: 95%;">
         <div class="row" style="margin-top: 15px; margin-right: 5px; margin-left: 0;">
             <div class="col-md-1" style="padding: 0">
-
                 <asp:Image ID="ImgLogo" CssClass="logo" ImageUrl='~/Logo/logo.jpg' runat="server" />
             </div>
             <div class="col-md-6" style="padding: 0">
                 <img src='<%=ResolveClientUrl("Images/logo.png") %>' alt="" usemap="#mwlogomap">
                 <map name="mwlogomap" id="mwlogomap">
-                    <area shape="rect" coords="0,30,200,47" href="#" alt="Built with Mathematica Technology"
+                    <area shape="rect" coords="0,30,200,47" href="#" alt="Built with Latest Technology"
                         title="Built with Leatest Experiences">
-                    <area shape="rect" coords="0,0,617,30" href="#" alt="Vertex Group of Industries" title="Vertex Group of Industries">
+                    <area shape="rect" coords="0,0,617,30" href="#">
                 </map>
 
             </div>
@@ -102,16 +104,15 @@
                     <form name="NavBarSearch" action='<%=ResolveClientUrl("VoucherRegister.aspx") %>' method="get" accept-charset="UTF-8"
                         onsubmit=" if (checkForDefaultInput('query_1', 'Search vouchers')) { return false; }">
                         <input id="search" class="searchboxsub" name="query" value="Search vouchers" onfocus="initTextInput(this,'clear','Search vouchers')"
-                            onblur="initTextInput(this,'setDefault','Search vouchers')" type="text">
+                            onblur="initTextInput(this,'setDefault','Search vouchers')" type="text" />
                         <input src='<%=ResolveClientUrl("Images/search-icon.png") %>' id="search-icon" alt="Search" onclick="if (checkForDefaultInput('query_1', 'Search Student')) { return false; } else { document.NavBarSearch.submit(); }"
-                            type="image">
+                            type="image" />
                     </form>
                 </div>
-                <div class="col-md-12" style="padding: 0">
-                    <asp:Label ID="lblInstituteName" runat="server" CssClass="companyName" Text="Vertex Group of Industries" ToolTip="Vertex Group of Industries"></asp:Label>
+                <div class="col-md-12" style="padding: 0;white-space: nowrap;">
+                    <asp:Label ID="lblCompanyName" runat="server" CssClass="companyName" Text="Vertex Group of Industries" ToolTip="Vertex Group of Industries"></asp:Label>
                 </div>
             </div>
-
         </div>
 
         <form id="Form1" runat="server">
@@ -156,18 +157,14 @@
                                 <asp:Literal ID="BillPayable" Text="Supplier Bill" runat="server"></asp:Literal></a>
                         </div>
                         <div>
-                            <a href='<%=ResolveClientUrl("#")%>'>
-                                <asp:Literal ID="AssetSchedule" Text="Asset Schedule" runat="server"></asp:Literal></a>
-                        </div>
-                        <div>
                             <a href='<%=ResolveClientUrl("UserManagement.aspx")%>'>
                                 <asp:Literal ID="UserManagement" Text="User Management" runat="server"></asp:Literal></a>
                         </div>
                         <div>
-                            <a href='<%=ResolveClientUrl("#")%>'>
+                            <a href='<%=ResolveClientUrl("Reports.aspx")%>'>
                                 <asp:Literal ID="Reports" Text="Reports" runat="server"></asp:Literal></a>
                         </div>
-                        <div>
+                        <%--<div>
                             &nbsp;&nbsp;&nbsp;<a href='<%=ResolveClientUrl("rptCOA.aspx")%>'><asp:Literal ID="rptCOA" Text="Chart of Accounts" runat="server"></asp:Literal></a>
                         </div>
                         <div>
@@ -187,14 +184,11 @@
                         </div>
                         <div>
                             &nbsp;&nbsp;&nbsp;<a href='<%=ResolveClientUrl("rptLedgerBook.aspx")%>'><asp:Literal ID="BankBook" Text="Bank Book" runat="server"></asp:Literal></a>
-                        </div>
+                        </div>--%>
                         <div>
                             <a href='<%=ResolveClientUrl("SecurityManagement.aspx")%>'>
                                 <asp:Literal ID="SecurityManagement" Text="Security Management" runat="server"></asp:Literal></a>
                         </div>
-
-
-
                         <!-- End Sidebar -->
                         <!--End nav content -->
                     </div>
@@ -215,21 +209,7 @@
                                 ]&nbsp;&nbsp;&nbsp;<asp:LoginStatus ID="LoginStatus2" runat="server"  CssClass="glyphicon glyphicon-log-out" OnLoggedOut="LoginStatus2_LoggedOut" />
                             </div>
                         </div>
-                        <%-- <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                            <ContentTemplate>--%>
                         <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-                        <%-- </ContentTemplate>
-                        </asp:UpdatePanel>
-                        <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
-                            <ProgressTemplate>
-                                <div id="dlg" style="z-index: 999; background-color: Blue; height: 100%; left: 0;
-                                    opacity: 0.2; position: absolute; top: 0; width: 100%; vertical-align: middle;
-                                    text-align: center;" align="center">
-                                    <img alt="Please Wait..." src="Images/please_wait.gif" style="z-index: 9999; margin: 20%" />
-                                </div>
-                            </ProgressTemplate>
-                        </asp:UpdateProgress>--%>
-                        <%-- <uc1:CtlInOutBoard ID="CtlInOutBoard1" runat="server" />--%>
                     </div>
 
                 </div>

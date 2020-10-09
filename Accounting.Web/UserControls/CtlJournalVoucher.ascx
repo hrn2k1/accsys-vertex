@@ -94,9 +94,6 @@
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblAccountID" runat="server" Text='<%# Bind("AccountID") %>'></asp:Label>
                                                             </ItemTemplate>
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("AccountID") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="AccountNo" HeaderText="AccountNo" ItemStyle-HorizontalAlign="Left"
                                                             SortExpression="AccountNo" />
@@ -104,9 +101,6 @@
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblACTitle" runat="server" Text='<%# Bind("AccountTitle") %>'></asp:Label>
                                                             </ItemTemplate>
-                                                            <EditItemTemplate>
-                                                                <asp:TextBox ID="TextBox3" runat="server" Text='<%# Bind("AccountTitle") %>'></asp:TextBox>
-                                                            </EditItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Dr Amount" SortExpression="DrAmount" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
                                                             <ItemTemplate>
@@ -115,12 +109,10 @@
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Cr Amount" SortExpression="CrAmount" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
-
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblCrAmt" runat="server" Font-Bold="True"
                                                                     Text='<%# Bind("CrAmount", "{0:0.00}") %>'></asp:Label>
                                                             </ItemTemplate>
-
                                                         </asp:TemplateField>
                                                         <asp:TemplateField ItemStyle-Width="50px">
                                                             <ItemTemplate>

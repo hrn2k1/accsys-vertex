@@ -279,9 +279,9 @@ namespace Accounting.Web.UserControls
                 trans.Commit();
                 connection.Close();
                 if (btnSave.Text == "Post")
-                    lblMsg.Text = UIMessage.Message2User("Successfully posted the credit voucher", UserUILookType.Success);
+                    lblMsg.Text = UIMessage.Message2User("Successfully posted the debit voucher", UserUILookType.Success);
                 else
-                    lblMsg.Text = UIMessage.Message2User("Successfully changed the credit voucher", UserUILookType.Success);
+                    lblMsg.Text = UIMessage.Message2User("Successfully changed the debit voucher", UserUILookType.Success);
                 btnReset_Click(sender, e);
 
             }

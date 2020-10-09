@@ -2,12 +2,8 @@
 using Accounting.Entity;
 using Accounting.Utility;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
@@ -78,13 +74,11 @@ namespace Accounting.Web.UserControls
                             Session["JrVAccs"] = dtJrVAccs;
                             gvData.DataSource = dtJrVAccs;
                             gvData.DataBind();
-
                         }
                         connection.Close();
                     }
                 }
             }
-
             catch (Exception ex)
             {
                 lblMsg.Text = ex.CustomDialogMessage();
@@ -148,7 +142,6 @@ namespace Accounting.Web.UserControls
         {
             try
             {
-
                 Label lblAccID = (Label)((LinkButton)sender).NamingContainer.FindControl("lblAccountID");
                 int AccID = Convert.ToInt32(lblAccID.Text);
                 DataTable dtJrVAccs = (DataTable)Session["JrVAccs"];
@@ -181,134 +174,108 @@ namespace Accounting.Web.UserControls
             }
         }
 
-        private TransactionMaster CreateTransactionMasterObject()
+        private TransactionMaster CreateTransMasterObject()
         {
-            TransactionMaster obj = new TransactionMaster();
+            TransactionMaster objTM = null;
             try
             {
-                obj.VoucherType = (int)VoucherTypes.Journal;
-                obj.VoucherNo = txtVoucherNo.Text.Trim();
-
+                objTM = new TransactionMaster();
+                objTM.TransactionMasterID = Convert.ToInt32(lblTransMID.Text);
+                objTM.TransactionDate = Tools.Utility.GetDateValue(txtDate.Text.Trim());
+                objTM.VoucherNo = txtVoucherNo.Text.Trim();
+                objTM.VoucherPayee = "";
+                objTM.VoucherType = (int)VoucherTypes.Journal;
+                objTM.TransactionMethodID = -1;
+                objTM.MethodRefID = -1;
+                objTM.MethodRefNo = "";
+                objTM.TransactionDescription = txtDescription.Text;
+                objTM.Module = "Voucher";
                 if (chkApprovedBy.Checked)
                 {
-                    obj.ApprovedBy = txtApprovedBy.Text;
-                    obj.ApprovedDate = Tools.Utility.GetDateValue(txtApprovedDate.Text.Trim()).AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute).AddSeconds(DateTime.Now.Second);
-
+                    objTM.ApprovedBy = txtApprovedBy.Text;
+                    objTM.ApprovedDate = Tools.Utility.GetDateValue(txtApprovedDate.Text.Trim()).AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute).AddSeconds(DateTime.Now.Second);
                 }
                 else
                 {
-                    obj.ApprovedBy = "";
-                    obj.ApprovedDate = Tools.Utility.NullDate;
+                    objTM.ApprovedBy = "";
+                    objTM.ApprovedDate = Tools.Utility.NullDate;
                 }
-                obj.CompanyID = Tools.Utility.IsNull<int>(Session["CompanyId"],0);
-                obj.MethodRefID = 0;
-                obj.MethodRefNo = "";
-                obj.ModifiedDate = DateTime.Now;
-                obj.Module = "Journal Voucher";
-                obj.TransactionDate = Tools.Utility.GetDateValue(txtDate.Text.Trim());
-                obj.TransactionDescription = txtDescription.Text;
-                obj.TransactionMethodID = 0;
-                obj.TransactionMasterID = Convert.ToInt32(lblTransMID.Text);
-                //obj.UserID = Tools.Utility.IsNull<Guid>(Session["UserID"], Tools.Utility.NullGuid);
-
-                obj.VoucherPayee = "";
-                
+                objTM.CompanyID = Tools.Utility.IsNull<int>(Session["CompanyId"], 0);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return obj;
+            return objTM;
         }
-        private TransactionDetail CreateTransactionDetailObject(int MasterID, int AccountID, double CrAmount, double DrAmount, int OppAccID, string cmnt)
+        private TransactionDetail CreateTransDetailObject(int TDID, int TMID, int AccountID, double CrAmt, double DrAmt, string cmnt)
         {
-            TransactionDetail obj = new TransactionDetail();
+            TransactionDetail objTD = null;
             try
             {
-                obj.TransactionMasterID = MasterID;
-                obj.TransactionDetailID = 0;
-                obj.TransactionAccountID = AccountID;
-                obj.Comments = cmnt;
-                obj.CreditAmount = CrAmount;
-                obj.DebitAmount = DrAmount;
+                objTD = new TransactionDetail();
+                objTD.TransactionDetailID = TDID;
+                objTD.TransactionMasterID = TMID;
+                objTD.TransactionAccountID = AccountID;
+                objTD.CreditAmount = CrAmt;
+                objTD.DebitAmount = DrAmt;
+                objTD.Comments = cmnt; // string.Empty;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-            return obj;
+            return objTD;
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            //if (Convert.ToDouble(txtTotalDrAmount.Text) == 0 && Convert.ToDouble(txtTotalCrAmount.Text) == 0)
-            //{
-            //    lblMsg.Text = UIMessage.Message2User("Voucher Accounts Needed.", UserUILookType.Warning);
-            //    return;
-            //}
-            //if (Convert.ToDouble(txtTotalDrAmount.Text) != Convert.ToDouble(txtTotalCrAmount.Text))
-            //{
-            //    lblMsg.Text = UIMessage.Message2User("Debit Amount and Credit Amount must be equal.", UserUILookType.Warning);
-            //    return;
-            //}
-            //SqlTransaction trans = null;
-            //try
-            //{
-            //    TransactionMaster objTM = CreateTransactionMasterObject();
-            //    TransactionDetail objTD = new TransactionDetail();
-            //    //DalTransactionMaster
-            //    using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString))
-            //    {
-            //        con.Open();
-            //        trans = con.BeginTransaction();
-            //        if (objTM.TransMID > 0)
-            //            DalTransactionMaster.DeleteVoucherDetail(objTM.TransMID, con, trans);
-            //        int TransMID = DalTransactionMaster.SaveAS_Transaction_Master(objTM, con, trans);
-            //        string cmntDr = "", cmntCr = "";
-            //        foreach (GridViewRow row in gvData.Rows)
-            //        {
-            //            Label lblACTitle = (Label)row.FindControl("lblACTitle");
-            //            Label lblDrAmt = (Label)row.FindControl("lblDrAmt");
-            //            double DrAmt = lblDrAmt.Text.Trim() == "" ? 0.0 : Convert.ToDouble(lblDrAmt.Text);
+            if (txtTotalCrAmount.Text != txtTotalDrAmount.Text || Convert.ToDouble(txtTotalCrAmount.Text) <= 0 || Convert.ToDouble(txtTotalDrAmount.Text) <= 0)
+            {
+                lblMsg.Text = UIMessage.Message2User("Correctly entry the amount", UserUILookType.Warning);
+                return;
+            }
 
-            //            if (DrAmt == 0)
-            //                cmntDr += cmntDr == "" ? lblACTitle.Text : Environment.NewLine + lblACTitle.Text;
-            //            else
-            //                cmntCr += cmntCr == "" ? lblACTitle.Text : Environment.NewLine + lblACTitle.Text;
-            //        }
-            //        string cmnt = "";
-            //        foreach (GridViewRow row in gvData.Rows)
-            //        {
-            //            Label lblAccID = (Label)row.FindControl("lblAccountID");
-            //            int AccID = Convert.ToInt32(lblAccID.Text);
-            //            Label lblDrAmt = (Label)row.FindControl("lblDrAmt");
-            //            double DrAmt = lblDrAmt.Text.Trim() == "" ? 0.0 : Convert.ToDouble(lblDrAmt.Text);
-            //            Label lblCrAmt = (Label)row.FindControl("lblCrAmt");
-            //            double CrAmt = lblCrAmt.Text.Trim() == "" ? 0.0 : Convert.ToDouble(lblCrAmt.Text);
-            //            if (DrAmt == 0)
-            //                cmnt = cmntDr;
-            //            else
-            //                cmnt = cmntCr;
-            //            objTD = CreateTransactionDetailObject(TransMID, AccID, CrAmt, DrAmt, 0, cmnt);
-            //            int TransDID = DalTransactionDetail.SaveAS_Transaction_Detail(objTD, con, trans);
+            SqlConnection connection = null;
+            SqlTransaction trans = null;
+            try
+            {
+                int TMID = 0;
+                var objDaTrans = new DaTransaction();
+                var objTM = new TransactionMaster();
+                var objTD = new TransactionDetail();
+                connection = new SqlConnection(ConnectionHelper.DefaultConnectionString);
+                connection.Open();
+                trans = connection.BeginTransaction();
+                objTM = CreateTransMasterObject();
+                objDaTrans.DeleteTransAccounts(connection, trans, objTM.TransactionMasterID);
+                TMID = objDaTrans.SaveEditTransactionMaster(objTM, connection, trans);
 
-            //        }
-            //        if (chkApprovedBy.Checked)
-            //            DalTransactionMaster.ApprovedVoucher(TransMID, txtApprovedBy.Text, Utility.GetDateValue(txtApprovedDate.Text), con, trans);
-            //        trans.Commit();
-            //        con.Close();
-            //        btnReset_Click(sender, e);
-            //        if (btnSave.Text == "Post")
-            //            lblMsg.Text = UIMessage.Message2User("Successfully posted the journal voucher", UserUILookType.Success);
-            //        else
-            //            lblMsg.Text = UIMessage.Message2User("Successfully changed the journal voucher", UserUILookType.Success);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (trans != null) trans.Rollback();
-            //    lblMsg.Text = ex.CustomDialogMessage();
-            //}
+                foreach (GridViewRow row in gvData.Rows)
+                {
+                    Label lblAccID = (Label)row.FindControl("lblAccountID");
+                    int AccID = Convert.ToInt32(lblAccID.Text);
+                    Label lblDrAmt = (Label)row.FindControl("lblDrAmt");
+                    double drAmt = lblDrAmt.Text == "" ? 0 : Convert.ToDouble(lblDrAmt.Text);
+                    Label lblCrAmt = (Label)row.FindControl("lblCrAmt");
+                    double crAmt = lblCrAmt.Text == "" ? 0 : Convert.ToDouble(lblCrAmt.Text);
+                    objTD = CreateTransDetailObject(0, TMID, AccID, crAmt, drAmt, "");
+
+                    objDaTrans.SaveEditTransactionDetail(objTD, connection, trans);
+                }
+                trans.Commit();
+                connection.Close();
+                if (btnSave.Text == "Post")
+                    lblMsg.Text = UIMessage.Message2User("Successfully posted the journal voucher", UserUILookType.Success);
+                else
+                    lblMsg.Text = UIMessage.Message2User("Successfully changed the journal voucher", UserUILookType.Success);
+                btnReset_Click(sender, e);
+            }
+            catch (Exception ex)
+            {
+                if (trans != null) trans.Rollback();
+                if (connection.State != ConnectionState.Closed) connection.Close();
+                lblMsg.Text = ex.CustomDialogMessage();
+            }
         }
 
         protected void btnReset_Click(object sender, EventArgs e)
@@ -328,11 +295,14 @@ namespace Accounting.Web.UserControls
                     gvData.DataBind();
                     Session["JrVAccs"] = null;
                     lblTransMID.Text = "0";
-                    lblMsg.Text = "";
                     txtVoucherNo.Text = objDaTrans.getVoucherNo(connection, "J", Tools.Utility.IsNull<int>(Session["CompanyId"], 0));
                     ddlVoucherAC.Bind();
                     btnSave.Text = "Post";
                     connection.Close();
+                    if (sender.Equals(btnReset))
+                    {
+                        lblMsg.Text = "";
+                    }
                 }
             }
             catch (Exception ex)

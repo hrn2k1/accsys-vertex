@@ -35,7 +35,7 @@ namespace Accounting.Web.UserControls
                     where += (where != "" ? " AND " : "") + string.Format(" VoucherType={0} ", ddlVoucherType.SelectedValue);
                 if (!string.IsNullOrWhiteSpace(txtVoucherNo.Text))
                 {
-                    where += (where != "" ? " AND " : "") + string.Format(" VoucherNo ='{0}' ", txtVoucherNo.Text.Trim());
+                    where += (where != "" ? " AND " : "") + string.Format(" VoucherNo LIKE '{0}' ", txtVoucherNo.Text.Trim());
                 }
 
             }
