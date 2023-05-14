@@ -311,7 +311,7 @@ namespace Accounting.DataAccess
             DataTable ds = new DataTable();
             try
             {
-                SqlCommand cmd = new SqlCommand("select * from T_Account WHERE AccountID=" + AccountID.ToString(), con, trans);
+                SqlCommand cmd = new SqlCommand("SELECT * FROM T_Account WHERE AccountID=" + AccountID.ToString(), con, trans);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(ds);
                 da.Dispose();
@@ -420,7 +420,6 @@ namespace Accounting.DataAccess
 
 
        }
-
         public static DataTable GetAccounts(string Where, string OrderBy)
         {
             DataTable dt = new DataTable();
@@ -679,7 +678,27 @@ namespace Accounting.DataAccess
                throw new Exception(ex.Message);
            }
        }
+        public int GetAccountIdOfTitle(int companyId, string AccountTitle)
+        {
+            int AccountId = 0;
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM T_Account WHERE AccountTitle = @AccountTitle AND CompanyID = @CompanyID", ConnectionHelper.DefaultConnectionString);
+                da.SelectCommand.Parameters.Add("@AccountTitle", SqlDbType.VarChar, 500).Value = AccountTitle;
+                da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
+                da.Fill(dt);
+                da.Dispose();
 
+                if (dt.Rows.Count == 0) return 0;
+                AccountId = GlobalFunctions.isNull(dt.Rows[0].Field<object>("AccountID"), 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return AccountId;
+        }
        public int GetAccountIdOfTitle(SqlConnection con, string AccountTitle)
        {
            int AccountId = 0;

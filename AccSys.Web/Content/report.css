@@ -1,0 +1,109 @@
+﻿.report {
+
+}
+    .report.html .report-header {
+        margin: 5px 10% 15px !important;
+    }
+    .report .report-header {
+        height: 70px;
+        margin: 5px auto 15px;
+        border-bottom: 1px solid #ccc;
+    }
+        .report .report-header .logo {
+            float: left;
+        }
+            .report .report-header .logo img {
+                height: 64px;
+                width: 64px;
+                /*border-radius: 45%;*/
+            }
+        .report .report-header .company {
+            float: left;
+            margin-left: 10px;
+        }
+            .report .report-header .company .name {
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+            .report .report-title {
+                text-align: center;
+                width: 300px;
+                margin: 5px auto;
+                font-size: 1.5rem;
+                background-color: gray;
+                color: white;
+                font-weight: bold;
+            }
+    .report .report-sub-title {
+        text-align: center;
+        width: 300px;
+        margin: 5px auto 15px;
+        font-size: 1.1rem;
+    }
+    .report .report-table {
+        border-collapse: collapse;
+        margin: auto;
+    }
+    .report.html .report-table.min-width {
+        min-width: 90%;
+    }
+    .report.pdf .report-table.min-width {
+        width: 900px;
+    }
+        .report .report-table tr {
+            vertical-align: top;
+        }
+        .report .report-table th,
+        .report .report-table td {
+            border: 1px solid #ccc;
+            padding: 2px 5px;
+        }
+.number {
+    text-align: right;
+}
+.align-left {
+    text-align: left;
+}
+.align-right {
+    text-align: right;
+}
+.align-center {
+    text-align: center;
+}
+
+.item-0,  .item-3 {
+    font-weight:bolder;
+}
+.item-1 {
+    font-weight: bold;
+}
+    .item-1 td.title, .item-Group0 td.title {
+        padding-left: 15px;
+    }
+.item-2 td.title, .item-Group1 td.title {
+    padding-left: 30px;
+}
+
+.item-1 td.dr,
+.item-1 td.cr {
+    padding-right: 15px;
+}
+
+.item-2 td.dr,
+.item-2 td.cr {
+    padding-right: 30px;
+}
+
+.item-Group2 td.title {
+    padding-left: 45px;
+}
+.item-Account td.title {
+    padding-left: 60px;
+}
+.item-Group0 {
+    font-weight: bolder;
+}
+.item-Group1, .item-Group2 {
+    font-weight: bold;
+}
+

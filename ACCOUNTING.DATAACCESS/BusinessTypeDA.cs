@@ -13,9 +13,9 @@ using Accounting.Utility;
 
 namespace Accounting.DataAccess
 {
-  public  class BusinessTypeDA 
+    public class BusinessTypeDA
     {
-      public BusinessTypeDA(){}
+        public BusinessTypeDA() { }
 
         public int SaveOrUpdate(BusinessType objBusinessType)
         {
@@ -38,18 +38,14 @@ namespace Accounting.DataAccess
 
                     objBusinessType.BusinessTypeID = ConnectionHelper.GetID(con, trans, "BusinessTypeID", "BusinessType");
 
-                    com.CommandText = "Insert Into BusinessType(CompanyID, UserID, ModifiedDate, BusinessTypeID, Name) "
-                                      + " Values(@CompanyID, @UserID, @ModifiedDate,@BusinessTypeID, @Name)";
+                    com.CommandText = "Insert Into BusinessType(BusinessTypeID, Name) Values(@BusinessTypeID, @Name)";
 
                 }
                 else
                 {
-                    com.CommandText = "Update BusinessType SET CompanyID = @CompanyID, UserID =@UserID, ModifiedDate = @ModifiedDate, Name = @Name WHERE BusinessTypeID = @BusinessTypeID";
+                    com.CommandText = "Update BusinessType SET Name = @Name WHERE BusinessTypeID = @BusinessTypeID";
 
                 }
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
-                com.Parameters.Add("@ModifiedDate", SqlDbType.DateTime).Value = LogInInfo.ModifiedDate;
                 com.Parameters.Add("@BusinessTypeID", SqlDbType.Int).Value = objBusinessType.BusinessTypeID;
                 com.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = objBusinessType.Name;
 
@@ -77,49 +73,24 @@ namespace Accounting.DataAccess
         public ArrayList getBusinessType(int numBusinessTypeID)
         {
             ArrayList list = new ArrayList();
-            SqlConnection con = null;
-            SqlCommand com = null;
-            SqlTransaction trans = null;
 
             try
             {
-                con = ConnectionHelper.getConnection();
-                trans = con.BeginTransaction();
-                com = new SqlCommand();
-
-                com.Connection = con;
-                com.Transaction = trans;
-
-                if (numBusinessTypeID == 0)
+                var data = new DataTable();
+                string qstr = numBusinessTypeID == 0 ? "Select * FROM BusinessType"  : "Select * FROM BusinessType WHERE BusinessTypeID = " + numBusinessTypeID.ToString();
+                using (SqlDataAdapter adapter = new SqlDataAdapter(qstr, ConnectionHelper.DefaultConnectionString))
                 {
-                    com.CommandText = "Select * FROM BusinessType WHERE CompanyID = @CompanyID";
-                    com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                    adapter.Fill(data);
+                    adapter.Dispose();
                 }
-                else
+                foreach (DataRow row in data.Rows)
                 {
-                    com.CommandText = "Select * FROM BusinessType WHERE BusinessTypeID = @BusinessTypeID";
-                    com.Parameters.Add("@BusinessTypeID", SqlDbType.Int).Value = numBusinessTypeID;
+                    list.Add(CreateObject(row));
                 }
 
-
-                IDataReader objReader = com.ExecuteReader();
-                while (objReader.Read())
-                {
-                    list.Add(CreateObject(objReader));
-
-                }
-                objReader.Close();
-
-                trans.Commit();
-
-                ConnectionHelper.closeConnection(con);
             }
             catch (Exception Ex)
             {
-                if (trans != null)
-                {
-                    trans.Rollback();
-                }
                 throw new Exception("Can not get BusinessType" + Ex.Message);
 
             }
@@ -165,7 +136,7 @@ namespace Accounting.DataAccess
         private BusinessType CreateObject(IDataReader objReader)
         {
             BusinessType objBusinessType = new BusinessType();
-            NullManager reader = new  NullManager(objReader);
+            NullManager reader = new NullManager(objReader);
 
             try
             {
@@ -182,9 +153,24 @@ namespace Accounting.DataAccess
             }
             return objBusinessType;
         }
+        private BusinessType CreateObject(DataRow row)
+        {
+            BusinessType objBusinessType = new BusinessType();
+
+            try
+            {
+                objBusinessType.BusinessTypeID = GlobalFunctions.isNull(row["BusinessTypeID"], 0);
+                objBusinessType.Name = GlobalFunctions.isNull(row["Name"], "");
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception("Error while creating object" + Ex.Message);
+            }
+            return objBusinessType;
+        }
         #endregion
 
 
-       
+
     }
 }

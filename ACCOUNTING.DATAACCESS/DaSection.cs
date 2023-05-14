@@ -37,6 +37,8 @@ namespace Accounting.DataAccess
         }
         public int SaveUpdateSection(Section obSection, SqlConnection con)
         {
+            if (obSection.CompanyId <= 0) obSection.CompanyId = LogInInfo.CompanyID;
+            int userId = LogInInfo.UserID;
             SqlCommand com = null;
             SqlTransaction trans = null;
             try
@@ -53,8 +55,11 @@ namespace Accounting.DataAccess
                     com.Parameters.Add("@SectionID", SqlDbType.Int).Value = obSection.SectionID;
                 com.Parameters.Add("@Name", SqlDbType.VarChar, 200).Value = obSection.Name;
                 com.Parameters.Add("@Description", SqlDbType.VarChar, 200).Value = obSection.Description;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obSection.CompanyId;
+                if (userId > 0)
+                    com.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
+                else
+                    com.Parameters.Add("@UserID", SqlDbType.Int).Value = DBNull.Value;
                 com.ExecuteNonQuery();
                 trans.Commit();
             }

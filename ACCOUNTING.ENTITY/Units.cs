@@ -29,5 +29,6 @@ namespace Accounting.Entity
         }
 
         #endregion
+        public int CompanyId { get; set; }
     }
 }

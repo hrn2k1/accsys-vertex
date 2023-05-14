@@ -13,6 +13,28 @@ namespace Accounting.DataAccess
     {
         public DaOrder() { }
 
+        public static DataTable GetOrders(string Where, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SP_GET_Orders", ConnectionHelper.getConnection()))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@Where", SqlDbType.NVarChar, 500).Value = Where;
+                    if (OrderBy != string.Empty)
+                        da.SelectCommand.Parameters.Add("@OrderBy", SqlDbType.NVarChar, 500).Value = OrderBy;
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
         public int saveUpdateOrderMaster(Order_Master obOrder_Master, SqlConnection con)
         {
             SqlCommand com = null;
@@ -124,6 +146,7 @@ namespace Accounting.DataAccess
             int lastID = 0;
             try
             {
+                if (obOrder_Master.CompanyID <= 0) obOrder_Master.CompanyID = LogInInfo.CompanyID;
                 com = new SqlCommand("spSaveUpdateOrder_Master", con, trans);
 
                 com.CommandType = CommandType.StoredProcedure;
@@ -156,7 +179,7 @@ namespace Accounting.DataAccess
                     com.Parameters.Add("@CurrencyID", SqlDbType.Int).Value = DBNull.Value;
                 else
                     com.Parameters.Add("@CurrencyID", SqlDbType.Int).Value = obOrder_Master.CurrencyID;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obOrder_Master.CompanyID;
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
                 com.Parameters.Add("@Rate", SqlDbType.Money).Value = obOrder_Master.Rate;
                 com.Parameters.Add("@Buyer_ref", SqlDbType.VarChar, 500).Value = obOrder_Master.Buyer_ref;
@@ -378,7 +401,38 @@ namespace Accounting.DataAccess
             {
                 if (trans != null)
                     trans.Rollback();
-                throw new Exception(ex.Message);
+                throw ex;
+            }
+        }
+        public void DeleteOrderItems(SqlConnection con, SqlTransaction trans, int orderId)
+        {
+            try
+            {
+                using (var com = new SqlCommand("Delete from Order_Details Where OrderMID = @OrderId", con, trans))
+                {
+                    com.Parameters.Add("@OrderId", SqlDbType.Int).Value = orderId;
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void Delete(SqlConnection con, SqlTransaction trans, int OrderMasterID)
+        {
+            try
+            {
+                using (var com = new SqlCommand("spDeleteOrder", con, trans))
+                {
+                    com.CommandType = CommandType.StoredProcedure;
+                    com.Parameters.Add("@OrderMID", SqlDbType.Int).Value = OrderMasterID;
+                    com.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         public void Delete(SqlConnection con, int OrderMasterID)
@@ -534,7 +588,22 @@ namespace Accounting.DataAccess
             }
             return dt;
         }
-
+        public DataTable GetOrderItems(SqlConnection con, int OrderID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT Order_Details.ItemID, T_Item.ItemName, T_Item.ItemCategory, OrderQty, Order_Details.UnitPrice, OrderValue FROM Order_Details INNER JOIN T_Item ON Order_Details.ItemID = T_Item.ItemID WHERE OrderMID = @OrderMID", con);
+                da.SelectCommand.Parameters.Add("@OrderMID", SqlDbType.Int).Value = OrderID;
+                da.Fill(dt);
+                da.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
         public DataTable SelectOrNewAmendment(SqlConnection con, int OrderID, int AmendID)
         {
             DataTable dt = new DataTable();

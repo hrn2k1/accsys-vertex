@@ -1,0 +1,37 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+
+@model DataTable
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    Date @ViewBag.Params.StartDate.ToString("dd/MM/yyyy") to @ViewBag.Params.EndDate.ToString("dd/MM/yyyy")
+</div>
+<div class="journal-book">
+    <table class="report-table">
+        <tr>
+            <th class="align-left" style="width: 85px">Date</th>
+            <th class="align-left" style="width: 90px">Voucher No.</th>
+            <th class="align-left" style="width: 250px">Description</th>
+            <th class="align-left" style="width: 90px">Account No.</th>
+            <th class="align-left" style="width: 200px">Account Title</th>
+            <th class="align-right" style="width: 90px">Debit</th>
+            <th class="align-right" style="width: 90px">Credit</th>
+        </tr>
+        @{ string voucherNo = ""; }
+        @foreach (DataRow row in Model.Rows)
+        {
+            <tr>
+                <td>@(row["VoucherNo"].ToString() == voucherNo ? "" : row["TransDate"].FormatDateTime("dd/MM/yyyy"))</td>
+                <td>@(row["VoucherNo"].ToString() == voucherNo ? "" : row["VoucherNo"])</td>
+                <td>@(row["VoucherNo"].ToString() == voucherNo ? "" : row["TransDescription"])</td>
+                <td>@row["AccountNo"]</td>
+                <td>@row["AccountTitle"]</td>
+                <td class="number">@row["DebitAmt"].FormatNumber("0.00")</td>
+                <td class="number">@row["CreditAmt"].FormatNumber("0.00")</td>
+            </tr>
+            voucherNo = row["VoucherNo"].ToString();
+        }
+    </table>
+</div>

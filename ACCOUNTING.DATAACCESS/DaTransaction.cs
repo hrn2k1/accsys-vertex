@@ -277,6 +277,25 @@ namespace Accounting.DataAccess
             }
             return Vno;
         }
+        public string getVoucherNo(SqlConnection con, SqlTransaction trans, string preFix, int companyId)
+        {
+            string Vno = string.Empty;
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SELECT ISNULL((SELECT SUBSTRING(MAX(VoucherNo), 2, 50) + 1 FROM T_Transaction_Master WHERE CompanyID=@CompanyID AND (VoucherNo LIKE @DCJ + '%')),1)", con, trans);
+                cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
+                cmd.Parameters.Add("@DCJ", SqlDbType.VarChar, 5).Value = preFix;
+                Vno = cmd.ExecuteScalar().ToString();
+                Vno = preFix.ToUpper() + Vno.PadLeft(VoucherNoDigitLength, '0');
+
+            }
+            catch (Exception ex)
+            {
+                //return string.Empty;
+                throw ex;
+            }
+            return Vno;
+        }
         public string getVoucherNo(SqlConnection con, SqlTransaction trans, string preFix)
         {
             string Vno = string.Empty;

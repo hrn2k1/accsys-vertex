@@ -13,8 +13,10 @@ namespace Accounting.DataAccess
     {
         public DaUnits() { }
 
-        public void saveUpdateUnits(Units obUnits, SqlConnection con)
+        public void SaveUpdateUnits(Units obUnits, SqlConnection con)
         {
+            if (obUnits.CompanyId == 0) obUnits.CompanyId = LogInInfo.CompanyID;
+            int userId = LogInInfo.UserID;
             SqlCommand com = null;
             SqlTransaction trans = null;
             try
@@ -27,8 +29,8 @@ namespace Accounting.DataAccess
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@UnitsID", SqlDbType.Int).Value = obUnits.UnitsID == -1 ? 0 : obUnits.UnitsID;
                 com.Parameters.Add("@UnitsName", SqlDbType.VarChar, 100).Value = obUnits.UnitsName;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obUnits.CompanyId;
+                com.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
                 com.ExecuteNonQuery();
                 trans.Commit();
             }
@@ -39,7 +41,7 @@ namespace Accounting.DataAccess
             }
         }
 
-        public void deleteUnits(SqlConnection con, int UnitsID)
+        public void DeleteUnits(SqlConnection con, int UnitsID)
         {
             SqlCommand com = null;
             SqlTransaction trans = null;
@@ -77,6 +79,5 @@ namespace Accounting.DataAccess
                 throw new Exception(ex.Message);
             }
         }
-
     }
 }

@@ -18,6 +18,10 @@ namespace Accounting.DataAccess
             int LastID = 0;
             try
             {
+                if(obSalesInvoice.CompanyID <= 0)
+                {
+                    obSalesInvoice.CompanyID = LogInInfo.CompanyID;
+                }
                 com = new SqlCommand("spSaveUpdateSalesInvoice", con, trans);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@InvoiceID", SqlDbType.Int).Value = obSalesInvoice.InvoiceID;
@@ -45,7 +49,7 @@ namespace Accounting.DataAccess
                 else
                     com.Parameters.Add("@CurrencyID", SqlDbType.Int).Value = obSalesInvoice.CurrencyID;
 
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obSalesInvoice.CompanyID;
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
                 com.Parameters.Add("@Rate", SqlDbType.Money).Value = obSalesInvoice.Rate;
                 com.ExecuteNonQuery();
@@ -301,7 +305,22 @@ namespace Accounting.DataAccess
                 throw new Exception(ex.Message);
             }
         }
-
+        public void DeleteSalesInvoiceDetail(SqlConnection con, SqlTransaction trans, int InvoiceId)
+        {
+            try
+            {
+                var com = new SqlCommand();
+                com.Transaction = trans;
+                com.Connection = con;
+                com.CommandText = "DELETE FROM T_Sales_Invoice_Detail WHERE InvoiceID = @InvoiceID";
+                com.Parameters.Add("@InvoiceID", SqlDbType.Int).Value = InvoiceId;
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public DataTable LoadCurrency(SqlConnection con)
         {
             try
@@ -315,6 +334,28 @@ namespace Accounting.DataAccess
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        public DataTable GetSalesInvoiceDetails(SqlConnection connection, int invoiceId)
+        {
+            try
+            {
+                var dt = new DataTable();
+                var qstr = @"SELECT SLNo, InvoiceID, OrderID, OrderNo, SID.ItemID, ItemName, ItemCategory, InvQty, SID.UnitPrice, PriceAmount
+                FROM  T_Sales_Invoice_Detail SID INNER JOIN T_Item ON SID.ItemID = T_Item.ItemID LEFT OUTER JOIN Order_Master ON SID.OrderID = Order_Master.OrderMID
+                WHERE InvoiceID = @InvoiceID
+                ORDER BY OrderNo, ItemName";
+                using (SqlDataAdapter da = new SqlDataAdapter(qstr, connection))
+                {
+                    da.SelectCommand.Parameters.Add("@InvoiceID", SqlDbType.Int).Value = invoiceId;
+                    da.Fill(dt);
+                    da.Dispose();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

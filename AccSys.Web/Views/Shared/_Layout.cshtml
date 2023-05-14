@@ -1,0 +1,90 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account System Report Portal</title>
+    @Styles.Render("~/Content/css")
+    <script src="~/Scripts/jquery-1.6.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+        function reportChanged(sender, parameters) {
+            $("span.btn.report-radio").removeClass("btn-primary");
+            $("span.btn.report-radio").addClass("btn-default");
+            $(sender).parent().removeClass("btn-default");
+            $(sender).parent().addClass("btn-primary");
+            $("span.report-param").hide();
+            for (var i = 0; i < parameters.length; i++) {
+                $("span.report-param#p" + parameters[i]).show();
+            }
+        }
+    </script>
+    <style type="text/css">
+        .not-show {
+            display: none;
+        }
+
+        .reports input[type=radio],
+        .reports label {
+            cursor: pointer;
+        }
+
+        .navbar {
+            border: 1px solid #d5f2ea;
+            background-color: #f4fed8;
+        }
+
+        body > div.container.body-content ~ * {
+            display: none !important;
+        }
+        .nav-menu {
+            float: left;
+        }
+        .company-name {
+            float: right;
+            font-weight: bold;
+            font-style: oblique;
+            font-family: Georgia;
+            font-size: 20pt;
+            color: rgb(51, 102, 204);
+            padding: 0px;
+        }
+        .report-radio {
+            padding: 0px 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Default">Main Portal</a>
+            </div>
+            <div class="navbar-collapse collapse nav-menu">
+                <ul class="nav navbar-nav">
+                    <li><a href="/Report/Accounting">Accounting Reports</a></li>
+                    <li><a href="/Report/Inventory">Inventory Reports</a></li>
+                    <li><a href="/Report/Logoff">Logout</a></li>
+                </ul>
+            </div>
+            <div class="company-name">@ViewBag.CompanyName</div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year </p>
+        </footer>
+    </div>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,60 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model List<ItemLedgerData>
+
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    Date @ViewBag.Params.StartDate.ToString("dd/MM/yyyy") to @ViewBag.Params.EndDate.ToString("dd/MM/yyyy")
+</div>
+<div class="stock-journal">
+    @foreach (ItemLedgerData reportData in Model)
+    {
+        <table class="report-table">
+            <tr>
+                <td>Group</td>
+                <td colspan="6">@reportData.Item["GroupName"]</td>
+            </tr>
+            <tr>
+                <td>Item</td>
+                <td colspan="2">@reportData.Item["ItemName"]</td>
+                <td colspan="2" class="align-right">Opening Qty</td>
+                <td class="align-right">@reportData.Item["Qty"].FormatNumber("0", true)</td>
+            </tr>
+            <tr>
+                <td class="5" style="border:none; height: 10px"></td>
+            </tr>
+            <tr>
+                <th class="align-left" style="width: 85px">Date</th>
+                <th class="align-left" style="width: 90px">Voucher No.</th>
+                <th class="align-left" style="width: 400px">Description</th>
+                <th class="align-right" style="width: 90px">In</th>
+                <th class="align-right" style="width: 90px">Out</th>
+                <th class="align-right" style="width: 100px">Balance</th>
+            </tr>
+            @{ int runningTotal = Convert.ToInt32(reportData.Item["Qty"]); }
+            @foreach (DataRow row in reportData.Data.Rows)
+            {
+                runningTotal += Convert.ToInt32(row["InQty"]) - Convert.ToInt32(row["OutQty"]);
+                <tr>
+                    <td>@row["TransDate"].FormatDateTime("dd/MM/yyyy")</td>
+                    <td>@row["VoucherNo"]</td>
+                    <td>@row["Module"]</td>
+                    <td class="number">@row["InQty"].FormatNumber("0")</td>
+                    <td class="number">@row["OutQty"].FormatNumber("0")</td>
+                    <td class="number">@runningTotal.FormatNumber("0", true)</td>
+                </tr>
+            }
+            <tr>
+                <th colspan="3"></th>
+                <th colspan="2" class="number">Closing Balance</th>
+                <th class="number">@runningTotal.FormatNumber("0", true)</th>
+            </tr>
+        </table>
+        <br />
+    }
+</div>
+

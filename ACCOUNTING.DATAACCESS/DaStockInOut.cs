@@ -16,6 +16,7 @@ namespace Accounting.DataAccess
         int VoucherNoDigitLength = 6;
         public int SaveUpdateStockInOutMaster(Stock_InOut_Master obInOutMaster, SqlConnection con, SqlTransaction trans)
         {
+            if (obInOutMaster.CompanyID <= 0) obInOutMaster.CompanyID = LogInInfo.CompanyID;
             int StockMID = 0;
             SqlCommand com = null;
             try
@@ -43,7 +44,7 @@ namespace Accounting.DataAccess
                 else
                     com.Parameters.Add("@RefID", SqlDbType.Int).Value = obInOutMaster.RefID;
                 com.Parameters.Add("@Remarks", SqlDbType.VarChar, 500).Value = obInOutMaster.Remarks;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obInOutMaster.CompanyID;
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
                 com.Parameters.Add("@Module", SqlDbType.VarChar, 500).Value = obInOutMaster.Module;
                 com.ExecuteNonQuery();
@@ -213,7 +214,7 @@ namespace Accounting.DataAccess
             DataTable dt = null;
             try
             {
-                string qstr = "SELECT  SD.StockDID,SD.StockMID,SD.TransNature,SD.ItemID,I.ItemName,I.CountName,I.SizesName,I.ColorsName,SD.Specifications,SD.Labdip,I.ShadeNo,I.UnitsName,I.GroupName,SD.InQty, SD.OutQty, SD.UnitPrice,SD.InAmount, SD.OutAmount, SD.Remarks , SD.ShortQty "
+                string qstr = "SELECT  SD.StockDID,SD.StockMID,SD.TransNature,SD.ItemID,I.ItemName,I.CountName,I.SizesName,I.ColorsName,SD.Specifications,I.UnitsName,I.GroupName,SD.InQty, SD.OutQty, SD.UnitPrice,SD.InAmount, SD.OutAmount, SD.ShortQty "
                                + "FROM  T_Stock_InOut_Detail AS SD INNER JOIN  VW_Items AS I ON SD.ItemID = I.ItemID " + "WHERE StockMID=" + StockMID.ToString();
                 SqlDataAdapter da = new SqlDataAdapter(qstr, con);
                 dt = new DataTable();
@@ -276,6 +277,7 @@ namespace Accounting.DataAccess
                 com.CommandText = "spDeleteStockInOut";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@StockMID", SqlDbType.Int).Value = StockMID;
+                com.Parameters.Add("@DeleteAll", SqlDbType.Bit).Value = true;
                 com.ExecuteNonQuery();
                 trans.Commit();
             }
@@ -299,6 +301,7 @@ namespace Accounting.DataAccess
                 com.CommandText = "spDeleteStockInOut";
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@StockMID", SqlDbType.Int).Value = StockMID;
+                com.Parameters.Add("@DeleteAll", SqlDbType.Bit).Value = true;
                 com.ExecuteNonQuery();
                 
             }
@@ -404,8 +407,10 @@ namespace Accounting.DataAccess
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM T_Stock_InOut_Detail WHERE  (StockMID = @StockMID)", con, trans);
+                SqlCommand cmd = new SqlCommand("spDeleteStockInOut", con, trans);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@StockMID", SqlDbType.Int).Value = StockMID;
+                cmd.Parameters.Add("@DeleteAll", SqlDbType.Bit).Value = false;
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)

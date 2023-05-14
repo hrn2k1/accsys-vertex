@@ -15,6 +15,19 @@ namespace Accounting.DataAccess
 
         public DaCompany() { }
 
+        public static void CreateNewCompany(string name)
+        {
+            using(SqlConnection connection= ConnectionHelper.getConnection())
+            {
+                using(SqlCommand cmd = new SqlCommand("spCreateNewCompany", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@CompanyName", SqlDbType.VarChar, 100).Value = name;
+                    cmd.ExecuteNonQuery();
+                    ConnectionHelper.closeConnection(connection);
+                }
+            }
+        }
         public int SaveOrUpdate(Company objCompany)
         {
 

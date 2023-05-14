@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/report.css" rel="stylesheet" />
+    <title>@ViewBag.Params.Report.ReportTitle</title>
+    <style type="text/css">
+        body > div.report-detail ~ * {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="report @(ViewBag.Params.ReportType == 0 ? "pdf": "html")">
+    <div class="report-header">
+        <div class="logo">
+            <img src="~/Logo/logo_@(ViewBag.Params.CompanyId).jpg" alt="" />
+        </div>
+        <div class="company">
+            <div class="name">@ViewBag.Params.CompanyName</div>
+            <div class="line1">@ViewBag.Params.AddressLine1</div>
+            <div class="line2">@ViewBag.Params.AddressLine2</div>
+        </div>
+    </div>
+    <div class="report-title">
+        @ViewBag.Params.Report.ReportTitle
+    </div>
+    <div class="report-detail">
+        @RenderBody()
+    </div>
+</body>
+</html>

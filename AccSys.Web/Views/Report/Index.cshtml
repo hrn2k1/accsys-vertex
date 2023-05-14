@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc.Html
+@using AccSys.Web.Models
+
+@model AccSys.Web.Models.ReportParameter
+
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-inline">
+            <h4>@ViewBag.Section Reports:</h4>
+            <div class="reports">
+                @foreach (Report report in ViewBag.Reports)
+                {
+                <span class="btn @(report.ReportName==Model.ReportName? "btn-primary": "btn-default") report-radio">
+                    @{var parameters = "[" + string.Join(",", report.Parameters.Select(x => string.Format("'{0}'", x))) + "]"; }
+                    @Html.RadioButtonFor(model => model.ReportName, report.ReportName, new { id = report.ReportName, onchange = "reportChanged(this," + parameters + ")" })
+                    <label for="@report.ReportName">@report.ReportTitle</label>
+                </span>
+                }
+            </div>
+            <hr style="margin-top: 10px; margin-bottom: 10px;" />
+
+            <div class="form-group">
+                @Html.HiddenFor(model => model.CompanyId)
+                @Html.HiddenFor(model => model.CompanyName)
+                @Html.HiddenFor(model => model.AddressLine1)
+                @Html.HiddenFor(model => model.AddressLine2)
+                <span class="report-param @(!Model.Report.Parameters.Contains("AccountId")?"not-show":"")" id="pAccountId">
+                    @Html.LabelFor(model => model.AccountId, "Account", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.AccountId, ViewBag.AccountList as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("GroupId")?"not-show":"")" id="pGroupId">
+                    @Html.LabelFor(model => model.GroupId, "Item Group", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.GroupId, ViewBag.ItemGroups as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("ItemId")?"not-show":"")" id="pItemId">
+                    @Html.LabelFor(model => model.ItemId, "Item", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.ItemId, ViewBag.ItemList as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("StartDate")?"not-show":"")" id="pStartDate">
+                    @Html.LabelFor(model => model.StartDate, "Start Date", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control col-auto", @value = System.DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") } })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("EndDate")?"not-show":"")" id="pEndDate">
+                    @Html.LabelFor(model => model.EndDate, "End Date", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control col-auto" }, Value = System.DateTime.Now.ToString("yyyy-MM-dd") })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("Date")?"not-show":"")" id="pDate">
+                    @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control col-auto", @value = System.DateTime.Now.AddDays(-7).ToString("yyyy-MM-dd") } })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("VoucherType")?"not-show":"")" id="pVoucherType">
+                    @Html.LabelFor(model => model.VoucherType, "Voucher Type", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.VoucherType, ViewBag.VoucherTypes as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <span class="report-param @(!Model.Report.Parameters.Contains("TrialBalanceType")?"not-show":"")" id="pTrialBalanceType">
+                    @Html.LabelFor(model => model.TrialBalanceType, "Type", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.TrialBalanceType, ViewBag.TrialBalanceTypes as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <span id="pReportType">
+                    @Html.LabelFor(model => model.ReportType, "Format", htmlAttributes: new { @class = "control-label col-auto" })
+                    @Html.DropDownListFor(model => model.ReportType, ViewBag.ReportTypes as SelectList, new { @class = "form-control col-auto" })
+                </span>
+                <input type="submit" value="View" class="btn btn-default col-auto" />
+            </div>
+            <hr style="margin-top: 10px; margin-bottom: 10px;" />
+        </div>
+    }
+
+    <iframe src="@Model.ReportLink" style="width:100%; height: 60vh;"></iframe>
