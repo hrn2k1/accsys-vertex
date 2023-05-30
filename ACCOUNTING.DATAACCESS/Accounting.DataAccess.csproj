@@ -105,6 +105,7 @@
     <Compile Include="DaTransaction.cs" />
     <Compile Include="DaTransMethod.cs" />
     <Compile Include="DaUnits.cs" />
+    <Compile Include="DaRole.cs" />
     <Compile Include="DaUser.cs" />
     <Compile Include="DaUserPrivilege.cs" />
     <Compile Include="DaVoucherType.cs" />

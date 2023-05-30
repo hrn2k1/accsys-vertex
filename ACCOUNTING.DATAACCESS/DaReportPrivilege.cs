@@ -132,7 +132,8 @@ namespace Accounting.DataAccess
             DaUser obDaUser = new DaUser();
             try
             {
-                dtUser = obDaUser.getUser(obRoleReportPrivilege.Role, con);
+                var role = new DaRole().GetRole(obRoleReportPrivilege.Role);
+                dtUser = obDaUser.getUser(role.RoleId, con);
                 int rowNo = dtUser.Rows.Count;
                 trans = con.BeginTransaction();
                 com = new SqlCommand();

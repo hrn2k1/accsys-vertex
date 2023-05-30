@@ -21,8 +21,7 @@ namespace Accounting.DataAccess
 
         public DataTable GetUser(int numCompanyID, SqlConnection con)
         {
-            SqlDataAdapter da = new SqlDataAdapter("Select * From Users where CompanyID=@CompanyID", con);
-            da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = numCompanyID;
+            SqlDataAdapter da = new SqlDataAdapter("Select * From Users", con);
             DataTable dt = new DataTable();
             da.Fill(dt);
             da.Dispose();
@@ -31,7 +30,7 @@ namespace Accounting.DataAccess
         }
         public DataTable GetUsers(SqlConnection con)
         {
-            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users ORDER BY UserName", con);
+            SqlDataAdapter da = new SqlDataAdapter("SELECT Users.*, Roles.RoleName FROM Users LEFT JOIN Roles ON Users.RoleId=Roles.RoleId ORDER BY UserName", con);
             DataTable dt = new DataTable();
             da.Fill(dt);
             da.Dispose();
@@ -51,11 +50,32 @@ namespace Accounting.DataAccess
                 {
                     UserID = Convert.ToInt32(dt.Rows[0]["UserID"].ToString()),
                     UserName = dt.Rows[0]["UserName"].ToString(),
-                    Role = dt.Rows[0]["Role"].ToString()
+                    RoleId = GlobalFunctions.isNull(dt.Rows[0]["RoleId"], 0)
                 };
             }
             return null;
 
+        }
+
+        public User GetUser(string userName)
+        {
+            DataTable dt = new DataTable();
+            using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users WHERE UserName = @UserName", ConnectionHelper.DefaultConnectionString))
+            {
+                da.SelectCommand.Parameters.Add("@UserName", SqlDbType.VarChar, 100).Value = userName;
+                da.Fill(dt);
+                da.Dispose();
+            }
+            if (dt.Rows.Count > 0)
+            {
+                return new User()
+                {
+                    UserID = GlobalFunctions.isNull(dt.Rows[0]["UserID"], 0),
+                    UserName = GlobalFunctions.isNull(dt.Rows[0]["UserName"], ""),
+                    RoleId = GlobalFunctions.isNull(dt.Rows[0]["RoleId"], 0)
+                };
+            }
+            return null;
         }
 
         public User GetUser(SqlConnection con, int userId)
@@ -71,8 +91,7 @@ namespace Accounting.DataAccess
                 {
                     UserID = GlobalFunctions.isNull(dt.Rows[0]["UserID"], 0),
                     UserName = GlobalFunctions.isNull(dt.Rows[0]["UserName"], ""),
-                    Role = GlobalFunctions.isNull(dt.Rows[0]["Role"], ""),
-                    CompanyID = GlobalFunctions.isNull(dt.Rows[0]["CompanyID"], 0),
+                    RoleId = GlobalFunctions.isNull(dt.Rows[0]["RoleId"], 0),
                     Password = GlobalFunctions.isNull(dt.Rows[0]["Password"], "")
                 };
                 if (!string.IsNullOrEmpty(user.Password))
