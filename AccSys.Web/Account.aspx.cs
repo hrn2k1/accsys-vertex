@@ -15,17 +15,25 @@ namespace AccSys.Web
             {
                 if (!IsPostBack)
                 {
-                   var userName = Tools.Utility.IsNull<string>(Session["UserName"], "");
+                    var userName = Tools.Utility.IsNull<string>(Session["UserName"], "");
                     using (var connection = new SqlConnection(ConnectionHelper.DefaultConnectionString))
                     {
                         connection.Open();
                         DaLogIn objl = new DaLogIn();
                         var user = objl.GetUser(connection, userName);
+                        var roleName = "";
+                        if (user.RoleId > 0)
+                        {
+                            var role = new DaRole().GetRole(user.RoleId, connection);
+                            if (role != null) roleName = role.RoleName;
+                        }
+
                         if (user != null)
                         {
                             lblId.Text = user.UserID.ToString();
                             lblUserName.Text = user.UserName;
-                            lblRole.Text = user.Role;
+                            lblRole.Text = roleName;
+                            lblRoleId.Text = user.RoleId.ToString();
                         }
                         connection.Close();
                     }
@@ -43,11 +51,11 @@ namespace AccSys.Web
             {
                 string cuurentPass = string.IsNullOrWhiteSpace(txtCurrentPassword.Text) ? txtCurrentPassword.Text.Trim() : GlobalFunctions.Encode(txtCurrentPassword.Text, GlobalFunctions.CypherText);
                 int userId = Convert.ToInt32(lblId.Text);
-                if(new DaLogIn().ValidateUserPassword(userId, cuurentPass) == false)
+                if (new DaLogIn().ValidateUserPassword(userId, cuurentPass) == false)
                 {
                     throw new Exception("Current password is wrong.");
                 }
-                if(txtPassword.Text.Trim() != txtConfirmPassword.Text.Trim())
+                if (txtPassword.Text.Trim() != txtConfirmPassword.Text.Trim())
                 {
                     throw new Exception("New password and confirm password mismatch.");
                 }
@@ -60,7 +68,7 @@ namespace AccSys.Web
                     UserName = lblUserName.Text.Trim(),
                     Password = strpass,
                     ConfirmPassword = strpass,
-                    Role = lblRole.Text
+                    RoleId = Convert.ToInt32(lblRoleId.Text)
                 };
                 new DaUser().SaveUpdateUser(user);
                 lblMsg.Text = UIMessage.Message2User("Password changed successfully", UserUILookType.Success);

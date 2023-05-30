@@ -1,7 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteEmpty.Master" AutoEventWireup="true" CodeBehind="frmCompanies.aspx.cs" Inherits="AccSys.Web.frmCompanies" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField runat="server" ID="HfCanView" />
+    <asp:HiddenField runat="server" ID="HfCanAdd" />
+    <asp:HiddenField runat="server" ID="HfCanEdit" />
+    <asp:HiddenField runat="server" ID="HfCanDelete" />
     <div class="grid" style="width: auto; overflow: auto">
         <div class="panel panel-success">
             <div class="panel-heading form-horizontal">
@@ -12,7 +17,7 @@
                             <asp:TextBox ID="txtName" runat="server" ValidationGroup="post" Width="200px"></asp:TextBox>
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtName" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
                         </label>
-                        <asp:LinkButton SecurityCommandName="Save" ID="btnSave" runat="server" Text="Add" ValidationGroup="post" CssClass="btn btn-sm btn-default glyphicon glyphicon-plus" OnClick="btnSave_Click" />
+                        <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Add" ValidationGroup="post" CssClass="btn btn-sm btn-default glyphicon glyphicon-plus" OnClick="btnSave_Click" />
                     </div>
                 </div>
             </div>

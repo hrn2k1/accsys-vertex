@@ -234,6 +234,11 @@ namespace AccSys.Web.UserControls
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            if (lblModule.Text != "Voucher" && lblModule.Text != "")
+            {
+                lblMsg.Text = UIMessage.Message2User("You can't chnage this voucher from here. Please change it from <b>" + lblModule.Text + "</b>", UserUILookType.Danger);
+                return;
+            }
             if (ddlPaidFromAC.SelectedValue == "0")
             {
                 lblMsg.Text = UIMessage.Message2User("Select an account (Paid from)", UserUILookType.Warning);

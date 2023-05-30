@@ -29,6 +29,10 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField runat="server" ID="HfCanView" />
+    <asp:HiddenField runat="server" ID="HfCanAdd" />
+    <asp:HiddenField runat="server" ID="HfCanEdit" />
+    <asp:HiddenField runat="server" ID="HfCanDelete" />
     <div id="form">
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
@@ -223,7 +227,7 @@
                                 <tr class="row">
                                     <td class="InputLabel"></td>
                                     <td colspan="4">
-                                        <asp:LinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Save" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                        <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Save" CssClass="btn btn-default glyphicon glyphicon-saved"
                                             ValidationGroup="post" OnClick="btnSave_Click" />
                                         <asp:LinkButton ID="btnReset" runat="server" Text="Reset" OnClick="btnReset_Click" CssClass="btn btn-default glyphicon glyphicon-erase"
                                             CausesValidation="False" />
@@ -288,7 +292,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Edit">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:LinkButton>
+                                <asp:HrnLinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="ID" SortExpression="InvoiceID" Visible="False">
@@ -329,7 +333,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Delete">
                             <ItemTemplate>
-                                <asp:LinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:LinkButton>
+                                <asp:HrnLinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

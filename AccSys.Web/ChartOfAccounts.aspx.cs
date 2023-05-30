@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
+﻿using AccSys.Web.WebControls;
+using System;
 using System.Web.UI.WebControls;
 
 namespace AccSys.Web
 {
-    public partial class ChartOfAccounts : System.Web.UI.Page
+    public partial class ChartOfAccounts : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

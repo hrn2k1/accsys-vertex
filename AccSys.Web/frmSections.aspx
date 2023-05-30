@@ -1,7 +1,12 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/SiteEmpty.Master" AutoEventWireup="true" CodeBehind="frmSections.aspx.cs" Inherits="AccSys.Web.frmSections" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField runat="server" ID="HfCanView" />
+    <asp:HiddenField runat="server" ID="HfCanAdd" />
+    <asp:HiddenField runat="server" ID="HfCanEdit" />
+    <asp:HiddenField runat="server" ID="HfCanDelete" />
     <div class="grid" style="width: auto; overflow: auto">
         <div class="panel panel-success">
             <div class="panel-heading form-horizontal">
@@ -13,7 +18,7 @@
                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtName" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
                             <asp:Label ID="lblId" runat="server" Text='0' Visible="false"></asp:Label>
                         </label>
-                        <asp:LinkButton SecurityCommandName="Save" ID="btnSave" runat="server" Text="Add" ValidationGroup="post" CssClass="btn btn-sm btn-default glyphicon glyphicon-plus" OnClick="btnSave_Click" />
+                        <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Add" ValidationGroup="post" CssClass="btn btn-sm btn-default glyphicon glyphicon-plus" OnClick="btnSave_Click" />
                     </div>
                 </div>
             </div>
@@ -41,15 +46,15 @@
                         <asp:BoundField DataField="CompanyID" HeaderText="CompanyID" SortExpression="CompanyID" Visible="False" />
                         <asp:TemplateField HeaderText="Edit" HeaderStyle-Width="50px">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click"  CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:LinkButton>
+                                <asp:HrnLinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Delete" HeaderStyle-Width="50px">
                             <ItemTemplate>
-                                <asp:LinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:LinkButton>
+                                <asp:HrnLinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField >
+                        <asp:TemplateField>
                             <ItemTemplate>
                                 &nbsp;
                             </ItemTemplate>

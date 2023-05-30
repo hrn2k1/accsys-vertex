@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VoucherRegister.aspx.cs" Inherits="AccSys.Web.VoucherRegister" %>
+
 <%@ Register Src="UserControls/CtlVoucherRegister.ascx" TagName="CtlVoucherRegister" TagPrefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="Content/tab.css" rel="stylesheet" />

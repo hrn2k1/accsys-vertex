@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class frmStockInOut {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class frmStockInOut
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// lblStockId control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblStockId;
-        
+
         /// <summary>
         /// ddlType control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlType;
-        
+
         /// <summary>
         /// lblCustSupp control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCustSupp;
-        
+
         /// <summary>
         /// txtCustSupp control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCustSupp;
-        
+
         /// <summary>
         /// lblCustSuppId control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCustSuppId;
-        
+
         /// <summary>
         /// txtDate control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDate;
-        
+
         /// <summary>
         /// RequiredFieldValidator9 control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator9;
-        
+
         /// <summary>
         /// txtVoucherNo control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtVoucherNo;
-        
+
         /// <summary>
         /// txtChalanDate control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtChalanDate;
-        
+
         /// <summary>
         /// txtChalanNo control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtChalanNo;
-        
+
         /// <summary>
         /// txtRemarks control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRemarks;
-        
+
         /// <summary>
         /// lblTransRefId control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblTransRefId;
-        
+
         /// <summary>
         /// lblRefId control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblRefId;
-        
+
         /// <summary>
         /// inoutOrder control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl inoutOrder;
-        
+
         /// <summary>
         /// ddlOrder control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AccSys.Web.DbControls.OrderDropDownListChosen ddlOrder;
-        
+
         /// <summary>
         /// btnAddorder control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAddorder;
-        
+
         /// <summary>
         /// inoutReq control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl inoutReq;
-        
+
         /// <summary>
         /// ddlReq control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AccSys.Web.DbControls.RequisitionDropDownList ddlReq;
-        
+
         /// <summary>
         /// btnAddReq control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAddReq;
-        
+
         /// <summary>
         /// inoutItem control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl inoutItem;
-        
+
         /// <summary>
         /// ddlItem control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AccSys.Web.DbControls.ItemDropDownListChosen ddlItem;
-        
+
         /// <summary>
         /// RequiredFieldValidator5 control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator5;
-        
+
         /// <summary>
         /// txtQty control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtQty;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// txtUnitPrice control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUnitPrice;
-        
+
         /// <summary>
         /// RequiredFieldValidator6 control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator6;
-        
+
         /// <summary>
         /// btnAddItem control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnAddItem;
-        
+
         /// <summary>
         /// gvInOutItems control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvInOutItems;
-        
+
         /// <summary>
         /// txtTotalQty control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTotalQty;
-        
+
         /// <summary>
         /// RequiredFieldValidator2 control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator2;
-        
+
         /// <summary>
         /// txtTotalAmount control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTotalAmount;
-        
+
         /// <summary>
         /// RequiredFieldValidator7 control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator7;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>
@@ -316,8 +318,8 @@ namespace AccSys.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSave;
-        
+        protected global::AccSys.Web.WebControls.HrnLinkButton btnSave;
+
         /// <summary>
         /// btnReset control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnReset;
-        
+
         /// <summary>
         /// lblMsg control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMsg;
-        
+
         /// <summary>
         /// UpdateProgress1 control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdateProgress UpdateProgress1;
-        
+
         /// <summary>
         /// btnSearch control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSearch;
-        
+
         /// <summary>
         /// gvData control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvData;
-        
+
         /// <summary>
         /// odsCommon control.
         /// </summary>

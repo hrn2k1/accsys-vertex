@@ -1,8 +1,9 @@
-﻿using System;
+﻿using AccSys.Web.WebControls;
+using System;
 
 namespace AccSys.Web
 {
-    public partial class frmJournalVoucher : System.Web.UI.Page
+    public partial class frmJournalVoucher : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

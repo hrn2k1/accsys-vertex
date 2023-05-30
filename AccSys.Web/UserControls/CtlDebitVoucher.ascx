@@ -195,11 +195,11 @@
                             <tr class="row">
                                 <td class="InputLabel"></td>
                                 <td colspan="4">
-                                    <asp:LinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                    <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
                                         ValidationGroup="post" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
-                                    <asp:LinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
+                                    <asp:HrnLinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
                                         OnClick="btnDelete_Click" />
                                 </td>
                             </tr>

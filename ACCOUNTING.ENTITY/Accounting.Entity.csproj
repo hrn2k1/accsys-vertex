@@ -112,6 +112,7 @@
     <Compile Include="Report.cs" />
     <Compile Include="ReqDetail.cs" />
     <Compile Include="ReqMaster.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="RolePrivilege.cs" />
     <Compile Include="RoleReportPrivilege.cs" />
     <Compile Include="SalesReturn.cs" />

@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class UserManagement {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class UserManagement
+    {
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>

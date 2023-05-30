@@ -130,14 +130,14 @@
                                             <div class="panel-footer" style="padding: 5px 55px 5px 0; text-align: right;">
                                                 <label>
                                                     <asp:Literal ID="Literal1" Text="Total Dr" runat="server"></asp:Literal></label>
-                                        <asp:TextBox ID="txtTotalDrAmount" runat="server"  Style="text-align: right; padding: 0 5px; margin-left: 10px;max-width:100px"
-                                            ValidationGroup="post" ReadOnly="True"></asp:TextBox>
+                                                <asp:TextBox ID="txtTotalDrAmount" runat="server" Style="text-align: right; padding: 0 5px; margin-left: 10px; max-width: 100px"
+                                                    ValidationGroup="post" ReadOnly="True"></asp:TextBox>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
                                                     ControlToValidate="txtTotalDrAmount" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
                                                 <label>
                                                     <asp:Literal ID="Literal6" Text="Cr" runat="server"></asp:Literal></label>
-                                        <asp:TextBox ID="txtTotalCrAmount" runat="server"  Style="text-align: right; padding: 0 5px; max-width:100px;"
-                                            ValidationGroup="post" ReadOnly="True"></asp:TextBox>
+                                                <asp:TextBox ID="txtTotalCrAmount" runat="server" Style="text-align: right; padding: 0 5px; max-width: 100px;"
+                                                    ValidationGroup="post" ReadOnly="True"></asp:TextBox>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server"
                                                     ControlToValidate="txtTotalCrAmount" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
                                             </div>
@@ -176,11 +176,11 @@
                             <tr class="row">
                                 <td class="InputLabel"></td>
                                 <td colspan="4">
-                                    <asp:LinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                    <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
                                         ValidationGroup="post" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
-                                     <asp:LinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
+                                    <asp:HrnLinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
                                         OnClick="btnDelete_Click" />
                                 </td>
                             </tr>
@@ -194,7 +194,7 @@
 
         </ContentTemplate>
     </asp:UpdatePanel>
-    
+
     <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="UpdatePanel1">
         <ProgressTemplate>
             <div id="dlg" style="z-index: 999; background-color: Blue; height: 100%; left: 0; opacity: 0.2; position: absolute; top: 0; width: 100%; vertical-align: middle; text-align: center;"

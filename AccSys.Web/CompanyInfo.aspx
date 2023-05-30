@@ -88,7 +88,7 @@
                         </div>
                         <div class="btn-group" role="group">
 
-                            <asp:LinkButton ID="UpdateButton" runat="server" CssClass="btn btn-default glyphicon glyphicon-ok-circle"
+                            <asp:HrnLinkButton ID="UpdateButton" runat="server" CssClass="btn btn-default glyphicon glyphicon-ok-circle"
                                 CommandName="Update" Text="Update" SecurityCommandName="Edit" />
                             <asp:LinkButton ID="UpdateCancelButton" runat="server" CssClass="btn btn-default glyphicon glyphicon-remove-circle" CausesValidation="False"
                                 CommandName="Cancel" Text="Cancel" ></asp:LinkButton>
@@ -149,8 +149,8 @@
                         <div class="btn-group" role="group">
                             <asp:Button ID="NewButton" runat="server" CausesValidation="False" CssClass="lnkbtn"
                                 CommandName="New" Text="New" Visible="False" />
-                            <asp:LinkButton ID="EditButton" runat="server" CausesValidation="False" CssClass="btn btn-default glyphicon glyphicon-edit"
-                                CommandName="Edit" Text="Edit" SecurityCommandName="Edit"></asp:LinkButton>
+                            <asp:HrnLinkButton ID="EditButton" runat="server" CausesValidation="False" CssClass="btn btn-default glyphicon glyphicon-edit"
+                                CommandName="Edit" Text="Edit" SecurityCommandName="Edit"></asp:HrnLinkButton>
                         </div>
 
                     </ItemTemplate>

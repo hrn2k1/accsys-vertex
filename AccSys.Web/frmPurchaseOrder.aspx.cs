@@ -1,8 +1,8 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Utility;
 using AccSys.Web.Models;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
@@ -10,7 +10,7 @@ using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmPurchaseOrder : System.Web.UI.Page
+    public partial class frmPurchaseOrder : BasePage
     {
         private string _dateFormat = "yyyy-MM-dd";
         private string _sessionDatatableName = "OrderItems";

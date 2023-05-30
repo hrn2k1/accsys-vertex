@@ -29,6 +29,10 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:HiddenField runat="server" ID="HfCanView" />
+    <asp:HiddenField runat="server" ID="HfCanAdd" />
+    <asp:HiddenField runat="server" ID="HfCanEdit" />
+    <asp:HiddenField runat="server" ID="HfCanDelete" />
     <div id="form">
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
@@ -44,16 +48,14 @@
                         <div class="panel-body" style="padding-left: 0;">
                             <table class="datatable">
                                 <tr class="row">
-                                    <td class="InputLabel">
-                                        Customer
+                                    <td class="InputLabel">Customer
                                      <asp:Label ID="lblOrderId" runat="server" Text="0" Visible="False"></asp:Label>
                                     </td>
                                     <td class="InputField">
                                         <cc1:LedgerDropDownListChosen ID="ddlCustomer" Width="200px" NullItemText="Select customer" NullItemValue="0" LedgerType="2" runat="server">
                                         </cc1:LedgerDropDownListChosen>
                                     </td>
-                                    <td class="InputLabel">
-                                        Order Date
+                                    <td class="InputLabel">Order Date
                                     </td>
                                     <td class="InputField">
                                         <asp:TextBox ID="txtDate" runat="server" ValidationGroup="post" TextMode="Date"></asp:TextBox>
@@ -63,15 +65,13 @@
                                     <td></td>
                                 </tr>
                                 <tr class="row">
-                                    <td class="InputLabel">
-                                        Order No.
+                                    <td class="InputLabel">Order No.
                                     </td>
                                     <td class="InputField">
                                         <asp:TextBox ID="txtOrderNo" runat="server" ValidationGroup="post"></asp:TextBox>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="txtOrderNo" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
                                     </td>
-                                     <td class="InputLabel">
-                                         Delivery Date
+                                    <td class="InputLabel">Delivery Date
                                     </td>
                                     <td class="InputField">
                                         <asp:TextBox ID="txtDeliveryDate" runat="server" ValidationGroup="post" TextMode="Date"></asp:TextBox>
@@ -80,14 +80,12 @@
                                     <td></td>
                                 </tr>
                                 <tr class="row">
-                                     <td class="InputLabel">
-                                         Ledger No.
+                                    <td class="InputLabel">Ledger No.
                                     </td>
                                     <td class="InputField">
                                         <asp:TextBox ID="txtLedgerNo" runat="server" ValidationGroup="post"></asp:TextBox>
                                     </td>
-                                     <td class="InputLabel">
-                                         Currency
+                                    <td class="InputLabel">Currency
                                     </td>
                                     <td class="InputField">
                                         <cc1:CurrencyDropDownList ID="ddlCurrency" runat="server"></cc1:CurrencyDropDownList>
@@ -97,8 +95,7 @@
                                     </td>
                                 </tr>
                                 <tr class="row">
-                                    <td class="InputLabel">
-                                        Buyer Ref.
+                                    <td class="InputLabel">Buyer Ref.
                                     </td>
                                     <td class="InputField" colspan="3">
                                         <asp:TextBox ID="txtBuyerref" runat="server" TextMode="MultiLine" Rows="2" Width="100%" ValidationGroup="post"></asp:TextBox>
@@ -146,7 +143,7 @@
                                                             <asp:TemplateField HeaderText="Qty" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
                                                                 <ItemTemplate>
                                                                     <asp:TextBox ID="lblQty" runat="server" Font-Bold="True" Style="text-align: right"
-                                                                        Text='<%# Bind("Qty", "{0:0.00}") %>' OnTextChanged="txtQty_TextChanged" AutoPostBack="true" ></asp:TextBox>
+                                                                        Text='<%# Bind("Qty", "{0:0.00}") %>' OnTextChanged="txtQty_TextChanged" AutoPostBack="true"></asp:TextBox>
                                                                 </ItemTemplate>
                                                             </asp:TemplateField>
                                                             <asp:TemplateField HeaderText="Unit Price" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
@@ -193,7 +190,7 @@
                                 <tr class="row">
                                     <td class="InputLabel"></td>
                                     <td colspan="4">
-                                        <asp:LinkButton SecurityCommandName="Add" ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                        <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" OnClick="btnSave_Click" Text="Save" CssClass="btn btn-default glyphicon glyphicon-saved"
                                             ValidationGroup="post" />
                                         <asp:LinkButton ID="btnReset" runat="server" Text="Reset" OnClick="btnReset_Click" CssClass="btn btn-default glyphicon glyphicon-erase"
                                             CausesValidation="False" />
@@ -228,7 +225,7 @@
                         <label style="float: left;">
                             Orders          
                         </label>
-                        <asp:LinkButton SecurityCommandName="View" ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
+                        <asp:LinkButton ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
                 </div>
             </div>
@@ -244,7 +241,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Edit">
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click"  CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:LinkButton>
+                                <asp:HrnLinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="ID" SortExpression="OrderID" Visible="False">
@@ -286,7 +283,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Delete">
                             <ItemTemplate>
-                                <asp:LinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;" >Delete</asp:LinkButton>
+                                <asp:HrnLinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:HrnLinkButton>
                             </ItemTemplate>
                         </asp:TemplateField>
                     </Columns>

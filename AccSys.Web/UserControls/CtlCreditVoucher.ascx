@@ -15,10 +15,11 @@
         .InputField input[type='text'], .InputField select {
             width: 100% !important;
         }
-        .amount{
-            text-align:right !important;
-            max-width:150px !important;
-        }
+
+    .amount {
+        text-align: right !important;
+        max-width: 150px !important;
+    }
 </style>
 <div id="form">
     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
@@ -52,7 +53,7 @@
                                     <asp:Literal ID="Literal5" Text="Date" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtDate" runat="server" ValidationGroup="post" TextMode="Date" ></asp:TextBox>
+                                    <asp:TextBox ID="txtDate" runat="server" ValidationGroup="post" TextMode="Date"></asp:TextBox>
                                     <ajax:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="txtDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server"
                                         ControlToValidate="txtDate" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
@@ -85,7 +86,7 @@
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal9" Text="Collected to A/C" runat="server"></asp:Literal></td>
                                 <td class="InputField" colspan="3">
-                                    <cc1:CustomAccountDropDownListChosen ID="ddlToAC" runat="server" >
+                                    <cc1:CustomAccountDropDownListChosen ID="ddlToAC" runat="server">
                                     </cc1:CustomAccountDropDownListChosen>
                                     <asp:Label ID="lblToAccTDId" runat="server" Text="0" Visible="false" />
                                 </td>
@@ -115,10 +116,10 @@
                                             </div>
                                             <div class="panel-body">
                                                 <asp:GridView ID="gvData" runat="server" CssClass="datatable"
-                                                    GridLines="None" AutoGenerateColumns="False" 
+                                                    GridLines="None" AutoGenerateColumns="False"
                                                     Width="100%">
                                                     <Columns>
-                                                        <asp:TemplateField HeaderText="TransDID"  Visible="False">
+                                                        <asp:TemplateField HeaderText="TransDID" Visible="False">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblTransDID" runat="server" Text='<%# Bind("TransDID") %>'></asp:Label>
                                                             </ItemTemplate>
@@ -137,11 +138,11 @@
                                                         </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Amount" SortExpression="Amount" ItemStyle-CssClass="amount" HeaderStyle-CssClass="amount">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblAmt" runat="server" Font-Bold="True" 
+                                                                <asp:Label ID="lblAmt" runat="server" Font-Bold="True"
                                                                     Text='<%# Bind("Amount", "{0:0.00}") %>'></asp:Label>
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
-                                                        <asp:TemplateField  ItemStyle-Width="50px">
+                                                        <asp:TemplateField ItemStyle-Width="50px">
                                                             <ItemTemplate>
                                                                 <asp:LinkButton ID="btnRemove" runat="server" OnClick="btnRemove_Click" CssClass="glyphicon glyphicon-remove"
                                                                     CausesValidation="False"></asp:LinkButton>
@@ -160,7 +161,7 @@
                                                 <label>
                                                     <asp:Literal ID="Literal1" Text="Total Amount" runat="server"></asp:Literal>
                                                 </label>
-                                                <asp:TextBox ID="txtTotalAmount" runat="server" Style="text-align: right;padding:0 5px;margin-left:10px;"
+                                                <asp:TextBox ID="txtTotalAmount" runat="server" Style="text-align: right; padding: 0 5px; margin-left: 10px;"
                                                     ValidationGroup="post" ReadOnly="True"></asp:TextBox>
                                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
                                                     ControlToValidate="txtTotalAmount" ErrorMessage="*" ValidationGroup="post"></asp:RequiredFieldValidator>
@@ -199,12 +200,12 @@
                             </tr>
                             <tr class="row">
                                 <td class="InputLabel"></td>
-                                <td colspan="4" >
-                                    <asp:LinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                <td colspan="4">
+                                    <asp:HrnLinkButton SecurityCommandName="Add" ID="btnSave" runat="server" Text="Post" CssClass="btn btn-default glyphicon glyphicon-saved"
                                         ValidationGroup="post" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
-                                    <asp:LinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
+                                    <asp:HrnLinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
                                         OnClick="btnDelete_Click" />
                                 </td>
                             </tr>

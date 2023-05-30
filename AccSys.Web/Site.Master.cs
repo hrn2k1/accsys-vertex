@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccSys.Web.WebControls;
+using System;
 using System.Web;
 using Tools;
 
@@ -10,19 +11,19 @@ namespace AccSys.Web
         {
             if (!IsPostBack)
             {
-                if (Session["CompanyId"] == null)
+                if (Session["CompanyID"] == null)
                 {
                     Response.Redirect("~/Login.aspx");
                 }
-
-                if (Session["Company"] != null)
-                {
-                    var company = (CompanyInformation)Session["Company"];
+                var company = Session.Company();
+                if (company != null)
+                {                    
                     lblCompanyName.Text = company.CompanyName;
                     lblCompanyName.ToolTip = company.CompanyName;
-                    ImgLogo.ImageUrl = "~/" + company.Logo;
+                    ImgLogo.ImageUrl = "~/" + company.CompanyLogo;
                 }
             }
+            
         }
         protected void LoginStatus2_LoggedOut(object sender, EventArgs e)
         {

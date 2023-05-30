@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class frmCompanies {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class frmCompanies
+    {
+
         /// <summary>
         /// txtName control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtName;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// btnSave control.
         /// </summary>
@@ -37,8 +39,8 @@ namespace AccSys.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSave;
-        
+        protected global::AccSys.Web.WebControls.HrnLinkButton btnSave;
+
         /// <summary>
         /// lblMsg control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMsg;
-        
+
         /// <summary>
         /// gvData control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvData;
-        
+
         /// <summary>
         /// odsCommon control.
         /// </summary>

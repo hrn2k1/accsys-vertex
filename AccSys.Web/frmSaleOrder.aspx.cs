@@ -1,19 +1,16 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Utility;
 using AccSys.Web.Models;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmSaleOrder : System.Web.UI.Page
+    public partial class frmSaleOrder : BasePage
     {
         private string _sessionDatatableName = "SalesOrderItems";
         private string _dateFormat = "yyyy-MM-dd";
@@ -29,7 +26,6 @@ namespace AccSys.Web
                 dtItems.Columns.Add("Qty", typeof(double));
                 dtItems.Columns.Add("UnitPrice", typeof(double));
                 dtItems.Columns.Add("Amount", typeof(double));
-
             }
             else
             {

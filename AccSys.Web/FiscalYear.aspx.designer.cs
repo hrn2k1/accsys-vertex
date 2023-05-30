@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class FiscalYear {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class FiscalYear
+    {
+
         /// <summary>
         /// lblFYId control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblFYId;
-        
+
         /// <summary>
         /// txtTitle control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTitle;
-        
+
         /// <summary>
         /// RequiredFieldValidator3 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
+
         /// <summary>
         /// txtStartDate control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtStartDate;
-        
+
         /// <summary>
         /// RequiredFieldValidator4 control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
-        
+
         /// <summary>
         /// lblEndDate control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblEndDate;
-        
+
         /// <summary>
         /// txtEndDate control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtEndDate;
-        
+
         /// <summary>
         /// RequiredFieldValidator1 control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator1;
-        
+
         /// <summary>
         /// btnStart control.
         /// </summary>
@@ -91,8 +93,8 @@ namespace AccSys.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnStart;
-        
+        protected global::AccSys.Web.WebControls.HrnLinkButton btnStart;
+
         /// <summary>
         /// btnEnd control.
         /// </summary>
@@ -100,8 +102,8 @@ namespace AccSys.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnEnd;
-        
+        protected global::AccSys.Web.WebControls.HrnLinkButton btnEnd;
+
         /// <summary>
         /// lblMsg control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblMsg;
-        
+
         /// <summary>
         /// gvData control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvData;
-        
+
         /// <summary>
         /// odsCommon control.
         /// </summary>

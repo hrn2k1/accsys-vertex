@@ -1,15 +1,11 @@
 ﻿using Accounting.DataAccess;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmCompanies : System.Web.UI.Page
+    public partial class frmCompanies : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

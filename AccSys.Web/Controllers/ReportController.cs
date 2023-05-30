@@ -1,4 +1,5 @@
 ﻿using Accounting.DataAccess;
+using Accounting.Entity;
 using AccSys.Web.Models;
 using Rotativa.MVC;
 using System;
@@ -45,7 +46,7 @@ namespace AccSys.Web.Controllers
             param.CompanyId = Convert.ToInt32(Session["CompanyId"] ?? "1");
             if (Session["Company"] != null)
             {
-                var company = (CompanyInformation)Session["Company"];
+                var company = (Company)Session["Company"];
                 if(company != null)
                 {
                     param.CompanyName = company.CompanyName;

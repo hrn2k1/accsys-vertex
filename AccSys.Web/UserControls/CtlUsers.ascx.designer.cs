@@ -84,7 +84,7 @@ namespace AccSys.Web.UserControls
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRole;
+        protected global::AccSys.Web.DbControls.RoleDropDownList ddlRole;
 
         /// <summary>
         /// chkPass control.
@@ -183,7 +183,7 @@ namespace AccSys.Web.UserControls
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnCreate;
+        protected global::AccSys.Web.WebControls.HrnLinkButton btnCreate;
 
         /// <summary>
         /// btnReset control.

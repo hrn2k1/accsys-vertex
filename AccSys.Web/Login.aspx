@@ -20,11 +20,11 @@
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <link href="Content/bootstrap-theme.min.css" rel="stylesheet" />
     <script type="text/javascript" src="Scripts/bootstrap.min.js"></script>
-   
+
     <style type="text/css">
         body > table ~ * {
-                display: none !important;
-            }
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -57,10 +57,11 @@
                                                                 <asp:Label ID="CompanyLabel" runat="server" AssociatedControlID="ddlCompany" Text="Company:"></asp:Label>
                                                             </td>
                                                             <td>
-                                                                <asp:DropDownList ID="ddlCompany" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlCompany_SelectedIndexChanged" Width="200px"></asp:DropDownList>
+                                                                <asp:DropDownList ID="ddlCompany" runat="server" Width="200px"></asp:DropDownList>
                                                                 <asp:RequiredFieldValidator ID="CompanyRequired" runat="server"
                                                                     ControlToValidate="ddlCompany" ErrorMessage="Company is required."
-                                                                    ToolTip="Company is required." ValidationGroup="Login1" Text="*"></asp:RequiredFieldValidator>
+                                                                    ToolTip="Company is required." ValidationGroup="Login1" Text="*">
+                                                                </asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -71,7 +72,8 @@
                                                                 <asp:DropDownList ID="UserName" runat="server" Width="200px"></asp:DropDownList>
                                                                 <asp:RequiredFieldValidator ID="UserNameRequired" runat="server"
                                                                     ControlToValidate="UserName" ErrorMessage="User Name is required."
-                                                                    ToolTip="User Name is required." ValidationGroup="Login1" Text="*"></asp:RequiredFieldValidator>
+                                                                    ToolTip="User Name is required." ValidationGroup="Login1" Text="*">
+                                                                </asp:RequiredFieldValidator>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -110,7 +112,10 @@
                                             </asp:Login>
                                         </AnonymousTemplate>
                                         <LoggedInTemplate>
-                                            <asp:LoginName ID="LoginName1" runat="server" />
+                                             <asp:LoginName ID="LoginName1" runat="server" /> <br />
+                                            <%if (Session["CompanyId"] == null)
+                                                {  %> You session is timeout.<br /> Please logout to select your company <br /><br /> <% } %>
+                                           
                                             <asp:LoginStatus ID="LoginStatus1" runat="server" OnLoggingOut="LoginStatus1_LoggingOut" />
                                         </LoggedInTemplate>
                                     </asp:LoginView>

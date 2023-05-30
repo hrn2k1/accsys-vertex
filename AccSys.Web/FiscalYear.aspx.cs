@@ -1,17 +1,13 @@
 ﻿using Accounting.DataAccess;
-using Accounting.Entity;
 using Accounting.Utility;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class FiscalYear : System.Web.UI.Page
+    public partial class FiscalYear : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -48,6 +48,7 @@
                                 </td>
                                 <td class="InputField">
                                     <asp:Label ID="lblRole" Text="" runat="server"></asp:Label>
+                                    <asp:Label ID="lblRoleId" Text="0" runat="server" Visible="false"></asp:Label>
                                 </td>
                                 <td></td>
                             </tr>

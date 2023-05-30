@@ -1,7 +1,7 @@
 ﻿using Accounting.DataAccess;
-using Accounting.Entity;
 using Accounting.Utility;
 using AccSys.Web.Models;
+using AccSys.Web.WebControls;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,7 +10,7 @@ using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmPurchaseInvoice : System.Web.UI.Page
+    public partial class frmPurchaseInvoice : BasePage
     {
         private string _sessionDatatableName = "InvItems";
         private string _dateFormat = "yyyy-MM-dd";

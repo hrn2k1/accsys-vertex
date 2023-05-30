@@ -428,7 +428,6 @@ namespace AccSys.Web.UserControls
                 txtFax.Text = "";
                 txtPhone.Text = "";
                 txtRemarks.Text = "";
-
                 ddlParent_SelectedIndexChanged(sender, e);
             }
             catch (Exception ex)

@@ -1,12 +1,13 @@
 ﻿using Accounting.Utility;
 using AccSys.Web.DbControls;
+using AccSys.Web.WebControls;
 using System;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class CompanyInfo : System.Web.UI.Page
+    public partial class CompanyInfo : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

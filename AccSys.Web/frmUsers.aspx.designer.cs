@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class frmUser {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class frmUsers
+    {
+
         /// <summary>
         /// CtlUsers1 control.
         /// </summary>

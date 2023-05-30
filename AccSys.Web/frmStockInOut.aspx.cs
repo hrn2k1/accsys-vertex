@@ -1,19 +1,16 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Utility;
 using AccSys.Web.Models;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmStockInOut : System.Web.UI.Page
+    public partial class frmStockInOut : BasePage
     {
         private string _sessionDatatableName = "InOutItems";
         private string _dateFormat = "yyyy-MM-dd";
@@ -31,7 +28,6 @@ namespace AccSys.Web
                 dtItems.Columns.Add("Amount", typeof(double));
                 dtItems.Columns.Add("RefId", typeof(int));
                 dtItems.Columns.Add("RefNo", typeof(string));
-
             }
             else
             {

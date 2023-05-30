@@ -1,19 +1,16 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Entity;
 using Accounting.Utility;
+using AccSys.Web.WebControls;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmRequisition : System.Web.UI.Page
+    public partial class frmRequisition : BasePage
     {
         private string _dateFormat = "yyyy-MM-dd";
         protected void Page_Load(object sender, EventArgs e)

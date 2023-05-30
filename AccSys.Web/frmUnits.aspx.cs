@@ -1,22 +1,21 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Entity;
 using Accounting.Utility;
+using AccSys.Web.WebControls;
 using System;
-using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using Tools;
 
 namespace AccSys.Web
 {
-    public partial class frmUnits : System.Web.UI.Page
+    public partial class frmUnits : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
                 if (!IsPostBack)
-                {
-                    
+                {                    
                     LoadUnits();
                 }
             }

@@ -7,47 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class Setup {
-        
-        /// <summary>
-        /// HfCanView control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HfCanView;
-        
-        /// <summary>
-        /// HfCanAdd control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HfCanAdd;
-        
-        /// <summary>
-        /// HfCanEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HfCanEdit;
-        
-        /// <summary>
-        /// HfCanDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField HfCanDelete;
-        
+namespace AccSys.Web
+{
+
+
+    public partial class Setup
+    {
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -56,7 +21,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// SetupMainTab control.
         /// </summary>
@@ -65,7 +30,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal SetupMainTab;
-        
+
         /// <summary>
         /// SetupTabTitle control.
         /// </summary>

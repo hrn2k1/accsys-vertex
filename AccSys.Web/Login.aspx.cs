@@ -1,8 +1,10 @@
 ﻿using Accounting.DataAccess;
 using Accounting.Utility;
+using AccSys.Web.WebControls;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 using Tools;
@@ -27,8 +29,6 @@ namespace AccSys.Web
                 ddlCompany.DataTextField = "CompanyName";
                 ddlCompany.DataValueField = "CompanyID";
                 ddlCompany.DataBind();
-
-                LoadUser(conn);
             }
         }
 
@@ -60,6 +60,7 @@ namespace AccSys.Web
                     {
                         connection.Open();
                         LoadCompany(connection);
+                        LoadUser(connection);
                         connection.Close();
                     }
                 }
@@ -78,16 +79,19 @@ namespace AccSys.Web
                 if (control != null)
                 {
                     var ddlUser = (DropDownList)control;
-                    Session["UserName"] = ddlUser.SelectedItem.Text;
-                    //Session["UserId"] = ddlUser.SelectedItem.Value;
-                    //Session["UserRoles"] = userRoleList;
-                    //Session["IsSuperAdmin"] = isSuperAdmin;
+                    Session.UserName(ddlUser.SelectedValue);
+                    var user = new DaLogIn().GetUser(ddlUser.SelectedValue);
+                    var role = user.RoleId > 0 ? new DaRole().GetRole(user.RoleId) : null;
+                    Session.UserId(user.UserID);
+                    Session.UserRoleId(user.RoleId);
+                    var isSuperAdmin = role != null ? role.RoleName.Contains("Super") : false;
+                    Session.IsSuperAdmin(isSuperAdmin);
                     control = Login1.FindControl("ddlCompany");
                     if (control != null)
                     {
                         var ddlCompany = (DropDownList)control;
                         int companyId = Convert.ToInt32(ddlCompany.SelectedValue);
-                        Session["CompanyId"] = companyId;
+                        Session.CompanyId(companyId);
                         var objDaCompany = new DaCompany();
                         var company = objDaCompany.GetCompany(companyId);
                         var logo = company.CompanyLogo;
@@ -95,8 +99,10 @@ namespace AccSys.Web
                         {
                             var logo64 = Convert.ToBase64String(logo);
                         }
-                        Session["Company"] = new CompanyInformation(company);
+                        Session.Company(company);
                     }
+                    var access = DalResourceAuthorization.GetAuthorizationResources(user.UserID);
+                    Session.UserRoleAccess(access);                    
                 }
             }
             catch (Exception ex)
@@ -127,37 +133,10 @@ namespace AccSys.Web
             if (control != null)
             {
                 var ddlUser = (DropDownList)control;
-                Login1.UserName = ddlUser.SelectedItem.Text;
+                Login1.UserName = ddlUser.SelectedValue;
                 string strpass = string.IsNullOrWhiteSpace(Login1.Password) ? Login1.Password.Trim() : GlobalFunctions.Encode(Login1.Password, GlobalFunctions.CypherText);
                 var objDaLogin = new DaLogIn();
-                e.Authenticated = objDaLogin.ValidateUserPassword(ddlUser.SelectedItem.Text, strpass);
-            }
-        }
-
-        protected void ddlCompany_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                using (var connection = new SqlConnection(ConnectionHelper.DefaultConnectionString))
-                {
-                    connection.Open();
-                    System.Web.UI.WebControls.Login Login1 = (System.Web.UI.WebControls.Login)LoginView1.FindControl("Login1");
-                    var control = Login1.FindControl("ddlCompany");
-                    if (control != null)
-                    {
-                        var ddlCompany = (DropDownList)control;
-                        if (!string.IsNullOrWhiteSpace(ddlCompany.SelectedValue))
-                        {
-                            LoadUser(connection);
-                        }
-                    }
-                    connection.Close();
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
+                e.Authenticated = objDaLogin.ValidateUserPassword(ddlUser.SelectedValue, strpass);
             }
         }
     }

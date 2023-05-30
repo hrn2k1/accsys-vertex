@@ -80,7 +80,7 @@ namespace AccSys.Web.UserControls
                     UserName = txtUserName.Text.Trim(),
                     Password = strpass,
                     ConfirmPassword = strpass,
-                    Role = ddlRole.SelectedValue
+                    RoleId = Convert.ToInt32(ddlRole.SelectedValue)
                 };
                 new DaUser().SaveUpdateUser(user);
                 LoadUsers();
@@ -109,7 +109,10 @@ namespace AccSys.Web.UserControls
                         txtUserName.Text = user.UserName;
                         txtPassword.Text = user.Password;
                         txtConfirmPassword.Text = user.ConfirmPassword;
-                        ddlRole.SelectedValue = user.Role;
+                        if (user.RoleId > 0)
+                            ddlRole.SelectedValue = user.RoleId.ToString();
+                        else
+                            ddlRole.SelectedIndex = 0;
                         lblPassword.Text = user.Password;
                         chkPass.Visible = true;
                         chkPass.Checked = false;

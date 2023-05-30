@@ -47,6 +47,9 @@
     <Reference Include="AjaxControlToolkit">
       <HintPath>..\ThridPartyDLLs\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Rotativa.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Rotativa.Core.2.0.0\lib\net45\Rotativa.Core.dll</HintPath>
@@ -59,6 +62,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
@@ -244,12 +248,14 @@
     <Content Include="frmPurchaseInvoice.aspx" />
     <Content Include="frmPurchaseOrder.aspx" />
     <Content Include="frmRequisition.aspx" />
+    <Content Include="frmResources.aspx" />
+    <Content Include="frmRoles.aspx" />
     <Content Include="frmSaleInvoice.aspx" />
     <Content Include="frmSaleOrder.aspx" />
     <Content Include="frmSections.aspx" />
     <Content Include="frmStockInOut.aspx" />
     <Content Include="frmUnits.aspx" />
-    <Content Include="frmUser.aspx" />
+    <Content Include="frmUsers.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Images\arrow_left_48.png" />
     <Content Include="Images\arrow_right_48.png" />
@@ -344,6 +350,7 @@
     <Content Include="Logo\logo_0.jpg" />
     <Content Include="Logo\logo_1.jpg" />
     <Content Include="Purchases.aspx" />
+    <Content Include="frmRoleAccess.aspx" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Sales.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -601,6 +608,8 @@
     <Compile Include="DbControls\AccountByLedgerTypeDropDownList.cs" />
     <Compile Include="DbControls\AccountDropDownList.cs" />
     <Compile Include="DbControls\BusinessSubTypeDropDownList.cs" />
+    <Compile Include="DbControls\UserDropDownList.cs" />
+    <Compile Include="DbControls\RoleDropDownList.cs" />
     <Compile Include="DbControls\BusinessTypeDropDownList.cs" />
     <Compile Include="DbControls\CountryDropDownList.cs" />
     <Compile Include="DbControls\CurrencyDropDownList.cs" />
@@ -686,6 +695,20 @@
     <Compile Include="frmRequisition.aspx.designer.cs">
       <DependentUpon>frmRequisition.aspx</DependentUpon>
     </Compile>
+    <Compile Include="frmResources.aspx.cs">
+      <DependentUpon>frmResources.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmResources.aspx.designer.cs">
+      <DependentUpon>frmResources.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmRoles.aspx.cs">
+      <DependentUpon>frmRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmRoles.aspx.designer.cs">
+      <DependentUpon>frmRoles.aspx</DependentUpon>
+    </Compile>
     <Compile Include="frmSaleInvoice.aspx.cs">
       <DependentUpon>frmSaleInvoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -721,12 +744,12 @@
     <Compile Include="frmUnits.aspx.designer.cs">
       <DependentUpon>frmUnits.aspx</DependentUpon>
     </Compile>
-    <Compile Include="frmUser.aspx.cs">
-      <DependentUpon>frmUser.aspx</DependentUpon>
+    <Compile Include="frmUsers.aspx.cs">
+      <DependentUpon>frmUsers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="frmUser.aspx.designer.cs">
-      <DependentUpon>frmUser.aspx</DependentUpon>
+    <Compile Include="frmUsers.aspx.designer.cs">
+      <DependentUpon>frmUsers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -760,6 +783,13 @@
       <DependentUpon>Purchases.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReportUtils\ReportHelpers.cs" />
+    <Compile Include="frmRoleAccess.aspx.cs">
+      <DependentUpon>frmRoleAccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="frmRoleAccess.aspx.designer.cs">
+      <DependentUpon>frmRoleAccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Sales.aspx.cs">
       <DependentUpon>Sales.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -873,6 +903,16 @@
     <Compile Include="VoucherRegister.aspx.designer.cs">
       <DependentUpon>VoucherRegister.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WebControls\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebControls\DalResourceAuthorization.cs" />
+    <Compile Include="WebControls\HrnButton.cs" />
+    <Compile Include="WebControls\HrnHyperLink.cs" />
+    <Compile Include="WebControls\HrnLinkButton.cs" />
+    <Compile Include="WebControls\ResourceAuthorization.cs" />
+    <Compile Include="WebControls\SecurityCommand.cs" />
+    <Compile Include="WebControls\SessionUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -933,6 +973,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

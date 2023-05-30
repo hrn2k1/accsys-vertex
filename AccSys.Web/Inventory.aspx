@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Inventory.aspx.cs" Inherits="AccSys.Web.Inventory" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="Content/tab.css" rel="stylesheet" />
     <script type="text/javascript" src="Scripts/tab.js"></script>
@@ -27,14 +28,12 @@
                                 <div style="text-align: left; margin-top: 5%;">
                                     <div class="col-md-4">
                                         <img src="Images/file.gif" alt="" class="tabLnkIcon">
-                                        <a href='<%=ResolveClientUrl("frmRequisition.aspx") %>' class="tablink Hyperlink" id="Req">
-                                          Requisition
+                                        <a href='<%=ResolveClientUrl("frmRequisition.aspx") %>' class="tablink Hyperlink" id="Req">Requisition
                                         </a>
                                     </div>
                                     <div class="col-md-4">
                                         <img src="Images/file.gif" alt="" class="tabLnkIcon">
-                                        <a href='<%=ResolveClientUrl("frmStockInOut.aspx") %>' class="tablink Hyperlink" id="stockinout">
-                                            Stock In Out
+                                        <a href='<%=ResolveClientUrl("frmStockInOut.aspx") %>' class="tablink Hyperlink" id="stockinout">Stock In Out
                                         </a>
                                     </div>
                                 </div>

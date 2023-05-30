@@ -232,6 +232,12 @@ namespace AccSys.Web.UserControls
         }
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            if (lblModule.Text != "Voucher" && lblModule.Text != "")
+            {
+                lblMsg.Text = UIMessage.Message2User("You can't chnage this voucher from here. Please change it from <b>" + lblModule.Text + "</b>", UserUILookType.Danger);
+                return;
+            }
+
             if (txtTotalCrAmount.Text != txtTotalDrAmount.Text || Convert.ToDouble(txtTotalCrAmount.Text) <= 0 || Convert.ToDouble(txtTotalDrAmount.Text) <= 0)
             {
                 lblMsg.Text = UIMessage.Message2User("Correctly entry the amount", UserUILookType.Warning);

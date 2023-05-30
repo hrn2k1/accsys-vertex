@@ -3,17 +3,19 @@
 <style type="text/css">
     .InputLabel {
         text-align: left;
-        width:130px !important;
-        font-weight:bold !important;
+        width: 130px !important;
+        font-weight: bold !important;
     }
 
     .InputField {
-        width: 200px  !important;
+        width: 200px !important;
         text-align: left;
     }
-    .InputField input[type='text'],.InputField select{
-        width:100% !important;
-    }
+
+        .InputField input[type='text'], .InputField select {
+            width: 100% !important;
+        }
+
     .ui-widget input, .ui-widget select {
         font-family: inherit !important;
     }
@@ -74,7 +76,7 @@
                                     <asp:Label ID="lblId" runat="server" Text="0" Visible="False"></asp:Label>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtName" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtName" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtName"
                                         ErrorMessage="*" ValidationGroup="AccSave"></asp:RequiredFieldValidator>
                                 </td>
@@ -82,14 +84,14 @@
                                     <asp:Literal ID="Literal4" Text="Type" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:DropDownList ID="ddlType" runat="server"  AutoPostBack="True" OnSelectedIndexChanged="ddlType_SelectedIndexChanged" >
+                                    <asp:DropDownList ID="ddlType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlType_SelectedIndexChanged">
                                         <asp:ListItem Value="Item">Item</asp:ListItem>
                                         <asp:ListItem Value="Group">Item Group</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
-                                <td> </td>
+                                <td></td>
                             </tr>
-                            <tr class="row" >
+                            <tr class="row">
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal5" Text="Parent Group" runat="server"></asp:Literal>
                                 </td>
@@ -102,12 +104,12 @@
                                     <asp:Literal ID="Literal6" Text="Category" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:DropDownList ID="ddlCategory" runat="server" >
+                                    <asp:DropDownList ID="ddlCategory" runat="server">
                                         <asp:ListItem>Finished Good</asp:ListItem>
                                         <asp:ListItem>Raw Material</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>
-                                 <td> </td>
+                                <td></td>
                             </tr>
                             <tr class="row" runat="server" id="trItemRow1">
                                 <td class="InputLabel">
@@ -116,7 +118,7 @@
                                 <td class="InputField">
                                     <asp:TextBox ID="txtItemCode" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
-                                 <td class="InputLabel">
+                                <td class="InputLabel">
                                     <asp:Literal ID="Literal25" Text="HS Code" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
@@ -129,44 +131,44 @@
                                     <asp:Literal ID="Literal26" Text="Unit" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <cc1:UnitDropDownList ID="ddlUnit" runat="server" >
+                                    <cc1:UnitDropDownList ID="ddlUnit" runat="server">
                                     </cc1:UnitDropDownList>
                                 </td>
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal8" Text="Unit price" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtUnitPrice" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtUnitPrice" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
-                                <td> </td>
+                                <td></td>
                             </tr>
                             <tr class="row" runat="server" id="trItemRow3">
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal9" Text="Opening Qty" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtOpeningQty" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtOpeningQty" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal27" Text="Opening Value" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtOpeningValue" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtOpeningValue" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
                                 <td></td>
                             </tr>
-                             <tr class="row" runat="server" id="trItemRow4">
+                            <tr class="row" runat="server" id="trItemRow4">
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal28" Text="Min Qty" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtMinQty" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtMinQty" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal29" Text="Current Qty" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtCurrentQty" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtCurrentQty" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
                                 <td></td>
                             </tr>
@@ -185,15 +187,15 @@
                                     <asp:Literal ID="Literal30" Text="Purpose" runat="server"></asp:Literal>
                                 </td>
                                 <td class="InputField">
-                                    <asp:TextBox ID="txtPurpose" runat="server"  ValidationGroup="AccSave"></asp:TextBox>
+                                    <asp:TextBox ID="txtPurpose" runat="server" ValidationGroup="AccSave"></asp:TextBox>
                                 </td>
-                                 <td> </td>
+                                <td></td>
                             </tr>
                             <tr class="row">
-                                 <td class="InputLabel"> </td>
+                                <td class="InputLabel"></td>
                                 <td colspan="4" align="left">
-                                    <asp:LinkButton ID="btnSave" runat="server" Text="Save" SecurityCommandName="Add" CssClass="btn btn-default glyphicon glyphicon-saved"
-                                        ValidationGroup="AccSave" OnClick="btnSave_Click"  />
+                                    <asp:HrnLinkButton ID="btnSave" runat="server" Text="Save" SecurityCommandName="Add" CssClass="btn btn-default glyphicon glyphicon-saved"
+                                        ValidationGroup="AccSave" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
                                 </td>
@@ -214,7 +216,7 @@
     </asp:UpdateProgress>
 </div>
 <div>
-  <asp:Label ID="lblMsg" runat="server"></asp:Label>
+    <asp:Label ID="lblMsg" runat="server"></asp:Label>
 </div>
 <div id="tabs">
     <ul>
@@ -224,22 +226,22 @@
     <div id="tabs-1" style="padding: 5px 2px;">
         <asp:UpdatePanel ID="UpdatePanel2" runat="server">
             <ContentTemplate>
-                <div class="grid" style="width: auto; overflow:auto">
+                <div class="grid" style="width: auto; overflow: auto">
                     <div class="panel panel-success">
                         <div class="panel-heading form-horizontal" style="text-align: right;">
                             <div class="control-group">
                                 <div class="controls form-inline">
-                                   <label style="float: left;">
+                                    <label style="float: left;">
                                         <asp:Literal ID="ltlTitle" runat="server" Text="Search by" />
                                     </label>
-                                     <asp:Label runat="server" Text="Name contains" />
-                                     <asp:TextBox ID="txtSrcName" runat="server"></asp:TextBox>
-                                    <asp:DropDownList ID="ddlSrcType" runat="server" >
+                                    <asp:Label runat="server" Text="Name contains" />
+                                    <asp:TextBox ID="txtSrcName" runat="server"></asp:TextBox>
+                                    <asp:DropDownList ID="ddlSrcType" runat="server">
                                         <asp:ListItem Value="0">Item / Group</asp:ListItem>
                                         <asp:ListItem Value="Item">Item</asp:ListItem>
                                         <asp:ListItem Value="Group">Group</asp:ListItem>
                                     </asp:DropDownList>
-                                     <cc1:ItemGroupDropDownListChosen ID="ddlSrcItemGroup" runat="server" Width="300px" CssClass="input-small"
+                                    <cc1:ItemGroupDropDownListChosen ID="ddlSrcItemGroup" runat="server" Width="300px" CssClass="input-small"
                                         NullItemText="Parent Group" NullItemValue="0">
                                     </cc1:ItemGroupDropDownListChosen>
 
@@ -249,8 +251,8 @@
                         </div>
                         <div class="panel-body">
                             <asp:GridView ID="gvData" runat="server" AllowPaging="True" CssClass="datatable"
-                                GridLines="None" AllowSorting="True" AutoGenerateColumns="False" 
-                                EmptyDataText="No Data Found." >
+                                GridLines="None" AllowSorting="True" AutoGenerateColumns="False"
+                                EmptyDataText="No Data Found.">
                                 <Columns>
                                     <asp:TemplateField HeaderText="S/L">
                                         <ItemTemplate>
@@ -260,8 +262,8 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Edit">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit"
-                                              OnClick="lbtnEdit_Click" >Edit</asp:LinkButton>
+                                            <asp:HrnLinkButton ID="lbtnEdit" runat="server" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit"
+                                                OnClick="lbtnEdit_Click">Edit</asp:HrnLinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText="ID" SortExpression="Id" Visible="False">
@@ -279,7 +281,7 @@
                                     <asp:BoundField DataField="CompanyID" HeaderText="CompanyID" SortExpression="CompanyID" Visible="False" />
                                     <asp:TemplateField HeaderText="Delete">
                                         <ItemTemplate>
-                                            <asp:LinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClick="lbtnDelete_Click" OnClientClick="if(!confirm('Do you want to delete?')) return false;" >Delete</asp:LinkButton>
+                                            <asp:HrnLinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClick="lbtnDelete_Click" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:HrnLinkButton>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
@@ -306,7 +308,7 @@
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
-    <div id="tabs-2" style="padding: 5px 2px;" >
+    <div id="tabs-2" style="padding: 5px 2px;">
         <asp:UpdatePanel ID="UpdatePanel3" runat="server">
             <ContentTemplate>
                 <div class="grid" style="width: auto;">
@@ -322,26 +324,26 @@
                             </div>
                         </div>
                         <div class="panel-body">
-                             <div>
-                            <asp:LinkButton ID="lbtnExpandAll" runat="server" CausesValidation="False" OnClick="lbtnExpandAll_Click"  >
-                                <span aria-hidden="true" class="glyphicon glyphicon-collapse-down"></span>
-                                <asp:Literal ID="Literal22" Text="Expand All" runat="server"></asp:Literal>
-                             </asp:LinkButton>
-                                     &nbsp;&nbsp;&nbsp;
-                                    <asp:LinkButton ID="lbtnCollapAll" runat="server" CausesValidation="False" OnClick="lbtnCollapAll_Click"  >
+                            <div>
+                                <asp:LinkButton ID="lbtnExpandAll" runat="server" CausesValidation="False" OnClick="lbtnExpandAll_Click">
+                                    <span aria-hidden="true" class="glyphicon glyphicon-collapse-down"></span>
+                                    <asp:Literal ID="Literal22" Text="Expand All" runat="server"></asp:Literal>
+                                </asp:LinkButton>
+                                &nbsp;&nbsp;&nbsp;
+                                    <asp:LinkButton ID="lbtnCollapAll" runat="server" CausesValidation="False" OnClick="lbtnCollapAll_Click">
                                         <span aria-hidden="true" class="glyphicon glyphicon-collapse-up"></span>
                                         <asp:Literal ID="Literal23" Text="Collapse All" runat="server"></asp:Literal>
                                     </asp:LinkButton>
-                                   &nbsp;&nbsp;
-                                    <asp:LinkButton ID="lbtnRefresh" runat="server" CausesValidation="False" OnClick="lbtnRefresh_Click"  >
+                                &nbsp;&nbsp;
+                                    <asp:LinkButton ID="lbtnRefresh" runat="server" CausesValidation="False" OnClick="lbtnRefresh_Click">
                                         <span aria-hidden="true" class="glyphicon glyphicon-refresh"></span>
                                         <asp:Literal ID="Literal24" Text="Refresh" runat="server"></asp:Literal>
                                     </asp:LinkButton>
-                        </div>
-                        <asp:TreeView ID="TreeView1" runat="server" ShowLines="True" >
-                            <ParentNodeStyle Font-Bold="False" />
-                            <RootNodeStyle Font-Bold="False" />
-                        </asp:TreeView>
+                            </div>
+                            <asp:TreeView ID="TreeView1" runat="server" ShowLines="True">
+                                <ParentNodeStyle Font-Bold="False" />
+                                <RootNodeStyle Font-Bold="False" />
+                            </asp:TreeView>
                         </div>
                     </div>
                 </div>

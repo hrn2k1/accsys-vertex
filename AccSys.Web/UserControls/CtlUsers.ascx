@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CtlUsers.ascx.cs" Inherits="AccSys.Web.UserControls.CtlUsers" %>
+<%@ Register Assembly="AccSys.Web" Namespace="AccSys.Web.DbControls" TagPrefix="cc1" %>
 
 <div class="grid">
     <div class="rounded">
@@ -36,11 +37,8 @@
                                 <asp:Label ID="Literal4" Text="Role" runat="server" AssociatedControlID="ddlRole"></asp:Label>
                             </td>
                             <td class="InputField">
-                                <asp:DropDownList ID="ddlRole" runat="server" Height="16px" Width="121px">
-                                    <asp:ListItem>Administrator</asp:ListItem>
-                                    <asp:ListItem>SuperAdministrator</asp:ListItem>
-                                    <asp:ListItem>User</asp:ListItem>
-                                </asp:DropDownList>
+                                <cc1:RoleDropDownList ID="ddlRole" runat="server" Width="130px">
+                                </cc1:RoleDropDownList>
                             </td>
                             <td></td>
                         </tr>
@@ -67,7 +65,7 @@
                             </td>
                             <td class="InputField">
                                 <asp:TextBox ID="txtConfirmPassword" runat="server" TextMode="Password" ValidationGroup="Create"></asp:TextBox>
-                                 <asp:RequiredFieldValidator ID="vtxtConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword" ValidationGroup="Create"
+                                <asp:RequiredFieldValidator ID="vtxtConfirmPassword" runat="server" ControlToValidate="txtConfirmPassword" ValidationGroup="Create"
                                     ErrorMessage="Confirm Password is required." ToolTip="Confirm Password is required.">*</asp:RequiredFieldValidator>
                             </td>
                             <td></td>
@@ -83,11 +81,11 @@
                         <tr class="row">
                             <td class="InputLabel"></td>
                             <td colspan="2" align="left">
-                                <asp:LinkButton ID="btnCreate" runat="server" SecurityCommandName="Add" CssClass="btn btn-default"
+                                <asp:HrnLinkButton ID="btnCreate" runat="server" SecurityCommandName="Add" CssClass="btn btn-default"
                                     OnClick="btnCreate_Click" ValidationGroup="Create">
                                     <i class="glyphicon glyphicon-saved"></i> Create User
-                                </asp:LinkButton>
-                                 <asp:LinkButton ID="btnReset" runat="server" CssClass="btn btn-default" ValidationGroup="Reset"
+                                </asp:HrnLinkButton>
+                                <asp:LinkButton ID="btnReset" runat="server" CssClass="btn btn-default" ValidationGroup="Reset"
                                     OnClick="btnReset_Click">
                                     <i class="glyphicon glyphicon-erase"></i> Reset
                                 </asp:LinkButton>
@@ -115,17 +113,18 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Role" SortExpression="Role">
                                     <ItemTemplate>
-                                        <asp:Label runat="server" Text='<%# Bind("Role") %>' ID="lblRole"></asp:Label>
+                                        <asp:Label runat="server" Text='<%# Bind("RoleName") %>' ID="lblRole"></asp:Label>
+                                        <asp:Label runat="server" Text='<%# Bind("RoleId") %>' ID="lblRoleId" Visible="false"></asp:Label>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="Edit" HeaderStyle-Width="50px">
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:LinkButton>
+                                        <asp:HrnLinkButton ID="lbtnEdit" runat="server" OnClick="lbtnEdit_Click" CausesValidation="False" SecurityCommandName="Edit" CssClass="glyphicon glyphicon-edit">Edit</asp:HrnLinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField ShowHeader="False">
                                     <ItemTemplate>
-                                        <asp:LinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:LinkButton>
+                                        <asp:HrnLinkButton SecurityCommandName="Delete" ID="lbtnDelete" runat="server" OnClick="lbtnDelete_Click" CausesValidation="False" CssClass="glyphicon glyphicon-remove" OnClientClick="if(!confirm('Do you want to delete?')) return false;">Delete</asp:HrnLinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
