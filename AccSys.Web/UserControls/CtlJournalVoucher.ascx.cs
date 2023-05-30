@@ -40,6 +40,7 @@ namespace AccSys.Web.UserControls
                             txtApprovedBy.Text = Context.User.Identity.Name;
                             txtDescription.Text = "";
                             btnSave.Text = "Post";
+                            lblModule.Text = "Voucher";
                             chkApprovedBy.Checked = false;
                             txtTotalDrAmount.Text = string.Format("{0:0.00}", 0);
                             txtTotalCrAmount.Text = string.Format("{0:0.00}", 0);
@@ -54,6 +55,7 @@ namespace AccSys.Web.UserControls
                             txtApprovedBy.Text = objTransMaster.ApprovedBy;
                             txtApprovedDate.Text = string.Format("{0:"+ _dateFormat + "}", objTransMaster.ApprovedDate);
                             btnSave.Text = "Update&Post";
+                            lblModule.Text = objTransMaster.Module;
                             DataTable dtVAccs = objDaTrans.GetVoucherAccounts(connection, objTransMaster.TransactionMasterID);
                             DataTable dtJrVAccs = new DataTable();
                             dtJrVAccs.Columns.Add("AccountID", typeof(int));
@@ -299,6 +301,7 @@ namespace AccSys.Web.UserControls
                     txtVoucherNo.Text = objDaTrans.getVoucherNo(connection, "J", Tools.Utility.IsNull<int>(Session["CompanyId"], 0));
                     ddlVoucherAC.Bind();
                     btnSave.Text = "Post";
+                    lblModule.Text = "Voucher";
                     connection.Close();
                     if (sender.Equals(btnReset))
                     {
@@ -308,6 +311,41 @@ namespace AccSys.Web.UserControls
             }
             catch (Exception ex)
             {
+                lblMsg.Text = ex.CustomDialogMessage();
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            int TMID = Convert.ToInt32(lblTransMID.Text);
+            if (TMID <= 0)
+            {
+                return;
+            }
+            if (lblModule.Text != "Voucher" && lblModule.Text != "")
+            {
+                lblMsg.Text = UIMessage.Message2User("You can't delete this voucher from here. Please delete it from <b>" + lblModule.Text + "</b>", UserUILookType.Danger);
+                return;
+            }
+            SqlConnection connection = null;
+            SqlTransaction trans = null;
+            try
+            {
+                var objDaTrans = new DaTransaction();
+                connection = new SqlConnection(ConnectionHelper.DefaultConnectionString);
+                connection.Open();
+                trans = connection.BeginTransaction();
+                objDaTrans.DeleteTransaction(TMID, connection, trans);
+                trans.Commit();
+                connection.Close();
+                lblMsg.Text = UIMessage.Message2User("Successfully deleted the debit voucher", UserUILookType.Success);
+                btnReset_Click(sender, e);
+
+            }
+            catch (Exception ex)
+            {
+                if (trans != null) trans.Rollback();
+                if (connection.State != ConnectionState.Closed) connection.Close();
                 lblMsg.Text = ex.CustomDialogMessage();
             }
         }

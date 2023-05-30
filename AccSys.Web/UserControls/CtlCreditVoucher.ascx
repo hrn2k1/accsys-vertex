@@ -41,6 +41,7 @@
                                 <td class="InputLabel">
                                     <asp:Literal ID="Literal4" Text="Voucher No." runat="server"></asp:Literal>
                                     <asp:Label ID="lblTransMID" runat="server" Text="0" Visible="False"></asp:Label>
+                                    <asp:Label ID="lblModule" runat="server" Text="" Visible="False"></asp:Label>
                                 </td>
                                 <td class="InputField">
                                     <asp:TextBox ID="txtVoucherNo" runat="server" ValidationGroup="post" ReadOnly="True"></asp:TextBox>
@@ -203,6 +204,8 @@
                                         ValidationGroup="post" OnClick="btnSave_Click" />
                                     <asp:LinkButton ID="btnReset" runat="server" Text="Reset" CssClass="btn btn-default glyphicon glyphicon-erase"
                                         CausesValidation="False" OnClick="btnReset_Click" />
+                                    <asp:LinkButton SecurityCommandName="Delete" ID="btnDelete" OnClientClick="if(!confirm('Do you want to delete?')) return false;" runat="server" Text="Delete" CssClass="btn btn-default glyphicon glyphicon-remove"
+                                        OnClick="btnDelete_Click" />
                                 </td>
                             </tr>
                         </table>

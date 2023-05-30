@@ -332,8 +332,7 @@ namespace Accounting.DataAccess
           
            try
            {
-               com = new SqlCommand();
-              
+               com = new SqlCommand();              
                com.Transaction = trans;
                com.Connection = con;
                com.CommandText = "spDeletePurchase";

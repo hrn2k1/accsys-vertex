@@ -58,7 +58,10 @@ namespace AccSys.Web.UserControls
             try
             {
                 where = string.Format(" Account.CompanyID={0}", Session["CompanyID"] ?? 1);
-
+                if (txtSrcName.Text.Trim() != "")
+                {
+                    where += (where != "" ? " AND " : "") + string.Format(" Account.AccountTitle LIKE '%{0}%' ", txtSrcName.Text.Trim());
+                }
                 if (ddlAccGroup.SelectedValue != "All")
                     where += (where != "" ? " AND " : "") + string.Format(" Account.AccOrGroup='{0}' ", ddlAccGroup.SelectedValue);
                 if (ddlSrcLedgerType.SelectedValue != "0")

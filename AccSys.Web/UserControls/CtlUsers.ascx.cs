@@ -34,7 +34,7 @@ namespace AccSys.Web.UserControls
                 connection.Open();
                 DaLogIn objl = new DaLogIn();
                 DataTable dt = new DataTable();
-                dt = objl.GetUser(Tools.Utility.IsNull<int>(Session["CompanyId"], 0), connection);
+                dt = objl.GetUsers(connection);
                 gvData.DataSource = dt;
                 gvData.DataBind();
                 connection.Close();

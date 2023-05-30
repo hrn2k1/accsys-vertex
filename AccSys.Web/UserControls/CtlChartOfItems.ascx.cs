@@ -142,8 +142,17 @@ namespace AccSys.Web.UserControls
         }
         private string CreateWhere()
         {
-            string where = "";
-            where = string.Format(" CompanyID={0}", Session["CompanyID"] ?? 1);
+            string where = string.Format(" CompanyID={0}", Session["CompanyID"] ?? 1);
+            if (ddlSrcItemGroup.SelectedValue != "0" && ddlSrcItemGroup.SelectedValue != "")
+                where += (where != "" ? " AND " : "") + string.Format(" ParentId={0} ", ddlSrcItemGroup.SelectedValue);
+            if(txtSrcName.Text.Trim() != "")
+            {
+                where += (where != "" ? " AND " : "") + string.Format(" Name LIKE '%{0}%' ", txtSrcName.Text.Trim());
+            }
+            if(ddlSrcType.SelectedValue != "0" && ddlSrcType.SelectedValue != "")
+            {
+                where += (where != "" ? " AND " : "") + string.Format(" Type='{0}' ", ddlSrcType.SelectedValue);
+            }
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

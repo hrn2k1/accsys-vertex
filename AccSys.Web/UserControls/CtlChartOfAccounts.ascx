@@ -298,6 +298,8 @@
                                     <label style="float: left;">
                                         <asp:Literal ID="ltlTitle" runat="server" Text="Search by" />
                                     </label>
+                                     <asp:Label runat="server" Text="Name contains" />
+                                     <asp:TextBox ID="txtSrcName" runat="server"></asp:TextBox>
                                     <asp:DropDownList ID="ddlLedgerAccount" runat="server" Visible="False" CssClass="input-small">
                                         <asp:ListItem>Account</asp:ListItem>
                                         <asp:ListItem>Ledger</asp:ListItem>

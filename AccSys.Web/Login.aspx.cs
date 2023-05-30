@@ -27,14 +27,12 @@ namespace AccSys.Web
                 ddlCompany.DataTextField = "CompanyName";
                 ddlCompany.DataValueField = "CompanyID";
                 ddlCompany.DataBind();
-                if (!string.IsNullOrWhiteSpace(ddlCompany.SelectedValue))
-                {
-                    var companyId = Convert.ToInt32(ddlCompany.SelectedValue);
-                    LoadUser(conn, companyId);
-                }
+
+                LoadUser(conn);
             }
         }
-        private void LoadUser(SqlConnection conn, int companyId)
+
+        private void LoadUser(SqlConnection conn)
         {
             System.Web.UI.WebControls.Login Login1 = (System.Web.UI.WebControls.Login)LoginView1.FindControl("Login1");
             if (Login1 == null) return;
@@ -44,7 +42,7 @@ namespace AccSys.Web
                 var ddlUser = (DropDownList)control;
                 DaLogIn objl = new DaLogIn();
                 DataTable dt = new DataTable();
-                dt = objl.GetUser(companyId, conn);
+                dt = objl.GetUsers(conn);
                 ddlUser.DataSource = dt;
                 ddlUser.DataTextField = "UserName";
                 ddlUser.DataValueField = "UserName";
@@ -150,8 +148,7 @@ namespace AccSys.Web
                         var ddlCompany = (DropDownList)control;
                         if (!string.IsNullOrWhiteSpace(ddlCompany.SelectedValue))
                         {
-                            var companyId = Convert.ToInt32(ddlCompany.SelectedValue);
-                            LoadUser(connection, companyId);
+                            LoadUser(connection);
                         }
                     }
                     connection.Close();

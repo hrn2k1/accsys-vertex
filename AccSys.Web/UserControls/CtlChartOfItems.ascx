@@ -229,8 +229,20 @@
                         <div class="panel-heading form-horizontal" style="text-align: right;">
                             <div class="control-group">
                                 <div class="controls form-inline">
-                                    <label style="float: left;">
+                                   <label style="float: left;">
+                                        <asp:Literal ID="ltlTitle" runat="server" Text="Search by" />
                                     </label>
+                                     <asp:Label runat="server" Text="Name contains" />
+                                     <asp:TextBox ID="txtSrcName" runat="server"></asp:TextBox>
+                                    <asp:DropDownList ID="ddlSrcType" runat="server" >
+                                        <asp:ListItem Value="0">Item / Group</asp:ListItem>
+                                        <asp:ListItem Value="Item">Item</asp:ListItem>
+                                        <asp:ListItem Value="Group">Group</asp:ListItem>
+                                    </asp:DropDownList>
+                                     <cc1:ItemGroupDropDownListChosen ID="ddlSrcItemGroup" runat="server" Width="300px" CssClass="input-small"
+                                        NullItemText="Parent Group" NullItemValue="0">
+                                    </cc1:ItemGroupDropDownListChosen>
+
                                     <asp:LinkButton SecurityCommandName="View" ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                                 </div>
                             </div>

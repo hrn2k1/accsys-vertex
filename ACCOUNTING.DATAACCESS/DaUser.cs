@@ -128,8 +128,7 @@ namespace Accounting.DataAccess
                 com.Connection = con;
                 com.Transaction = trans;
 
-                com.CommandText = "SELECT COUNT(UserID) FROM Users WHERE CompanyID=@CompanyID0 AND UserName LIKE @UserName0 AND UserID != @UserID0";
-                com.Parameters.Add("@CompanyID0", SqlDbType.Int).Value = companyId;
+                com.CommandText = "SELECT COUNT(UserID) FROM Users WHERE UserName LIKE @UserName0 AND UserID != @UserID0";
                 com.Parameters.Add("@UserName0", SqlDbType.VarChar, 50).Value = objUser.UserName;
                 com.Parameters.Add("@UserID0", SqlDbType.Int).Value = objUser.UserID;
                 int count = GlobalFunctions.isNull(com.ExecuteScalar(), 0);

@@ -29,10 +29,18 @@ namespace Accounting.DataAccess
             return dt;
 
         }
-        public User GetUser(SqlConnection con, int companyId, string userName)
+        public DataTable GetUsers(SqlConnection con)
         {
-            SqlDataAdapter da = new SqlDataAdapter("Select * From Users where CompanyID=@CompanyID AND UserName = @UserName", con);
-            da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users ORDER BY UserName", con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            da.Dispose();
+            return dt;
+
+        }
+        public User GetUser(SqlConnection con, string userName)
+        {
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users WHERE UserName = @UserName", con);
             da.SelectCommand.Parameters.Add("@UserName", SqlDbType.VarChar, 100).Value = userName;
             DataTable dt = new DataTable();
             da.Fill(dt);
@@ -52,7 +60,7 @@ namespace Accounting.DataAccess
 
         public User GetUser(SqlConnection con, int userId)
         {
-            SqlDataAdapter da = new SqlDataAdapter("Select * From Users where UserID=@UserId", con);
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM Users WHERE UserID=@UserId", con);
             da.SelectCommand.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
             DataTable dt = new DataTable();
             da.Fill(dt);

@@ -43,20 +43,25 @@ namespace AccSys.Web.UserControls
                             btnSave.Text = "Post";
                             chkApprovedBy.Checked = false;
                             txtTotalAmount.Text = string.Format("{0:0.00}", 0);
+                            lblModule.Text = "Voucher";
                         }
                         else
                         {
                             lblTransMID.Text = objTransMaster.TransactionMasterID.ToString();
                             txtVoucherNo.Text = objTransMaster.VoucherNo;
-                            txtDate.Text = string.Format("{0:"+ _dateFormat + "}", objTransMaster.TransactionDate);
-                            ddlTransMethod.SelectedValue = objTransMaster.TransactionMethodID.ToString();
+                            txtDate.Text = string.Format("{0:" + _dateFormat + "}", objTransMaster.TransactionDate);
+                            if (objTransMaster.TransactionMethodID <= 0)
+                                ddlTransMethod.SelectedIndex = 0;
+                            else
+                                ddlTransMethod.SelectedValue = objTransMaster.TransactionMethodID.ToString();
                             txtRefNo.Text = objTransMaster.MethodRefNo;
                             txtDescription.Text = objTransMaster.TransactionDescription;
                             txtVoucherPerson.Text = objTransMaster.VoucherPayee;
                             chkApprovedBy.Checked = objTransMaster.ApprovedBy != "";
                             txtApprovedBy.Text = objTransMaster.ApprovedBy;
-                            txtApprovedDate.Text = string.Format("{0:"+ _dateFormat + "}", objTransMaster.ApprovedDate);
+                            txtApprovedDate.Text = string.Format("{0:" + _dateFormat + "}", objTransMaster.ApprovedDate);
                             btnSave.Text = "Update&Post";
+                            lblModule.Text = objTransMaster.Module;
                             DataTable dtVAccs = objDaTrans.GetVoucherAccounts(connection, objTransMaster.TransactionMasterID);
                             DataTable dtDrVAccs = new DataTable();
                             dtDrVAccs.Columns.Add("AccountID", typeof(int));
@@ -316,6 +321,7 @@ namespace AccSys.Web.UserControls
                     ddlPaidForAC.Bind();
                     ddlPaidFromAC.Bind();
                     btnSave.Text = "Post";
+                    lblModule.Text = "Voucher";
                     connection.Close();
                     if (sender.Equals(btnReset))
                     {
@@ -325,6 +331,42 @@ namespace AccSys.Web.UserControls
             }
             catch (Exception ex)
             {
+                lblMsg.Text = ex.CustomDialogMessage();
+            }
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            int TMID = Convert.ToInt32(lblTransMID.Text);
+            if (TMID <= 0)
+            {
+                return;
+            }
+            if(lblModule.Text != "Voucher" && lblModule.Text != "")
+            {
+                lblMsg.Text = UIMessage.Message2User("You can't delete this voucher from here. Please delete it from <b>" + lblModule.Text + "</b>", UserUILookType.Danger);
+                return;
+            }
+            SqlConnection connection = null;
+            SqlTransaction trans = null;
+            try
+            {
+
+                var objDaTrans = new DaTransaction();
+                connection = new SqlConnection(ConnectionHelper.DefaultConnectionString);
+                connection.Open();
+                trans = connection.BeginTransaction();
+                objDaTrans.DeleteTransaction(TMID, connection, trans);
+                trans.Commit();
+                connection.Close();
+                lblMsg.Text = UIMessage.Message2User("Successfully deleted the debit voucher", UserUILookType.Success);
+                btnReset_Click(sender, e);
+
+            }
+            catch (Exception ex)
+            {
+                if (trans != null) trans.Rollback();
+                if (connection.State != ConnectionState.Closed) connection.Close();
                 lblMsg.Text = ex.CustomDialogMessage();
             }
         }

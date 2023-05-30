@@ -476,6 +476,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Setup.aspx" />
+    <Content Include="Sql.aspx" />
     <Content Include="Styles\bootstrap-theme.css" />
     <Content Include="Styles\bootstrap-theme.min.css" />
     <Content Include="Styles\bootstrap.css" />
@@ -786,6 +787,13 @@
     </Compile>
     <Compile Include="SiteEmpty.Master.designer.cs">
       <DependentUpon>SiteEmpty.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Sql.aspx.cs">
+      <DependentUpon>Sql.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Sql.aspx.designer.cs">
+      <DependentUpon>Sql.aspx</DependentUpon>
     </Compile>
     <Compile Include="UIObjects.cs" />
     <Compile Include="UserControls\CtlChartOfAccounts.ascx.cs">

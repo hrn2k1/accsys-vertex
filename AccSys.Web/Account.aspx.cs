@@ -1,16 +1,9 @@
 ﻿using Accounting.DataAccess;
+using Accounting.Entity;
 using Accounting.Utility;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
 using Tools;
-using Accounting.Entity;
 
 namespace AccSys.Web
 {
@@ -27,7 +20,7 @@ namespace AccSys.Web
                     {
                         connection.Open();
                         DaLogIn objl = new DaLogIn();
-                        var user = objl.GetUser(connection, Tools.Utility.IsNull<int>(Session["CompanyId"], 0), userName);
+                        var user = objl.GetUser(connection, userName);
                         if (user != null)
                         {
                             lblId.Text = user.UserID.ToString();
