@@ -11,6 +11,23 @@ namespace Accounting.DataAccess
    public class DaVoucherType
     {
        public DaVoucherType() { }
+        public static DataTable GetVoucherTypes()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM T_VoucherType ", ConnectionHelper.getConnection()))
+                {
+                    da.Fill(dt);
+                    da.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
         public static DataTable GetVoucherTypes(string pWhere, string OrderBy)
         {
             DataTable dt = new DataTable();

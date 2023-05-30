@@ -1,0 +1,40 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model DataTable
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    
+</div>
+<div class="trial-balance-summary">
+    <table class="report-table">
+        <tr>
+            <th class="align-right" style="width: 30px">S/L</th>
+            <th class="align-left" style="width: 400px">Item</th>
+            <th class="align-right" style="width: 100px">Stock Qty</th>
+            <th class="align-left" style="width: 50px">Unit</th>
+            <th class="align-right" style="width: 100px">Unit Price</th>
+            <th class="align-right" style="width: 100px">Value</th>
+        </tr>
+        @{
+            int rowNo = 1;
+        }
+        @foreach (DataRow row in Model.Rows)
+        {
+            decimal value = Convert.ToDecimal(row["CurrentQty"]) * Convert.ToDecimal(row["UnitPrice"]);
+        <tr>
+            <td class="number">@rowNo</td>
+            <td>@row["ItemName"]</td>
+            <td class="number">@row["CurrentQty"].FormatNumber("0.00", true)</td>
+            <td>@row["UnitsName"]</td>
+            <td class="number">@row["UnitPrice"].FormatNumber("0.00", true)</td>
+            <td class="number">@value.FormatNumber("0.00", true)</td>
+        </tr>
+            rowNo++;
+        }
+       
+    </table>
+</div>

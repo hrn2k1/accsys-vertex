@@ -1,0 +1,48 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+
+@model DataSet
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    Date @ViewBag.Params.StartDate.ToString("dd/MM/yyyy") to @ViewBag.Params.EndDate.ToString("dd/MM/yyyy")
+</div>
+<div class="voucher-register">
+    <table class="report-table">
+        <tr>
+            <th class="align-left" style="width: 85px">Date</th>
+            <th class="align-left" style="width: 90px">Voucher No.</th>
+            <th class="align-left" style="width: 250px">Description</th>
+            <th class="align-left" style="width: 90px">Account No.</th>
+            <th class="align-left" style="width: 200px">Account Title</th>
+            <th class="align-right" style="width: 90px">Debit</th>
+            <th class="align-right" style="width: 90px">Credit</th>
+        </tr>
+        @foreach (DataRow row in Model.Tables["Vouchers"].Rows)
+        {
+            var rows = row.GetChildRows("Relations");
+            var row1 = rows[0];
+            <tr>
+                <td rowspan="@rows.Length">@row["TransDate"].FormatDateTime("dd/MM/yyyy")</td>
+                <td rowspan="@rows.Length">@row["VoucherNo"]</td>
+                <td rowspan="@rows.Length">@row["TransDescription"]</td>
+                <td>@row1["AccountNo"]</td>
+                <td>@row1["AccountTitle"]</td>
+                <td class="number">@row1["DebitAmt"].FormatNumber("0.00")</td>
+                <td class="number">@row1["CreditAmt"].FormatNumber("0.00")</td>
+            </tr>
+
+            for (var i = 1; i < rows.Length; i++)
+            {
+                <tr>
+                    <td>@rows[i]["AccountNo"]</td>
+                    <td>@rows[i]["AccountTitle"]</td>
+                    <td class="number">@rows[i]["DebitAmt"].FormatNumber("0.00")</td>
+                    <td class="number">@rows[i]["CreditAmt"].FormatNumber("0.00")</td>
+                </tr>
+            }
+
+        }
+    </table>
+</div>

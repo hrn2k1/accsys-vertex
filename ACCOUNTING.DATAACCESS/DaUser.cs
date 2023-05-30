@@ -10,12 +10,10 @@ using Accounting.Entity;
 
 namespace Accounting.DataAccess
 {
-  public  class DaUser
+    public class DaUser
     {
-
-      
-   
         public DaUser() { }
+
         public DataTable getUser(SqlConnection con)
         {
             DataTable dt = new DataTable();
@@ -24,14 +22,13 @@ namespace Accounting.DataAccess
             {
                 if (isSuperUser(LogInInfo.UserID) == true)
                 {
-                    da = new SqlDataAdapter("Select * FROM Users WHERE (CompanyID = @CompanyID) Order by UserName", con);
+                    da = new SqlDataAdapter("Select * FROM Users Order by UserName", con);
                 }
                 else
                 {
-                    da = new SqlDataAdapter("Select * FROM Users WHERE (CompanyID = @CompanyID) AND Role != @role Order by UserName", con);
-                    da.SelectCommand.Parameters.Add("@role", SqlDbType.VarChar, 100).Value = "SuperAdministrator";
+                    da = new SqlDataAdapter("Select * FROM Users WHERE RoleId != @RoleId Order by UserName", con);
+                    da.SelectCommand.Parameters.Add("@RoleId", SqlDbType.Int).Value = 1;
                 }
-                da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
                 da.Fill(dt);
                 da.Dispose();
             }
@@ -41,21 +38,19 @@ namespace Accounting.DataAccess
             }
             return dt;
         }
-        public DataTable getUser(string Role, SqlConnection con)
+        public DataTable getUser(int RoleId, SqlConnection con)
         {
             DataTable dt = new DataTable();
             try
             {
-                SqlDataAdapter da = new SqlDataAdapter("Select UserID FROM Users WHERE (Role = @Role) and (CompanyID = @CompanyID)  Order by UserID", con);
-                da.SelectCommand.Parameters.Add("@Role", SqlDbType.VarChar, 50).Value = Role;
-                da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                SqlDataAdapter da = new SqlDataAdapter("Select UserID FROM Users WHERE (RoleId = @RoleId)  Order by UserID", con);
+                da.SelectCommand.Parameters.Add("@RoleId", SqlDbType.Int).Value = RoleId;
                 da.Fill(dt);
                 da.Dispose();
             }
             catch (Exception Ex)
             {
                 throw new Exception(Ex.Message);
-
             }
             return dt;
         }
@@ -64,40 +59,25 @@ namespace Accounting.DataAccess
             ArrayList list = new ArrayList();
             SqlConnection con = null;
             SqlCommand com = null;
-           
 
             try
             {
                 con = ConnectionHelper.getConnection();
-               
                 com = new SqlCommand();
-
                 com.Connection = con;
-        
-
-
-                com.CommandText = "Select * FROM Users WHERE (UserID = @UserID OR @UserID=0) AND (CompanyID = @CompanyID)  Order by UserName";
+                com.CommandText = "Select * FROM Users WHERE (UserID = @UserID OR @UserID=0)  Order by UserName";
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = id;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-
-
                 IDataReader oReader = com.ExecuteReader();
                 while (oReader.Read())
                 {
                     list.Add(CreateObject(oReader));
-
                 }
                 oReader.Close();
-
-           
-
                 ConnectionHelper.closeConnection(con);
             }
             catch (Exception Ex)
             {
-               
                 throw new Exception("Can not get User" + Ex.Message);
-
             }
             return list;
         }
@@ -106,118 +86,69 @@ namespace Accounting.DataAccess
             ArrayList list = new ArrayList();
             SqlConnection con = null;
             SqlCommand com = null;
-          
-
             try
             {
                 con = ConnectionHelper.getConnection();
-              
                 com = new SqlCommand();
-
                 com.Connection = con;
-            
-
-
-                com.CommandText = "Select * FROM Users WHERE (UserID = @UserID OR @UserID=0) and (CompanyID = @CompanyID OR @CompanyID=0)  Order by UserName";
+                com.CommandText = "Select * FROM Users WHERE (UserID = @UserID OR @UserID=0)  Order by UserName";
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = id;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = CompanyID;
 
                 IDataReader oReader = com.ExecuteReader();
                 while (oReader.Read())
                 {
                     list.Add(CreateObject(oReader));
-
                 }
                 oReader.Close();
-
-
                 ConnectionHelper.closeConnection(con);
             }
             catch (Exception Ex)
             {
-               
                 throw new Exception("Can not get User" + Ex.Message);
-
             }
             return list;
         }
-      /*
-        public ArrayList getUsers(string Role)
-        {
-            ArrayList list = new ArrayList();
-            SqlConnection con = null;
-            SqlCommand com = null;
-          
 
-            try
-            {
-                con = ConnectionHelper.getConnection();
-             
-                com = new SqlCommand();
-
-                com.Connection = con;
-         
-
-
-                com.CommandText = "Select UserID FROM Users WHERE (Role = @Role) and (CompanyID = @CompanyID)  Order by UserID";
-                com.Parameters.Add("@Role", SqlDbType.VarChar,50).Value = Role;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-
-                IDataReader oReader = com.ExecuteReader();
-                while (oReader.Read())
-                {
-                    list.Add(oReader.GetInt32(0));
-
-                }
-                oReader.Close();
-
-
-                ConnectionHelper.closeConnection(con);
-            }
-            catch (Exception Ex)
-            {
-               
-                throw new Exception("Can not get User" + Ex.Message);
-
-            }
-            return list;
-        }
-      */
         public int SaveUpdateUser(User objUser)
         {
             SqlConnection con = null;
-            SqlCommand com = null;
             SqlTransaction trans = null;
 
             try
             {
                 con = ConnectionHelper.getConnection();
                 trans = con.BeginTransaction();
-                com = new SqlCommand();
+                var com = new SqlCommand();
 
                 com.Connection = con;
                 com.Transaction = trans;
 
+                com.CommandText = "SELECT COUNT(UserID) FROM Users WHERE UserName LIKE @UserName0 AND UserID != @UserID0";
+                com.Parameters.Add("@UserName0", SqlDbType.VarChar, 50).Value = objUser.UserName;
+                com.Parameters.Add("@UserID0", SqlDbType.Int).Value = objUser.UserID;
+                int count = GlobalFunctions.isNull(com.ExecuteScalar(), 0);
+                if (count > 0)
+                {
+                    throw new Exception("User already exists with name '" + objUser.UserName + "'");
+                }
                 if (objUser.UserID == 0)
                 {
+                    objUser.UserID = ConnectionHelper.GetID(con, trans, "UserID", "Users");
 
-                    objUser.UserID = ConnectionHelper.GetID(con,  "UserID", "Users");
-
-                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, Role, CompanyID)"
-                                      + " VALUES     (@UserID,@UserName,@Password,@ConfirmPassword,@Role,@CompanyID)";
+                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, RoleId)"
+                                      + " VALUES (@UserID,@UserName,@Password,@ConfirmPassword,@RoleId)";
 
                 }
                 else
                 {
-                    com.CommandText = "UPDATE    Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, Role = @Role"
-                                    + " WHERE     (CompanyID = @CompanyID) AND (UserID = @UserID)";
+                    com.CommandText = "UPDATE Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, RoleId = @RoleId"
+                                    + " WHERE (UserID = @UserID)";
                 }
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = objUser.UserID;
                 com.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = objUser.UserName;
                 com.Parameters.Add("@Password", SqlDbType.NVarChar, 50).Value = objUser.Password;
                 com.Parameters.Add("@ConfirmPassword", SqlDbType.NVarChar, 50).Value = objUser.ConfirmPassword;
-                com.Parameters.Add("@Role", SqlDbType.VarChar, 50).Value = objUser.Role;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@RoleId", SqlDbType.Int).Value = objUser.RoleId;
 
                 com.ExecuteNonQuery();
                 trans.Commit();
@@ -231,11 +162,8 @@ namespace Accounting.DataAccess
                     trans.Rollback();
                     ConnectionHelper.closeConnection(con);
                 }
-                throw new Exception("Can not save or update" + Ex.Message);
-
+                throw new Exception("Can not save or update. Error: " + Ex.Message);
             }
-
-
             return objUser.UserID;
         }
         public int SaveUpdateUser(User objUser, SqlConnection con)
@@ -246,32 +174,28 @@ namespace Accounting.DataAccess
             {
                 trans = con.BeginTransaction();
                 com = new SqlCommand();
-
                 com.Connection = con;
                 com.Transaction = trans;
-
                 if (objUser.UserID == 0)
                 {
-
                     //objUser.UserID = ConnectionHelper.GetID(con, "UserID", "Users");
                     //objUser.UserID = ConnectionHelper.GetID(con, trans, "UserID", "Users");
                     objUser.UserID = ConnectionHelper.GenerateID(con, com, "UserID", "Users");
 
-                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, Role, CompanyID)"
-                                      + " VALUES     (@UserID,@UserName,@Password,@ConfirmPassword,@Role,@CompanyID)";
+                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, RoleId)"
+                                      + " VALUES     (@UserID,@UserName,@Password,@ConfirmPassword,@RoleId)";
 
                 }
                 else
                 {
-                    com.CommandText = "UPDATE    Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, Role = @Role"
-                                    + " WHERE     (CompanyID = @CompanyID) AND (UserID = @UserID)";
+                    com.CommandText = "UPDATE    Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, RoleId = @RoleId"
+                                    + " WHERE (UserID = @UserID)";
                 }
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = objUser.UserID;
                 com.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = objUser.UserName;
                 com.Parameters.Add("@Password", SqlDbType.NVarChar, 50).Value = objUser.Password;
                 com.Parameters.Add("@ConfirmPassword", SqlDbType.NVarChar, 50).Value = objUser.ConfirmPassword;
-                com.Parameters.Add("@Role", SqlDbType.VarChar, 50).Value = objUser.Role;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@RoleId", SqlDbType.Int).Value = objUser.RoleId;
 
                 com.ExecuteNonQuery();
                 trans.Commit();
@@ -284,10 +208,7 @@ namespace Accounting.DataAccess
                     ConnectionHelper.closeConnection(con);
                 }
                 throw new Exception("Can not save or update" + Ex.Message);
-
             }
-
-
             return objUser.UserID;
         }
         public int SaveUpdateUser(User objUser, SqlConnection con, SqlTransaction trans)
@@ -300,25 +221,22 @@ namespace Accounting.DataAccess
                 com.Transaction = trans;
                 if (objUser.UserID == 0)
                 {
-
                     objUser.UserID = ConnectionHelper.GetID(con, "UserID", "Users");
 
-                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, Role, CompanyID)"
-                                      + " VALUES     (@UserID,@UserName,@Password,@ConfirmPassword,@Role,@CompanyID)";
-
+                    com.CommandText = "INSERT INTO Users(UserID, UserName, Password, ConfirmPassword, RoleId)"
+                                      + " VALUES     (@UserID,@UserName,@Password,@ConfirmPassword,@RoleId)";
                 }
                 else
                 {
-                    com.CommandText = "UPDATE    Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, Role = @Role"
-                                    + " WHERE     (CompanyID = @CompanyID) AND (UserID = @UserID)";
+                    com.CommandText = "UPDATE    Users SET UserName = @UserName, Password = @Password, ConfirmPassword = @ConfirmPassword, RoleId = @RoleId"
+                                    + " WHERE AND (UserID = @UserID)";
                 }
                 com.CommandType = CommandType.Text;
                 com.Parameters.Add("@UserID", SqlDbType.Int).Value = objUser.UserID;
                 com.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = objUser.UserName;
                 com.Parameters.Add("@Password", SqlDbType.NVarChar, 50).Value = objUser.Password;
                 com.Parameters.Add("@ConfirmPassword", SqlDbType.NVarChar, 50).Value = objUser.ConfirmPassword;
-                com.Parameters.Add("@Role", SqlDbType.VarChar, 50).Value = objUser.Role;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                com.Parameters.Add("@RoleId", SqlDbType.Int).Value = objUser.RoleId;
 
                 com.ExecuteNonQuery();
             }
@@ -333,7 +251,7 @@ namespace Accounting.DataAccess
             SqlCommand com = null;
             try
             {
-                com = new SqlCommand("spSaveOrUpdateRolePrivilege",con,trans);
+                com = new SqlCommand("spSaveOrUpdateRolePrivilege", con, trans);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@Role", SqlDbType.VarChar, 50).Value = objRolePrivilege.Role;
                 com.Parameters.Add("@FriendlyName", SqlDbType.VarChar, 100).Value = objRolePrivilege.FriendlyName;
@@ -349,8 +267,6 @@ namespace Accounting.DataAccess
             {
                 throw new Exception(Ex.Message);
             }
-
-
             return objRolePrivilege.Role;
         }
         public int SaveUpdateUserPrivilege(UserPrivilege objUserPrivilege, SqlConnection con, SqlTransaction trans)
@@ -405,7 +321,6 @@ namespace Accounting.DataAccess
                     ConnectionHelper.closeConnection(con);
                 }
                 throw new Exception("Can not get User" + Ex.Message);
-
             }
         }
         public void DeleteUser(int id, SqlConnection con, SqlTransaction trans)
@@ -430,29 +345,24 @@ namespace Accounting.DataAccess
             bool superUser = false;
             SqlConnection con = null;
             SqlCommand com = null;
-            string role="";
+            string role = "";
 
             try
             {
                 con = ConnectionHelper.getConnection();
                 com = new SqlCommand();
                 com.Connection = con;
-
-
-
-                com.CommandText = "Select Role FROM Users WHERE (userID = @userID) and (CompanyID = @CompanyID)";
+                com.CommandText = "Select ISNULL(RoleName,'') FROM Users LEFT JOIN Roles ON Users.RoleId = Roles.RoleId WHERE UserID = @userID";
                 com.Parameters.Add("@userID", SqlDbType.Int).Value = userID;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-               role=(string) com.ExecuteScalar();
+                role = (string)com.ExecuteScalar();
                 ConnectionHelper.closeConnection(con);
             }
             catch (Exception Ex)
             {
                 superUser = false;
                 throw new Exception("Can not get superUser. " + Ex.Message);
-
             }
-            if(role.ToLower()=="SuperAdministrator".ToLower())
+            if (role.ToLower() == "SuperAdministrator".ToLower())
                 superUser = true;
             return superUser;
         }
@@ -485,7 +395,7 @@ namespace Accounting.DataAccess
                 da.SelectCommand.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
                 da.SelectCommand.Parameters.Add("@ModulesName", SqlDbType.VarChar, 100).Value = "all";
                 da.SelectCommand.Parameters.Add("@ParentMenuName", SqlDbType.VarChar, 200).Value = strParentMenuName;
-                
+
                 da.Fill(dt);
                 da.Dispose();
             }
@@ -507,10 +417,7 @@ namespace Accounting.DataAccess
                 objUser.UserName = Reader.GetString("UserName");
                 objUser.Password = Reader.GetString("Password");
                 objUser.ConfirmPassword = Reader.GetString("ConfirmPassword");
-                objUser.Role = Reader.GetString("Role");
-                objUser.CompanyID = Reader.GetInt32("CompanyID");
-
-
+                objUser.RoleId = Reader.GetInt32("RoleId");
             }
             catch (Exception Ex)
             {
@@ -524,18 +431,18 @@ namespace Accounting.DataAccess
             DataTable dt = new DataTable();
             try
             {
-               SqlDataAdapter da = new SqlDataAdapter("Select * FROM Users WHERE (UserID = @UserID) Order by UserName", con);
-               da.SelectCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
-               da.Fill(dt);
-               da.Dispose();
-               if (dt.Rows.Count == 0) return null;
-               obUser.UserID = dt.Rows[0].Field<int>("UserID");
-               obUser.UserName = dt.Rows[0].Field<object>("UserName").ToString();
-               obUser.Role = dt.Rows[0].Field<object>("Role").ToString();
-               //obUser.Password = dt.Rows[0].Field<object>("Password").ToString();
-               obUser.Password = GlobalFunctions.Decode(dt.Rows[0].Field<object>("Password").ToString(), GlobalFunctions.CypherText);
+                SqlDataAdapter da = new SqlDataAdapter("Select * FROM Users WHERE (UserID = @UserID) Order by UserName", con);
+                da.SelectCommand.Parameters.Add("@UserID", SqlDbType.Int).Value = UserID;
+                da.Fill(dt);
+                da.Dispose();
+                if (dt.Rows.Count == 0) return null;
+                obUser.UserID = dt.Rows[0].Field<int>("UserID");
+                obUser.UserName = dt.Rows[0].Field<object>("UserName").ToString();
+                obUser.RoleId = dt.Rows[0].Field<int>("RoleId");
+                //obUser.Password = dt.Rows[0].Field<object>("Password").ToString();
+                obUser.Password = GlobalFunctions.Decode(dt.Rows[0].Field<object>("Password").ToString(), GlobalFunctions.CypherText);
                 //GlobalFunctions.Decode(
-               obUser.ConfirmPassword = GlobalFunctions.Decode(dt.Rows[0].Field<object>("ConfirmPassword").ToString(), GlobalFunctions.CypherText);
+                obUser.ConfirmPassword = GlobalFunctions.Decode(dt.Rows[0].Field<object>("ConfirmPassword").ToString(), GlobalFunctions.CypherText);
             }
             catch (Exception ex)
             {
@@ -544,8 +451,5 @@ namespace Accounting.DataAccess
             return obUser;
         }
         #endregion
-
-
-
     }
 }

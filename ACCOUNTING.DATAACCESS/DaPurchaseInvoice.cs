@@ -70,6 +70,7 @@ namespace Accounting.DataAccess
        }
        public int SaveUpdatePurchase_Invoice(Purchases_Invoice obPurchaseInvoice, SqlConnection con, SqlTransaction trans)
        {
+            if (obPurchaseInvoice.CompanyID <= 0) obPurchaseInvoice.CompanyID = LogInInfo.CompanyID;
            SqlCommand com = null;
            int LastID = 0;
            try
@@ -101,7 +102,7 @@ namespace Accounting.DataAccess
                    com.Parameters.Add("@StockRefID", SqlDbType.Int).Value = obPurchaseInvoice.StockRefID;
                com.Parameters.Add("@Remarks", SqlDbType.VarChar, 1000).Value = obPurchaseInvoice.Remarks;
 
-               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+               com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obPurchaseInvoice.CompanyID;
                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
                com.Parameters.Add("@Rate", SqlDbType.Money).Value = obPurchaseInvoice.Rate;
                com.Parameters.Add("@PurchaseAccount2ID", SqlDbType.Int).Value = obPurchaseInvoice.PurchasesAccount2ID;
@@ -166,9 +167,31 @@ namespace Accounting.DataAccess
            }
            catch (Exception ex)
            {
-               throw new Exception(ex.Message);
+               throw ex;
            }
        }
+        public DataTable GetPurchaseInvoiceDetails(SqlConnection connection, int invoiceId)
+        {
+            try
+            {
+                var dt = new DataTable();
+                var qstr = @"SELECT   SLNo, InvoiceID, OrderID, OrderNo, PID.ItemID, ItemName, ItemCategory, InvQty, PID.UnitPrice, PriceAmount
+                FROM  T_Purchase_Invoice_Detail PID INNER JOIN T_Item ON PID.ItemID = T_Item.ItemID LEFT OUTER JOIN Order_Master ON PID.OrderID = Order_Master.OrderMID
+                WHERE InvoiceID = @InvoiceID
+                ORDER BY OrderNo, ItemName";
+                using (SqlDataAdapter da = new SqlDataAdapter(qstr, connection))
+                {
+                    da.SelectCommand.Parameters.Add("@InvoiceID", SqlDbType.Int).Value = invoiceId;
+                    da.Fill(dt);
+                    da.Dispose();
+                }
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
        public DataTable loadPurchasesInvoiceDetails(SqlConnection con, int InvoiceID)
        {
            DataTable dt = new DataTable();
@@ -262,8 +285,23 @@ namespace Accounting.DataAccess
                throw new Exception(ex.Message);
            }
        }
-
-       public void DeletePurchaseInvoice(SqlConnection con, int InvoiceID, int TMID, int InOutMID)
+        public void DeletePurchaseInvoiceDetail(SqlConnection con, SqlTransaction trans, int InvoiceId)
+        {
+            try
+            {
+                var com = new SqlCommand();
+                com.Transaction = trans;
+                com.Connection = con;
+                com.CommandText = "DELETE FROM T_Purchase_Invoice_Detail WHERE InvoiceID = @InvoiceID";
+                com.Parameters.Add("@InvoiceID", SqlDbType.Int).Value = InvoiceId;
+                com.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void DeletePurchaseInvoice(SqlConnection con, int InvoiceID, int TMID, int InOutMID)
        {
            SqlCommand com = null;
            SqlTransaction trans = null;
@@ -294,8 +332,7 @@ namespace Accounting.DataAccess
           
            try
            {
-               com = new SqlCommand();
-              
+               com = new SqlCommand();              
                com.Transaction = trans;
                com.Connection = con;
                com.CommandText = "spDeletePurchase";

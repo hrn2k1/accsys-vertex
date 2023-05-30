@@ -140,5 +140,36 @@ namespace Accounting.DataAccess
             }
             return dtData;
         }
+
+        public static DataTable GetDataV2(string SelectedColumns, string FromTable, string Where, string OrderBy, int MaximumRows, int StartRowIndex)
+        {
+            // Data adapter to retrieve data from SQL Server based on the page size of the grid.
+            // The Select statement uses the maximumRows and startRowIndex parameters provided
+            // by WebGrid to query for data between the start row index for the page, up to the page size.
+
+            int PageSize = MaximumRows;
+            int PageIndex = StartRowIndex / PageSize;
+            DataTable dtData = new DataTable();
+            try
+            {
+                using (SqlDataAdapter DataAdapter = new SqlDataAdapter("SP_GET_DATA", ConnectionHelper.DefaultConnectionString))
+                {
+                    DataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    DataAdapter.SelectCommand.Parameters.Add("@PageIndex", SqlDbType.Int).Value = PageIndex;
+                    DataAdapter.SelectCommand.Parameters.Add("@PageSize", SqlDbType.Int).Value = PageSize;
+                    DataAdapter.SelectCommand.Parameters.Add("@SelectedColumns", SqlDbType.NVarChar, 5000).Value = SelectedColumns;
+                    DataAdapter.SelectCommand.Parameters.Add("@FromTables", SqlDbType.NVarChar, 5000).Value = FromTable;
+                    DataAdapter.SelectCommand.Parameters.Add("@Where", SqlDbType.NVarChar, 5000).Value = Where;
+                    DataAdapter.SelectCommand.Parameters.Add("@OrderBy", SqlDbType.NVarChar, 5000).Value = OrderBy;
+                    DataAdapter.Fill(dtData);
+                    DataAdapter.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dtData;
+        }
     }
 }

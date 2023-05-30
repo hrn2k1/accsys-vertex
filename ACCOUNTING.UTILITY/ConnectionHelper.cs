@@ -25,7 +25,7 @@ namespace Accounting.Utility
             {
                 if (connectionString == "")
                 {
-                    NameValueCollection configaration = ConfigurationSettings.AppSettings;
+                    NameValueCollection configaration = ConfigurationManager.AppSettings;
                     connectionString = "Data Source=" + configaration.Get("Data Source") + ";";
                     connectionString += "Database=" + configaration.Get("Database") + ";";
                     connectionString += "User ID=" + configaration.Get("User ID") + ";";
@@ -38,7 +38,7 @@ namespace Accounting.Utility
         public static SqlConnection getConnection()
         {
             // connectionString = ConfigurationSettings.AppSettings["ConnectionString"];
-            NameValueCollection configaration = ConfigurationSettings.AppSettings;
+            NameValueCollection configaration = ConfigurationManager.AppSettings;
             //foreach (string keys in configaration.AllKeys)
             //{
             //    if (keys == "RegKey" || keys == "VisitedCount") continue;

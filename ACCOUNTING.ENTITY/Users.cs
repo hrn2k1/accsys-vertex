@@ -16,7 +16,7 @@ namespace Accounting.Entity
             private string strUserName;
             private string strPassword;
             private string strConfirmPassword;
-            private string strRole;
+            private int numRoleId;
 
             #endregion
 
@@ -43,10 +43,10 @@ namespace Accounting.Entity
                 get { return strConfirmPassword; }
                 set { strConfirmPassword = value; }
             }
-            public string Role
+            public int RoleId
             {
-                get { return strRole; }
-                set { strRole = value; }
+                get { return numRoleId; }
+                set { numRoleId = value; }
             }
             #endregion
 

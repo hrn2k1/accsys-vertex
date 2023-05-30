@@ -1,0 +1,62 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model List<LedgerBookData>
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    Date @ViewBag.Params.StartDate.ToString("dd/MM/yyyy") to @ViewBag.Params.EndDate.ToString("dd/MM/yyyy")
+</div>
+
+<div class="cash-bank-book">
+    @foreach (LedgerBookData reportData in Model)
+    {
+        <table class="report-table">
+            <tr>
+                <td>Account Title</td>
+                <td colspan="3">@reportData.Account["AccountTitle"]</td>
+                <td class="align-right">Nature</td>
+                <td class="align-right">@reportData.Account["Nature"].FormatNature()</td>
+            </tr>
+            <tr>
+                <td>Account No.</td>
+                <td colspan="2">@reportData.Account["AccountNo"]</td>
+                <td colspan="2" class="align-right">Opening Balance</td>
+                <td class="align-right">@reportData.Account["Balance"].FormatNumber("0.00", true)</td>
+            </tr>
+
+            <tr>
+                <td class="5" style="border:none; height: 10px"></td>
+            </tr>
+            <tr>
+                <th class="align-left" style="width: 85px">Date</th>
+                <th class="align-left" style="width: 90px">Voucher No.</th>
+                <th class="align-left" style="width: 400px">Description</th>
+                <th class="align-right" style="width: 90px">Debit</th>
+                <th class="align-right" style="width: 90px">Credit</th>
+                <th class="align-right" style="width: 100px">Balance</th>
+            </tr>
+            @{ decimal runningTotal = Convert.ToDecimal(reportData.Account["Balance"]); }
+            @foreach (DataRow row in reportData.Data.Rows)
+            {
+                runningTotal += Convert.ToDecimal(row["DebitAmt"]) - Convert.ToDecimal(row["CreditAmt"]);
+                <tr>
+                    <td>@row["TransDate"].FormatDateTime("dd/MM/yyyy")</td>
+                    <td>@row["VoucherNo"]</td>
+                    <td>@row["TransDescription"]</td>
+                    <td class="number">@row["DebitAmt"].FormatNumber("0.00")</td>
+                    <td class="number">@row["CreditAmt"].FormatNumber("0.00")</td>
+                    <td class="number">@runningTotal.FormatNumber("0.00", true)</td>
+                </tr>
+            }
+            <tr>
+                <th colspan="3"></th>
+                <th colspan="2" class="number">Closing Balance</th>
+                <th class="number">@runningTotal.FormatNumber("0.00", true)</th>
+            </tr>
+        </table>
+        <br />
+    }
+</div>

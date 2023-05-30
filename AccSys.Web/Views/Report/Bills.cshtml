@@ -1,0 +1,41 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model DataTable
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    On Date @ViewBag.Params.Date.ToString("dd/MM/yyyy")
+</div>
+<div class="ledger-book">
+    <table class="report-table">
+        <tr>
+            <th class="align-left" style="width: 50px">S/L</th>
+            <th class="align-left" style="width: 120px">Account No.</th>
+            <th class="align-left" style="width: 500px">Account Title</th>
+            <th class="align-right" style="width: 100px">Amount</th>
+        </tr>
+        @{
+            decimal total = 0.0m;
+            int rowNo = 1;
+        }
+        @foreach (DataRow row in Model.Rows)
+        {
+            total += Convert.ToDecimal(row["Balance"]);
+            <tr>
+                <td>@rowNo</td>
+                <td>@row["AccountNo"]</td>
+                <td>@row["AccountTitle"]</td>
+                <td class="number">@row["Balance"].FormatNumber("0.00")</td>
+            </tr>
+            rowNo++;
+        }
+        <tr>
+            <th colspan="2"></th>
+            <th class="number">Total</th>
+            <th class="number">@total.FormatNumber("0.00", true)</th>
+        </tr>
+    </table>
+</div>

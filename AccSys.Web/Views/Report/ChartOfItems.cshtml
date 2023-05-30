@@ -1,0 +1,47 @@
+﻿@using Accounting.DataAccess
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model List<ChartOfItem>
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="chart-of-item">
+    <table class="report-table min-width">
+        <tr>
+            <th class="align-left" style="width: 80%">Account Title</th>
+            <th class="align-center" style="width: 20%">Account No.</th>
+        </tr>
+        @foreach (ChartOfItem row in Model)
+        {
+            <tr class="item-@row.Type">
+                <td class="title">@row.AccountTitle</td>
+                <td class="no align-center">@row.AccountNo</td>
+            </tr>
+            foreach (ChartOfItem row1 in row.Children)
+            {
+                <tr class="item-@row1.Type">
+                    <td class="title">@row1.AccountTitle</td>
+                    <td class="no align-center">@row1.AccountNo</td>
+                </tr>
+
+                foreach (ChartOfItem row2 in row1.Children)
+                {
+                    <tr class="item-@row2.Type">
+                        <td class="title">@row2.AccountTitle</td>
+                        <td class="no align-center">@row2.AccountNo</td>
+                    </tr>
+                    foreach (ChartOfItem row3 in row2.Children)
+                    {
+                        <tr class="item-@row3.Type">
+                            <td class="title">@row3.AccountTitle</td>
+                            <td class="no align-center">@row3.AccountNo</td>
+                        </tr>
+                    }
+                }
+            }
+        }
+
+    </table>
+</div>
+

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Drawing.Drawing2D;
-using System.Management;
-using System.Drawing;
-using System.Windows.Forms;
-using CrystalDecisions.Windows.Forms;
-using System.Data.SqlClient;
+﻿using CrystalDecisions.Windows.Forms;
+using System;
 using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.IO;
 using System.Management;
+using System.Windows.Forms;
 namespace Accounting.Utility
 {
     public class GlobalFunctions
@@ -18,7 +14,19 @@ namespace Accounting.Utility
         public static string CypherText = "!!~~~!~~~0)&!!^^~~!!**$$$$$!~@~#";//For Encode and decode
         public GlobalFunctions() { }
         private static int AutoNoDigitLength = 6;
+        public static string GenerateNo(int companyId ,string tableName, string ColName, string Prefix)
+        {
+            return generateNo(ConnectionHelper.getConnection(),companyId, tableName, ColName, Prefix);
+        }
+        public static string GenerateNo(string tableName, string ColName, string Prefix)
+        {
+            return generateNo(ConnectionHelper.getConnection(), tableName, ColName, Prefix);
+        }
         public static string generateNo(SqlConnection con, string tableName, string ColName, string Prefix)
+        {
+            return generateNo(con, LogInInfo.CompanyID, tableName, ColName, Prefix);
+        }
+        public static string generateNo(SqlConnection con, int companyId, string tableName, string ColName, string Prefix)
         {
             int PL = Prefix.Length + 1;
 
@@ -27,7 +35,7 @@ namespace Accounting.Utility
             try
             {
                 SqlCommand cmd = new SqlCommand(qstr, con);
-                cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
+                cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
                 cmd.Parameters.Add("@PreFix", SqlDbType.VarChar, 50).Value = Prefix + "%";
                 NO = cmd.ExecuteScalar().ToString();
 

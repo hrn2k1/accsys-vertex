@@ -1,0 +1,50 @@
+﻿@using Accounting.DataAccess
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model TrialBalanceItem
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<div class="report-sub-title">
+    As On Date @ViewBag.Params.Date.ToString("dd/MM/yyyy")
+</div>
+<div class="trial-balance-detail">
+    <table class="report-table" style="min-width: 90%;">
+        <tr>
+            <th class="align-left" style="width: 70%">Particulars</th>
+            <th class="align-right" style="width: 15%">Debit Amount</th>
+            <th class="align-right" style="width: 15%">Credit Amount</th>
+        </tr>
+        @foreach (TrialBalanceItem row in Model.Details)
+        {
+            <tr class="item-@row.Type">
+                <td class="title">@row.Title</td>
+                <td class="dr number">@row.Debit.FormatNumber("0.00")</td>
+                <td class="cr number">@row.Credit.FormatNumber("0.00")</td>
+            </tr>
+            foreach (TrialBalanceItem row1 in row.Details)
+            {
+                <tr class="item-@row1.Type">
+                    <td class="title">@row1.Title</td>
+                    <td class="dr number">@row1.Debit.FormatNumber("0.00")</td>
+                    <td class="cr number">@row1.Credit.FormatNumber("0.00")</td>
+                </tr>
+
+                foreach (TrialBalanceItem row2 in row1.Details)
+                {
+                    <tr class="item-@row2.Type">
+                        <td class="title">@row2.Title</td>
+                        <td class="dr number">@row2.Debit.FormatNumber("0.00")</td>
+                        <td class="cr number">@row2.Credit.FormatNumber("0.00")</td>
+                    </tr>
+                }
+            }
+        }
+        <tr class="item-@Model.Type">
+            <th class="align-left title">@Model.Title</th>
+            <td class="dr number">@Model.Debit.FormatNumber("0.00")</td>
+            <td class="cr number">@Model.Credit.FormatNumber("0.00")</td>
+        </tr>
+    </table>
+</div>

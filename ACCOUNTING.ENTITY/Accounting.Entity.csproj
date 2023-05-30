@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -20,6 +20,11 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +43,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -105,6 +112,7 @@
     <Compile Include="Report.cs" />
     <Compile Include="ReqDetail.cs" />
     <Compile Include="ReqMaster.cs" />
+    <Compile Include="Role.cs" />
     <Compile Include="RolePrivilege.cs" />
     <Compile Include="RoleReportPrivilege.cs" />
     <Compile Include="SalesReturn.cs" />
@@ -128,12 +136,8 @@
     <Compile Include="Users.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Accounting.Controls\Accounting.Controls.csproj">
-      <Project>{E1EADD1D-AE09-41CB-95EE-794EF5D76F4E}</Project>
-      <Name>Accounting.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accounting.Utility\Accounting.Utility.csproj">
-      <Project>{DECADD52-876F-4DFE-B6B6-8983C31A59C3}</Project>
+      <Project>{decadd52-876f-4dfe-b6b6-8983c31a59c3}</Project>
       <Name>Accounting.Utility</Name>
     </ProjectReference>
   </ItemGroup>

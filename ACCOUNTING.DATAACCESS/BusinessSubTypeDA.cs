@@ -37,18 +37,14 @@ namespace Accounting.DataAccess
 
                     objBusinessSubType.BusinessSubTypeID = ConnectionHelper.GetID(con,trans, "BusinessSubTypeID", "BusinessSubType");
 
-                    com.CommandText = "Insert Into BusinessSubType(CompanyID, UserID, ModifiedDate,  BusinessSubTypeID, Name, BusinessTypeID) "
-                                      + " Values(@CompanyID, @UserID, @ModifiedDate, @BusinessSubTypeID, @Name, @BusinessTypeID)";
+                    com.CommandText = "Insert Into BusinessSubType(BusinessSubTypeID, Name, BusinessTypeID) Values(@BusinessSubTypeID, @Name, @BusinessTypeID)";
 
                 }
                 else
                 {
-                    com.CommandText = "Update BusinessSubType SET CompanyID = @CompanyID, UserID =@UserID, ModifiedDate = @ModifiedDate, Name = @Name, BusinessTypeID = @BusinessTypeID  WHERE BusinessSubTypeID = @BusinessSubTypeID";
+                    com.CommandText = "Update BusinessSubType SET Name = @Name, BusinessTypeID = @BusinessTypeID  WHERE BusinessSubTypeID = @BusinessSubTypeID";
 
                 }
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
-                com.Parameters.Add("@ModifiedDate", SqlDbType.DateTime).Value = LogInInfo.ModifiedDate;
                 com.Parameters.Add("@BusinessSubTypeID", SqlDbType.Int).Value = objBusinessSubType.BusinessSubTypeID;
                 com.Parameters.Add("@Name", SqlDbType.VarChar, 100).Value = objBusinessSubType.Name;
                 com.Parameters.Add("@BusinessTypeID", SqlDbType.Int).Value = objBusinessSubType.BusinessTypeID;

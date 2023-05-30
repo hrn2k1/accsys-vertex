@@ -13,21 +13,48 @@ namespace Accounting.DataAccess
     {
         public DaInventoryRequisition() { }
 
+        public static DataTable GetRequisitions(string Where, string OrderBy)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                using (SqlDataAdapter da = new SqlDataAdapter("SP_GET_Requisitions", ConnectionHelper.getConnection()))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@Where", SqlDbType.NVarChar, 500).Value = Where;
+                    if (OrderBy != string.Empty)
+                        da.SelectCommand.Parameters.Add("@OrderBy", SqlDbType.NVarChar, 500).Value = OrderBy;
+                    da.Fill(dt);
+                    da.Dispose();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
+        }
+        public DataTable GetReqDetail( int ReqMID)
+        {
+            return loadReqDetail(ConnectionHelper.getConnection(), ReqMID);
+        }
         public DataTable loadReqDetail(SqlConnection con, int ReqMID)
         {
             DataTable dt = new DataTable();
             try
             {
-                //SqlDataAdapter da = new SqlDataAdapter("spLoadRequisitionDetail", con);
-                SqlDataAdapter da = new SqlDataAdapter("spReqDetailload", con);
-                da.SelectCommand.CommandType = CommandType.StoredProcedure;
-                da.SelectCommand.Parameters.Add("@ReqMID", SqlDbType.Int).Value = ReqMID;
-                da.Fill(dt);
-                da.Dispose();
+                using (SqlDataAdapter da = new SqlDataAdapter("spReqDetailload", con))
+                {
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.Add("@ReqMID", SqlDbType.Int).Value = ReqMID;
+                    da.Fill(dt);
+                    da.Dispose();
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
             return dt;
         }
@@ -52,6 +79,11 @@ namespace Accounting.DataAccess
             SqlCommand com = null;
             try
             {
+                if(obReqMaster.CompanyID <= 0)
+                {
+                    obReqMaster.CompanyID = LogInInfo.CompanyID;
+                    obReqMaster.UserID = LogInInfo.UserID;
+                }
                 com = new SqlCommand("spSaveUpdateReqMaster", con, trans);
                 com.CommandType = CommandType.StoredProcedure;
                 com.Parameters.Add("@ReqMID", SqlDbType.Int).Value = obReqMaster.ReqMID;
@@ -60,8 +92,8 @@ namespace Accounting.DataAccess
                 com.Parameters.Add("@ReqSectionID", SqlDbType.Int).Value = obReqMaster.ReqSectionID;
                 com.Parameters.Add("@ReqBy", SqlDbType.VarChar, 500).Value = obReqMaster.ReqBy;
                 com.Parameters.Add("@Remarks", SqlDbType.VarChar, 500).Value = obReqMaster.Remarks;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
-                com.Parameters.Add("@UserID", SqlDbType.Int).Value = LogInInfo.UserID;
+                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = obReqMaster.CompanyID;
+                com.Parameters.Add("@UserID", SqlDbType.Int).Value = obReqMaster.UserID;
                 com.ExecuteNonQuery();
 
                 if (obReqMaster.ReqMID == 0)
@@ -194,6 +226,23 @@ namespace Accounting.DataAccess
                     trans.Rollback();
                 throw new Exception(ex.Message);
             }
+        }
+
+        public DataTable GetRequisitionItems(SqlConnection con, int ReqID)
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                SqlDataAdapter da = new SqlDataAdapter("SELECT T_Requisition_Detail.ItemID, T_Item.ItemName, ReqQty FROM T_Requisition_Detail INNER JOIN T_Item ON T_Requisition_Detail.ItemID = T_Item.ItemID WHERE ReqMID = @ReqMID", con);
+                da.SelectCommand.Parameters.Add("@ReqMID", SqlDbType.Int).Value = ReqID;
+                da.Fill(dt);
+                da.Dispose();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dt;
         }
     }
 }

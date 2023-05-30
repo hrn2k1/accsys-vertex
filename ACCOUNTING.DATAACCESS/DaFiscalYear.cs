@@ -13,6 +13,29 @@ namespace Accounting.DataAccess
     public class DaFiscalYear
     {
 
+        public static void StartFiscalYear(string title, DateTime startDate, int companyId, int userId)
+        {
+            string qstr = @"INSERT INTO FiscalYear(Title, StartDate, CompanyID, UserID, ModifiedDate)
+                            VALUES(@Title, @StartDate, @CompanyID, @UserID, GETDATE())";
+            using (var cmd = new SqlCommand(qstr, ConnectionHelper.getConnection()))
+            {
+                cmd.Parameters.Add("@Title", SqlDbType.VarChar, 500).Value = title;
+                cmd.Parameters.Add("@StartDate", SqlDbType.DateTime).Value = startDate;
+                cmd.Parameters.Add("@CompanyID", SqlDbType.Int).Value = companyId;
+                cmd.Parameters.Add("@UserID", SqlDbType.Int).Value = userId;
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public static void EndFiscalYear(int id, DateTime endDate)
+        {
+            string qstr = @"UPDATE FiscalYear SET EndDate=@EndDate, ModifiedDate=GETDATE() WHERE FiscalYearID=@Id";
+            using (var cmd = new SqlCommand(qstr, ConnectionHelper.getConnection()))
+            {
+                cmd.Parameters.Add("@EndDate", SqlDbType.DateTime).Value = endDate;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+                cmd.ExecuteNonQuery();
+            }
+        }
         public DataTable getFiscalYear(SqlConnection con, int id)
         {
             DataTable dt = new DataTable();
@@ -187,9 +210,8 @@ namespace Accounting.DataAccess
 
                 com.Connection = con;
                 com.Transaction = trans;
-                com.CommandText = "DELETE FROM ERP.dbo.FiscalYear WHERE FiscalYearID = @FiscalYearID AND CompanyID=@CompanyID";
+                com.CommandText = "DELETE FROM FiscalYear WHERE FiscalYearID = @FiscalYearID";
                 com.Parameters.Add("@FiscalYearID", SqlDbType.Int).Value = ID;
-                com.Parameters.Add("@CompanyID", SqlDbType.Int).Value = LogInInfo.CompanyID;
                 com.ExecuteNonQuery();
                 trans.Commit();
 
