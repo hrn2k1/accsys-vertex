@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Web.Http.Results;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -33,21 +34,40 @@ namespace AccSys.Web.Controllers
                 //param.StartDate = DateTime.Now.AddDays(-7);
                 //param.EndDate = DateTime.Now;
             }
-            return Reporting("Accounting", param);
+            var reporting = Reporting("Accounting", param);
+            if (reporting == null)
+            {
+                Response.Redirect("/login?ReturnUrl=/Report");
+                Response.End();
+                return null;
+            }
+            return reporting;
         }
         public ActionResult Inventory(ReportParameter param)
         {
             if (Request.HttpMethod == "GET")
                 param.ReportName = "rptStockJournal";
-            return Reporting("Inventory", param);
+            var reporting = Reporting("Inventory", param);
+            if (reporting == null)
+            {
+                Response.Redirect("/login?ReturnUrl=/Report");
+                Response.End();
+                return null;
+            }
+            return reporting;
         }
         private ActionResult Reporting(string section, ReportParameter param)
         {
-            param.CompanyId = Convert.ToInt32(Session["CompanyId"] ?? "1");
+            param.CompanyId = Convert.ToInt32(Session["CompanyId"] ?? "0");
+            if (param != null && param.CompanyId <= 0)
+            {
+                return null;
+            }
+
             if (Session["Company"] != null)
             {
                 var company = (Company)Session["Company"];
-                if(company != null)
+                if (company != null)
                 {
                     param.CompanyName = company.CompanyName;
                     param.AddressLine1 = company.AddressLine1;
@@ -89,6 +109,7 @@ namespace AccSys.Web.Controllers
             }
 
             return View("Index", param);
+
         }
         [NonAction]
         public SelectList ToSelectList(DataTable table, string valueField, string textField)

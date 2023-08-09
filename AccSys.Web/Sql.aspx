@@ -16,6 +16,10 @@
         </div>
         <div style="width: 100%">
             <asp:Button ID="btnExecute" runat="server" Text="Execute" OnClick="btnExecute_Click" />
+            <asp:Button ID="btnExeQuery" runat="server" Text="Execute Query" OnClick="btnExeQuery_Click" />
+        </div>
+        <div style="width: 100%">
+            <asp:GridView ID="GridView1" runat="server"></asp:GridView>
         </div>
     </form>
 </body>

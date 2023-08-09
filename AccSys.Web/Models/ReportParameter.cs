@@ -31,10 +31,13 @@ namespace AccSys.Web.Models
         public int ReportType { get; set; }
         public int AccountId { get; set; }
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public DateTime StartDate { get; set; }
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public DateTime EndDate { get; set; }
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = false)]
         public DateTime Date { get; set; }
         public int ItemId { get; set; }
         public int GroupId { get; set; }
@@ -51,20 +54,46 @@ namespace AccSys.Web.Models
         {
             try
             {
-                ReportName = request["reportName"];
-                CompanyId = Convert.ToInt32(request["companyId"] ?? "0");
-                CompanyName = request["companyName"] ?? "";
-                AddressLine1 = request["addressLine1"] ?? "";
-                AddressLine2 = request["addressLine2"] ?? "";
-                ReportType = Convert.ToInt32(request["reportType"] ?? "0");
-                AccountId = Convert.ToInt32(request["accountId"] ?? "0");
-                StartDate = request["startDate"] != null ? Convert.ToDateTime(request["startDate"]) : DateTime.Now;
-                EndDate = request["endDate"] != null ? Convert.ToDateTime(request["endDate"]) : DateTime.Now;
-                Date = request["date"] != null ? Convert.ToDateTime(request["date"]) : DateTime.Now;
-                ItemId = Convert.ToInt32(request["itemId"] ?? "0");
-                GroupId = Convert.ToInt32(request["groupId"] ?? "0");
-                VoucherType = Convert.ToInt32(request["voucherType"] ?? "0");
-                TrialBalanceType = Convert.ToInt32(request["trialBalanceType"] ?? "0");
+                if (request["ReportLink"] != null)
+                {
+                    var reportParams = HttpUtility.UrlDecode(request["ReportLink"]);
+                    if(reportParams.Contains("?"))
+                    {
+                        reportParams = reportParams.Split('?')[1];
+                    }
+                    var queryParams = HttpUtility.ParseQueryString(reportParams);
+                    ReportName = queryParams["reportName"];
+                    CompanyId = Convert.ToInt32(queryParams["companyId"] ?? "0");
+                    CompanyName = queryParams["companyName"] ?? "";
+                    AddressLine1 = queryParams["addressLine1"] ?? "";
+                    AddressLine2 = queryParams["addressLine2"] ?? "";
+                    ReportType = Convert.ToInt32(queryParams["reportType"] ?? "0");
+                    AccountId = Convert.ToInt32(queryParams["accountId"] ?? "0");
+                    StartDate = queryParams["startDate"] != null ? Convert.ToDateTime(queryParams["startDate"]) : DateTime.Now;
+                    EndDate = queryParams["endDate"] != null ? Convert.ToDateTime(queryParams["endDate"]) : DateTime.Now;
+                    Date = queryParams["date"] != null ? Convert.ToDateTime(queryParams["date"]) : DateTime.Now;
+                    ItemId = Convert.ToInt32(queryParams["itemId"] ?? "0");
+                    GroupId = Convert.ToInt32(queryParams["groupId"] ?? "0");
+                    VoucherType = Convert.ToInt32(queryParams["voucherType"] ?? "0");
+                    TrialBalanceType = Convert.ToInt32(queryParams["trialBalanceType"] ?? "0");
+                }
+                else
+                {
+                    ReportName = request["reportName"];
+                    CompanyId = Convert.ToInt32(request["companyId"] ?? "0");
+                    CompanyName = request["companyName"] ?? "";
+                    AddressLine1 = request["addressLine1"] ?? "";
+                    AddressLine2 = request["addressLine2"] ?? "";
+                    ReportType = Convert.ToInt32(request["reportType"] ?? "0");
+                    AccountId = Convert.ToInt32(request["accountId"] ?? "0");
+                    StartDate = request["startDate"] != null ? Convert.ToDateTime(request["startDate"]) : DateTime.Now;
+                    EndDate = request["endDate"] != null ? Convert.ToDateTime(request["endDate"]) : DateTime.Now;
+                    Date = request["date"] != null ? Convert.ToDateTime(request["date"]) : DateTime.Now;
+                    ItemId = Convert.ToInt32(request["itemId"] ?? "0");
+                    GroupId = Convert.ToInt32(request["groupId"] ?? "0");
+                    VoucherType = Convert.ToInt32(request["voucherType"] ?? "0");
+                    TrialBalanceType = Convert.ToInt32(request["trialBalanceType"] ?? "0");
+                }
             }
             catch (Exception ex)
             {

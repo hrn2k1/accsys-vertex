@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Tools;
+using System.Diagnostics;
 
 namespace AccSys.Web
 {
@@ -49,6 +50,25 @@ namespace AccSys.Web
             {
                 if (connection.State != ConnectionState.Closed)
                     connection.Close();
+            }
+        }
+
+        protected void btnExeQuery_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var dataTable = new DataTable();
+                using (var adapter = new SqlDataAdapter(txtSql.Text, ConnectionHelper.DefaultConnectionString))
+                {
+                    adapter.Fill(dataTable);
+                    adapter.Dispose();
+                }
+                GridView1.DataSource = dataTable;
+                GridView1.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMsg.Text = ex.CustomDialogMessage();
             }
         }
     }
