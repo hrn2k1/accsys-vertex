@@ -109,7 +109,8 @@ namespace AccSys.Web
                 }
                 var qty = Convert.ToDouble(txtQty.Text.Trim());
                 var price = Convert.ToDouble(txtUnitPrice.Text.Trim());
-                var amt = qty * price;
+                var rate = txtRate.Text.Trim().ToDouble();
+                var amt = qty * price * rate;
                 dtItems.Rows.Add(0, ItemID, ddlItem.SelectedItemName(), qty, price, amt);
 
                 gvOrderItems.DataSource = dtItems;
@@ -157,6 +158,7 @@ namespace AccSys.Web
                 ddlSupplier.SelectedIndex = 1;
                 txtDate.Text = DateTime.Now.ToString(_dateFormat);
                 ddlCurrency.SelectedIndex = 0;
+                txtRate.Text = "1";
                 txtOrderNo.Text = "";
                 txtBuyerref.Text = "";
                 Session[_sessionDatatableName] = null;
@@ -181,6 +183,7 @@ namespace AccSys.Web
                 OrderDate = Tools.Utility.GetDateValue(txtDate.Text.Trim(), DateNumericFormat.YYYYMMDD),
                 OrderNo = txtOrderNo.Text,
                 CurrencyId = ddlCurrency.SelectedValue.ToInt(),
+                CurrencyRate = txtRate.Text.Trim().ToDouble(),
                 OrderQty = txtTotalQty.Text.ToDouble(),
                 OrderValue = txtTotalAmount.Text.ToDouble(),
                 BuyerRef = txtBuyerref.Text,
@@ -238,8 +241,7 @@ namespace AccSys.Web
         }
         private string CreateWhere()
         {
-            string where = "";
-            where = string.Format(" Order_Master.CompanyID={0} AND OrderType = 'Purchase Order'", Session["CompanyID"] ?? 1);
+            string where = string.Format(" Order_Master.CompanyID={0} AND OrderType = 'Purchase Order'", Session["CompanyID"] ?? 1);
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

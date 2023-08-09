@@ -91,7 +91,7 @@
                                         <cc1:CurrencyDropDownList ID="ddlCurrency" runat="server"></cc1:CurrencyDropDownList>
                                     </td>
                                     <td>
-                                        <asp:TextBox ID="txtRate" runat="server" Text="1" Visible="false" ValidationGroup="post"></asp:TextBox>
+                                      Rate:  <asp:TextBox ID="txtRate" runat="server" Text="1" ValidationGroup="post"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr class="row">

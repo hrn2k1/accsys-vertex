@@ -107,7 +107,8 @@ namespace AccSys.Web
                 }
                 var qty = Convert.ToDouble(txtQty.Text.Trim());
                 var price = Convert.ToDouble(txtUnitPrice.Text.Trim());
-                var amt = qty * price;
+                var rate  = txtRate.Text.Trim().ToDouble();
+                var amt = qty * price * rate;
                 dtItems.Rows.Add(0, ItemID, ddlItem.SelectedItemName(), qty, price, amt);
 
                 gvOrderItems.DataSource = dtItems;
@@ -243,8 +244,7 @@ namespace AccSys.Web
         }
         private string CreateWhere()
         {
-            string where = "";
-            where = string.Format(" Order_Master.CompanyID={0} AND OrderType = 'Sales Order'", Session.CompanyId());
+            string where = string.Format(" Order_Master.CompanyID={0} AND OrderType = 'Sales Order'", Session.CompanyId());
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

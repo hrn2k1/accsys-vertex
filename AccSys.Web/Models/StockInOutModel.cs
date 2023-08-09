@@ -121,10 +121,10 @@ namespace AccSys.Web.Models
                 //{
                 //    errors.Add("Voucher No. required.");
                 //}
-                if(TotalQty <= 0)
-                {
-                    errors.Add("Quantity must be greater than 0");
-                }
+                //if(TotalQty <= 0)
+                //{
+                //    errors.Add("Quantity must be greater than 0");
+                //}
                 
                 return errors;
             }

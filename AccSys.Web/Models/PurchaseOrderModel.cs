@@ -15,6 +15,7 @@ namespace AccSys.Web.Models
         public DateTime OrderDate { get; set; }
         public string OrderNo { get; set; }
         public int CurrencyId { get; set; }
+        public double CurrencyRate { get; set; }
         public string BuyerRef { get; set; }
         public double OrderQty { get; set; }
         public double OrderValue { get; set; }
@@ -30,7 +31,7 @@ namespace AccSys.Web.Models
                     OrderDate = OrderDate,
                     OrderNo = OrderNo,
                     CurrencyID = CurrencyId,
-                    Rate = 1,
+                    Rate = CurrencyRate,
                     CustomerID = SupplierId,
                     Buyer_ref = BuyerRef,
                     OrderType = "Purchase Order",
