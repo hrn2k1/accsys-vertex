@@ -90,8 +90,8 @@
                                     <td class="InputField">
                                         <cc1:CurrencyDropDownList ID="ddlCurrency" runat="server"></cc1:CurrencyDropDownList>
                                     </td>
-                                    <td>
-                                      Rate:  <asp:TextBox ID="txtRate" runat="server" Text="1" ValidationGroup="post"></asp:TextBox>
+                                    <td>Rate: 
+                                        <asp:TextBox ID="txtRate" runat="server" Text="1" ValidationGroup="post"></asp:TextBox>
                                     </td>
                                 </tr>
                                 <tr class="row">
@@ -225,6 +225,16 @@
                         <label style="float: left;">
                             Orders          
                         </label>
+                        <label>
+                            <asp:Literal ID="Literal1" Text="Date" runat="server"></asp:Literal>
+                        </label>
+                        <asp:TextBox ID="txtFromDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender11" runat="server" TargetControlID="txtFromDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        <label>
+                            <asp:Literal ID="Literal2" Text="-" runat="server"></asp:Literal></label>
+                        <asp:TextBox ID="txtToDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender33" runat="server" TargetControlID="txtToDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+
                         <asp:LinkButton ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
                 </div>

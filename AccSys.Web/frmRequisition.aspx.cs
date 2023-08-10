@@ -18,6 +18,8 @@ namespace AccSys.Web
             if (!IsPostBack)
             {
                 txtDate.Text = DateTime.Now.ToString(_dateFormat);
+                txtFromDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now.AddDays(-30));
+                txtToDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now);
                 Session["ReqItems"] = null;
                 btnSearch_Click(sender, e);
             }
@@ -219,8 +221,8 @@ namespace AccSys.Web
         }
         private string CreateWhere()
         {
-            string where = "";
-            where = string.Format(" Req.CompanyID={0}", Session["CompanyID"] ?? 1);
+            string where = string.Format(" Req.CompanyID={0}", Session["CompanyID"] ?? 1);
+            where += string.Format(" AND (ReqDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim(), DateNumericFormat.YYYYMMDD), Tools.Utility.GetDateValue(txtToDate.Text.Trim(), DateNumericFormat.YYYYMMDD));
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

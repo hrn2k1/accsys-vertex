@@ -261,6 +261,16 @@
                         <label style="float: left;">
                             Invoices          
                         </label>
+                         <label>
+                            <asp:Literal ID="Literal1" Text="Date" runat="server"></asp:Literal>
+                        </label>
+                        <asp:TextBox ID="txtFromDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender11" runat="server" TargetControlID="txtFromDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        <label>
+                            <asp:Literal ID="Literal2" Text="-" runat="server"></asp:Literal></label>
+                        <asp:TextBox ID="txtToDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender33" runat="server" TargetControlID="txtToDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        
                         <asp:LinkButton SecurityCommandName="View" ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
                 </div>

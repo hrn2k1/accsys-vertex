@@ -42,6 +42,8 @@ namespace AccSys.Web
                 {
                     var companyId = GlobalFunctions.isNull(Session["CompanyID"], 0);
                     txtDate.Text = DateTime.Now.ToString(_dateFormat);
+                    txtFromDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now.AddDays(-30));
+                    txtToDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now);
                     Session[_sessionDatatableName] = null;
                     btnSearch_Click(sender, e);
                 }
@@ -242,6 +244,7 @@ namespace AccSys.Web
         private string CreateWhere()
         {
             string where = string.Format(" Order_Master.CompanyID={0} AND OrderType = 'Purchase Order'", Session["CompanyID"] ?? 1);
+            where += string.Format(" AND (OrderDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim(), DateNumericFormat.YYYYMMDD), Tools.Utility.GetDateValue(txtToDate.Text.Trim(), DateNumericFormat.YYYYMMDD));
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

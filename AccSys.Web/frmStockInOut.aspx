@@ -57,6 +57,7 @@
                                             <asp:ListItem Value="Store Out Via Requisition">Store Out Via Requisition</asp:ListItem>
                                             <asp:ListItem Value="Store Out For Customer">Store Out For Customer</asp:ListItem>
                                             <asp:ListItem Value="Damage">Damage</asp:ListItem>
+                                            <asp:ListItem Value="Store In For Supplier">Store In For Supplier</asp:ListItem>
                                         </asp:DropDownList>
                                     </td>
                                     <td class="InputLabel">
@@ -251,6 +252,31 @@
                         <label style="float: left;">
                             Stocks          
                         </label>
+                        <label>
+                            <asp:Literal ID="Literal3" Text="Invoice No." runat="server"></asp:Literal>
+                        </label>
+                        <asp:TextBox ID="txtSrcVoucherNo" runat="server"></asp:TextBox>
+                        <label>
+                            <asp:Literal ID="Literal4" Text="Type" runat="server"></asp:Literal>
+                        </label>
+                        <asp:DropDownList ID="ddlSrcType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlType_SelectedIndexChanged">
+                             <asp:ListItem Value="">All</asp:ListItem>
+                            <asp:ListItem Value="Store In For Customer">Store In For Customer</asp:ListItem>
+                            <asp:ListItem Value="Store Out Via Requisition">Store Out Via Requisition</asp:ListItem>
+                            <asp:ListItem Value="Store Out For Customer">Store Out For Customer</asp:ListItem>
+                            <asp:ListItem Value="Damage">Damage</asp:ListItem>
+                            <asp:ListItem Value="Store In For Supplier">Store In For Supplier</asp:ListItem>
+                        </asp:DropDownList>
+                        <label>
+                            <asp:Literal ID="Literal1" Text="Date" runat="server"></asp:Literal>
+                        </label>
+                        <asp:TextBox ID="txtFromDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender11" runat="server" TargetControlID="txtFromDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        <label>
+                            <asp:Literal ID="Literal2" Text="-" runat="server"></asp:Literal></label>
+                        <asp:TextBox ID="txtToDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender33" runat="server" TargetControlID="txtToDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+
                         <asp:LinkButton ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
                 </div>

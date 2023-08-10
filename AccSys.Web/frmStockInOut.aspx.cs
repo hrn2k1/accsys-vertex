@@ -43,6 +43,8 @@ namespace AccSys.Web
                 {
                     var companyId = Session.CompanyId();
                     txtDate.Text = DateTime.Now.ToString(_dateFormat);
+                    txtFromDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now.AddDays(-30));
+                    txtToDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now);
                     //txtVoucherNo.Text = GlobalFunctions.GenerateNo(companyId, "T_Sales_Invoice", "InvoiceNo", "SI-");
                     Session[_sessionDatatableName] = null;
                     btnSearch_Click(sender, e);
@@ -55,7 +57,7 @@ namespace AccSys.Web
         }
         protected void ddlType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            inoutOrder.Visible = ddlType.SelectedIndex == 0 || ddlType.SelectedIndex == 2;
+            inoutOrder.Visible = ddlType.SelectedIndex == 0 || ddlType.SelectedIndex == 2 || ddlType.SelectedIndex == 4;
             inoutReq.Visible = ddlType.SelectedIndex == 1;
             inoutItem.Visible = ddlType.SelectedIndex == 3;
             gvInOutItems.Columns[2].Visible = ddlType.SelectedIndex != 3;
@@ -327,8 +329,16 @@ namespace AccSys.Web
 
         private string CreateWhere()
         {
-            string where = "";
-            where = string.Format(" CompanyID={0}", Session.CompanyId());
+            string where = string.Format(" CompanyID={0}", Session.CompanyId());
+            if(ddlSrcType.SelectedValue != "")
+            {
+                where += $" AND TransType='{ddlSrcType.SelectedValue}'";
+            }
+            if(txtSrcVoucherNo.Text.Trim() != "")
+            {
+                where += $" AND VoucherNo='{txtSrcVoucherNo.Text.Trim()}'";
+            }
+            where += string.Format(" AND (TransDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim(), DateNumericFormat.YYYYMMDD), Tools.Utility.GetDateValue(txtToDate.Text.Trim(), DateNumericFormat.YYYYMMDD));
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)

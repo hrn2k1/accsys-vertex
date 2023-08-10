@@ -13,7 +13,8 @@ namespace AccSys.Web.Models
         StoreInForCustomer = 0,
         StoreOutViaRequisition = 1,
         StoreOutForCustomer = 2,
-        Damage = 3
+        Damage = 3,
+        StoreInForSupplier = 4,
     }
     public enum TransType
     {
@@ -75,7 +76,10 @@ namespace AccSys.Web.Models
                         stock.TransType = "Store Out Via Requisition";
                         this.TransType = TransType.Out;
                         break;
-
+                    case StockInOutType.StoreInForSupplier:
+                        stock.TransType = "Store In For Supplier";
+                        this.TransType = TransType.In;
+                        break;
                 }
                 return stock;
             }

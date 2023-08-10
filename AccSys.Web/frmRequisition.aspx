@@ -205,6 +205,16 @@
                         <label style="float: left;">
                             Requisitions          
                         </label>
+                        <label>
+                            <asp:Literal ID="Literal1" Text="Date" runat="server"></asp:Literal>
+                        </label>
+                        <asp:TextBox ID="txtFromDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender11" runat="server" TargetControlID="txtFromDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        <label>
+                            <asp:Literal ID="Literal2" Text="-" runat="server"></asp:Literal></label>
+                        <asp:TextBox ID="txtToDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <ajax:CalendarExtender ID="CalendarExtender33" runat="server" TargetControlID="txtToDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
+                        
                         <asp:LinkButton SecurityCommandName="View" ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
                 </div>
