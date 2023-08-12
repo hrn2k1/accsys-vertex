@@ -218,6 +218,15 @@ namespace AccSys.Web.Controllers
                 return View("TrialBalanceDetail", reportData);
             }
         }
+
+        public ActionResult BalanceSheet()
+        {
+            var param = new ReportParameter(Request);
+            ViewBag.Params = param;
+            var reportData = ReportDataSource.GetBalanceSheet(param.CompanyId, param.Date);
+            return View("BalanceSheet", reportData);
+        }
+
         public ActionResult ChartOfItems()
         {
             var param = new ReportParameter(Request);

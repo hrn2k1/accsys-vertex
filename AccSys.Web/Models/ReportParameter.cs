@@ -162,6 +162,7 @@ namespace AccSys.Web.Models
             new Report { ReportName="rptBillsReceivable", ReportTitle="Bills Receivable", ActionName="BillsReceivable", Parameters= new List<string>(){ "Date" }, Section="Accounting" },
             new Report { ReportName="rptChartOfItems", ReportTitle="Chart Of Items", ActionName="ChartOfItems", Parameters= new List<string>(){ }, Section="Accounting" },
             new Report { ReportName="rptTrialBalance", ReportTitle="Trial Balance", ActionName="TrialBalance", Parameters= new List<string>(){ "Date", "TrialBalanceType" }, Section="Accounting" },
+            new Report { ReportName="rptBalanceBalance", ReportTitle="Balance Balance", ActionName="BalanceSheet", Parameters= new List<string>(){ "Date", "TrialBalanceType" }, Section="Accounting" },
             new Report { ReportName="rptStockJournal", ReportTitle="Stock Journal", ActionName="StockJournal", Parameters= new List<string>(){ "GroupId", "StartDate", "EndDate" }, Section="Inventory" },
             new Report { ReportName="rptItemLedger", ReportTitle="Item Ledger", ActionName="ItemLedger", Parameters= new List<string>(){ "ItemId", "StartDate", "EndDate" }, Section="Inventory" },
             new Report { ReportName="rptStockSummary", ReportTitle="Stock Summary", ActionName="StockSummary", Parameters= new List<string>(){ }, Section="Inventory" },

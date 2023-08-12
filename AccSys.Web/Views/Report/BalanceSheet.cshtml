@@ -1,0 +1,60 @@
+﻿@using System.Data
+@using AccSys.Web.ReportUtils
+@using AccSys.Web.Models
+
+@model Accounting.DataAccess.BalanceSheet
+@{
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<style type="text/css">
+    .assets {
+        border-bottom: 1px solid #000000;
+    }
+        .assets .value {
+            display: none;
+        }
+        .line {
+            width: 100%;
+            float: left;
+        }
+
+        .line .head {
+            width: 70%;
+            float: left;
+        }
+
+        .line .value {
+            width: 30%;
+            float: right;
+            text-align: right;
+        }
+</style>
+<div class="report-sub-title">
+    As On Date @ViewBag.Params.Date.ToString("dd/MM/yyyy")
+</div>
+<div class="balance-sheet">
+    <table class="report-table" style="width: 100%">
+        <tr>
+            <td class="assets-side" style="width:50%;">
+                @foreach (Accounting.DataAccess.BalanceSheetItem x in Model.Assets)
+                {
+                    decimal value = x.Value;
+                    <div class="line @x.CssClass">
+                        <div class="head">@x.Head</div>
+                        <div class="value">@(value < 0 ? (-value).FormatNumber("(0.00)") : value.FormatNumber("0.00"))</div>
+                    </div>
+                }
+            </td>
+            <td class="liability-side" style="width:50%;">
+                @foreach (Accounting.DataAccess.BalanceSheetItem x in Model.Liabilities)
+                {
+                    decimal value = x.Value;
+                    <div class="line @x.CssClass">
+                        <div class="head">@x.Head</div>
+                        <div class="value">@(value < 0 ? (-value).FormatNumber("(0.00)") : value.FormatNumber("0.00"))</div>
+                    </div>
+                }
+            </td>
+        </tr>
+    </table>
+</div>

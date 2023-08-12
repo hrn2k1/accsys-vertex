@@ -335,6 +335,16 @@ namespace Accounting.Utility
             catch (Exception ex) { throw ex; }
         }
 
+        public static decimal isNull(object obj, decimal value)
+        {
+            try
+            {
+                if (obj == null || obj == DBNull.Value || obj.ToString().Trim() == string.Empty) return value;
+                else return Convert.ToDecimal(obj);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
     }
 
     public class LogInInfo

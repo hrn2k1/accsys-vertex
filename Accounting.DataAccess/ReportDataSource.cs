@@ -260,7 +260,7 @@ namespace Accounting.DataAccess
         }
         public static TrialBalanceItem GetTrialBalanceDetail(int companyId, DateTime onDate)
         {
-            
+
             var items = new List<TrialBalanceItem>();
             var data = new DataTable();
             using (var adapter = new SqlDataAdapter("spRptTrialBalanceDetails", _connectionString))
@@ -326,6 +326,108 @@ namespace Accounting.DataAccess
             };
         }
 
+        public static BalanceSheet GetBalanceSheet(int companyId, DateTime onDate)
+        {
+            var bs = new BalanceSheet()
+            {
+                Assets = new List<BalanceSheetItem>(),
+                Liabilities = new List<BalanceSheetItem>()
+            };
+            var dt = new DataTable();
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                if (connection.State != ConnectionState.Open) connection.Open();
+                using (var adapter = new SqlDataAdapter("SELECT * FROM BalanceSheetConfig ORDER BY SlNo", connection))
+                {
+                    adapter.Fill(dt);
+                    adapter.Dispose();
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        var queryType = GlobalFunctions.isNull(row["QueryType"], "");
+                        var queryText = GlobalFunctions.isNull(row["QueryText"], "");
+                        var filter = GlobalFunctions.isNull(row["Filter"], "");
+                        var side = GlobalFunctions.isNull(row["Side"], "L");
+                        if (queryType.ToLower() == "scalar" && !string.IsNullOrEmpty(queryText))
+                        {
+                            var query = string.Format("{0} WHERE CompanyId={1} AND {2}", queryText, companyId, filter);
+                            using (var command = new SqlCommand(query, connection))
+                            {
+                                var obj = command.ExecuteScalar();
+                                var value = GlobalFunctions.isNull(obj, 0.0M);
+                                var item = new BalanceSheetItem
+                                {
+                                    SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                    Head = GlobalFunctions.isNull(row["Head"], ""),
+                                    Value = value,
+                                    CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
+                                    Side = "L"
+                                };
+                                if (side == "R")
+                                {
+                                    bs.Liabilities.Add(item);
+                                }
+                                else
+                                {
+                                    bs.Assets.Add(item);
+                                }
+                            }
+
+                        }
+                        else if (queryType.ToLower() == "table" && !string.IsNullOrEmpty(queryText))
+                        {
+                            var query = string.Format("{0} WHERE CompanyId={1} AND {2}", queryText, companyId, filter);
+                            var data = new DataTable();
+                            using (var da = new SqlDataAdapter(query, connection))
+                            {
+                                da.Fill(data);
+                                da.Dispose();
+                            }
+                            foreach (DataRow dr in data.Rows)
+                            {
+                                var item = new BalanceSheetItem
+                                {
+                                    SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                    Head = GlobalFunctions.isNull(dr["Head"], ""),
+                                    Value = GlobalFunctions.isNull(dr["Value"], 0.0M),
+                                    CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
+                                    Side = "L"
+                                };
+                                if (side == "R")
+                                {
+                                    bs.Liabilities.Add(item);
+                                }
+                                else
+                                {
+                                    bs.Assets.Add(item);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var item = new BalanceSheetItem
+                            {
+                                SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                Head = GlobalFunctions.isNull(row["Head"], ""),
+                                Value = 0,
+                                CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
+                                Side = "L"
+                            };
+                            if (side == "R")
+                            {
+                                bs.Liabilities.Add(item);
+                            }
+                            else
+                            {
+                                bs.Assets.Add(item);
+                            }
+                        }
+                    }
+                }
+                if (connection.State != ConnectionState.Closed) connection.Close();
+            }
+
+            return bs;
+        }
         public static DataTable GetStockSummary(int companyId)
         {
             string qstr = @"SELECT I.ItemID, I.ItemName, I.CurrentQty, I.UnitsName, ISNULL(SD.UnitPrice, I.UnitPrice) AS UnitPrice, I.CompanyID FROM T_Stock_InOut_Detail AS SD INNER JOIN dbo.T_Stock_InOut_Master AS SM ON SD.StockMID = SM.StockMID INNER JOIN 
@@ -365,7 +467,7 @@ namespace Accounting.DataAccess
                     item = new ChartOfItem { AccountTitle = group0, Type = "Group0", Children = new List<ChartOfItem>() };
                     items.Add(item);
                 }
-                
+
                 var group1 = row["AccountSubType"]?.ToString() ?? "";
                 var children = new List<ChartOfItem>();
                 ChartOfItem subItem = null;
@@ -402,7 +504,7 @@ namespace Accounting.DataAccess
                     }
                 }
                 var account = row["AccountTitle"]?.ToString() ?? "";
-                children.Add(new ChartOfItem { AccountNo = accountNo, AccountTitle= account, Type = "Account",Children = new List<ChartOfItem>() });
+                children.Add(new ChartOfItem { AccountNo = accountNo, AccountTitle = account, Type = "Account", Children = new List<ChartOfItem>() });
             }
 
             return items;
@@ -425,4 +527,17 @@ namespace Accounting.DataAccess
         public List<TrialBalanceItem> Details { get; set; }
     }
 
+    public class BalanceSheetItem
+    {
+        public int SlNo { get; set; }
+        public string Head { get; set; }
+        public decimal Value { get; set; }
+        public string CssClass { get; set; }
+        public string Side { get; set; }
+    }
+    public class BalanceSheet
+    {
+        public List<BalanceSheetItem> Assets { get; set; }
+        public List<BalanceSheetItem> Liabilities { get; set; }
+    }
 }
