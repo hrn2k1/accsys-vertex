@@ -7,12 +7,7 @@
     Layout = "~/Views/Shared/_ReportLayout.cshtml";
 }
 <style type="text/css">
-    .assets {
-        border-bottom: 1px solid #000000;
-    }
-        .assets .value {
-            display: none;
-        }
+        
         .line {
             width: 100%;
             float: left;
@@ -28,6 +23,8 @@
             float: right;
             text-align: right;
         }
+
+        @Model.Styles
 </style>
 <div class="report-sub-title">
     As On Date @ViewBag.Params.Date.ToString("dd/MM/yyyy")

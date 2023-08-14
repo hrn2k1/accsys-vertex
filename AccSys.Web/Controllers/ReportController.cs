@@ -223,7 +223,7 @@ namespace AccSys.Web.Controllers
         {
             var param = new ReportParameter(Request);
             ViewBag.Params = param;
-            var reportData = ReportDataSource.GetBalanceSheet(param.CompanyId, param.Date);
+            var reportData = ReportDataSource.GetBalanceSheet(param.CompanyId, 1, param.Date);
             return View("BalanceSheet", reportData);
         }
 

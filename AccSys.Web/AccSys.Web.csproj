@@ -150,6 +150,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account.aspx" />
+    <Content Include="BalanceSheetSetup.aspx" />
     <Content Include="ChartOfAccounts.aspx" />
     <Content Include="ChartOfItems.aspx" />
     <Content Include="CompanyInfo.aspx" />
@@ -586,6 +587,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BalanceSheetSetup.aspx.cs">
+      <DependentUpon>BalanceSheetSetup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BalanceSheetSetup.aspx.designer.cs">
+      <DependentUpon>BalanceSheetSetup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ChartOfAccounts.aspx.cs">
       <DependentUpon>ChartOfAccounts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -939,6 +947,7 @@
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\Web.config" />
+    <Content Include="Views\Report\BalanceSheet.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

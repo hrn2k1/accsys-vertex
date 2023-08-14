@@ -326,19 +326,31 @@ namespace Accounting.DataAccess
             };
         }
 
-        public static BalanceSheet GetBalanceSheet(int companyId, DateTime onDate)
+        public static BalanceSheet GetBalanceSheet(int companyId, int id, DateTime onDate)
         {
             var bs = new BalanceSheet()
             {
                 Assets = new List<BalanceSheetItem>(),
                 Liabilities = new List<BalanceSheetItem>()
             };
-            var dt = new DataTable();
+            
             using (var connection = new SqlConnection(_connectionString))
             {
                 if (connection.State != ConnectionState.Open) connection.Open();
-                using (var adapter = new SqlDataAdapter("SELECT * FROM BalanceSheetConfig ORDER BY SlNo", connection))
+                using(var adapter = new SqlDataAdapter($"SELECT * FROM CustomReport WHERE ReportId = {id}", connection))
                 {
+                    var data = new DataTable();
+                    adapter.Fill(data);
+                    adapter.Dispose();
+                    if(data.Rows.Count >0)
+                    {
+                        bs.ReportTitle = GlobalFunctions.isNull(data.Rows[0]["ReportTitle"], "");
+                        bs.Styles = GlobalFunctions.isNull(data.Rows[0]["Styles"], "");
+                    }
+                }
+                using (var adapter = new SqlDataAdapter("SELECT * FROM CustomReportDetail ORDER BY SortOrder", connection))
+                {
+                    var dt = new DataTable();
                     adapter.Fill(dt);
                     adapter.Dispose();
                     foreach (DataRow row in dt.Rows)
@@ -356,7 +368,7 @@ namespace Accounting.DataAccess
                                 var value = GlobalFunctions.isNull(obj, 0.0M);
                                 var item = new BalanceSheetItem
                                 {
-                                    SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                    SlNo = GlobalFunctions.isNull(row["SortOrder"], 0),
                                     Head = GlobalFunctions.isNull(row["Head"], ""),
                                     Value = value,
                                     CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
@@ -386,7 +398,7 @@ namespace Accounting.DataAccess
                             {
                                 var item = new BalanceSheetItem
                                 {
-                                    SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                    SlNo = GlobalFunctions.isNull(row["SortOrder"], 0),
                                     Head = GlobalFunctions.isNull(dr["Head"], ""),
                                     Value = GlobalFunctions.isNull(dr["Value"], 0.0M),
                                     CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
@@ -406,7 +418,7 @@ namespace Accounting.DataAccess
                         {
                             var item = new BalanceSheetItem
                             {
-                                SlNo = GlobalFunctions.isNull(row["SlNo"], 0),
+                                SlNo = GlobalFunctions.isNull(row["SortOrder"], 0),
                                 Head = GlobalFunctions.isNull(row["Head"], ""),
                                 Value = 0,
                                 CssClass = GlobalFunctions.isNull(row["CssClass"], ""),
@@ -537,6 +549,8 @@ namespace Accounting.DataAccess
     }
     public class BalanceSheet
     {
+        public string ReportTitle { get; set; }
+        public string Styles { get; set; }
         public List<BalanceSheetItem> Assets { get; set; }
         public List<BalanceSheetItem> Liabilities { get; set; }
     }
