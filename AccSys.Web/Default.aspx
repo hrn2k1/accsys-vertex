@@ -1,12 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AccSys.Web.Default" %>
+
 <%@ Register Assembly="AccSys.Web" Namespace="AccSys.Web.DbControls" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style>
-        .ex-label {
-            width: 90px;
-            display: inline-block;
-            margin-bottom: 10px;
+        .board {
+            width: calc(33.33% - 30px);
+            margin: 15px;
+            height: 200px;
+            float: left;
         }
+
+            .board .panel-heading {
+                padding: 5px !important;
+            }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -16,23 +22,63 @@
     <asp:HiddenField runat="server" ID="HfCanDelete" />
     <div align="left">
         <br />
-        <h1>Welcome to Vertex Accounting System</h1>
-        <div style="padding: 50px 20px">
-            The Total Accounting Solution
-            <fieldset>
-                <legend>Example</legend>
-            <span class="ex-label" >Account:</span><cc1:AccountDropDownListChosen ID="AccountDropDownList1" Width="200px" NullItemText="<div class='account-row'>Select an account</div>" NullItemValue="0" runat="server">
-               </cc1:AccountDropDownListChosen>
-            <br />
-            <span class="ex-label" >Bank Account:</span><cc1:AccountByLedgerTypeDropDownListChosen ID="AccountDropDownList2" LedgerType="BankLedger" Width="200px" NullItemText="<div class='account-row'>Select an account</div>" NullItemValue="0" runat="server">
-            </cc1:AccountByLedgerTypeDropDownListChosen>
-            <br />
-            <span class="ex-label" >Item:</span><cc1:ItemDropDownListChosen ID="ItemDropDownListChosen1" Width="200px" NullItemText="Select an item" NullItemValue="0" runat="server">
-               </cc1:ItemDropDownListChosen>
-                <br />
-            <span class="ex-label" >Ledger:</span><cc1:LedgerDropDownListChosen ID="LedgerDropDownListChosen1" Width="200px" NullItemText="Select a ledger" NullItemValue="0" runat="server">
-               </cc1:LedgerDropDownListChosen>
-            </fieldset>
+        <h1>Bashboard</h1>
+        <div class="panel panel-success board">
+            <div class="panel-heading">
+                Chart of accounts
+            </div>
+            <div class="panel-body grid">
+                <table class="datatable" style="margin-left:0">
+                    <tr class="row">
+                        <th>Cash accounts</th>
+                        <td><asp:Label ID="lblCash" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>Bank accounts</th>
+                        <td><asp:Label ID="lblBank" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>Customer accounts</th>
+                        <td><asp:Label ID="lblCustomer" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>Supplier accounts</th>
+                        <td><asp:Label ID="lblSupplier" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>General accounts</th>
+                        <td><asp:Label ID="lblGeneral" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-success board">
+            <div class="panel-heading">
+                Transactions
+            </div>
+            <div class="panel-body grid">
+                <table class="datatable" style="margin-left:0">
+                    <tr class="row">
+                        <th>Credit vouchers</th>
+                        <td><asp:Label ID="lblCredit" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>Debit vouchers</th>
+                        <td><asp:Label ID="lblDebit" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                    <tr class="row">
+                        <th>Journal vouchers</th>
+                        <td><asp:Label ID="lblJournal" runat="server" Text="0" ></asp:Label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-success board">
+            <div class="panel-heading">
+                Users
+            </div>
+            <div class="panel-body">
+            </div>
         </div>
     </div>
 </asp:Content>

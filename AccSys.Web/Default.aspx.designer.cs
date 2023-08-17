@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AccSys.Web {
-    
-    
-    public partial class Default {
-        
+namespace AccSys.Web
+{
+
+
+    public partial class Default
+    {
+
         /// <summary>
         /// HfCanView control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HfCanView;
-        
+
         /// <summary>
         /// HfCanAdd control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HfCanAdd;
-        
+
         /// <summary>
         /// HfCanEdit control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HfCanEdit;
-        
+
         /// <summary>
         /// HfCanDelete control.
         /// </summary>
@@ -47,41 +49,77 @@ namespace AccSys.Web {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField HfCanDelete;
-        
+
         /// <summary>
-        /// AccountDropDownList1 control.
+        /// lblCash control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AccSys.Web.DbControls.AccountDropDownListChosen AccountDropDownList1;
-        
+        protected global::System.Web.UI.WebControls.Label lblCash;
+
         /// <summary>
-        /// AccountDropDownList2 control.
+        /// lblBank control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AccSys.Web.DbControls.AccountByLedgerTypeDropDownListChosen AccountDropDownList2;
-        
+        protected global::System.Web.UI.WebControls.Label lblBank;
+
         /// <summary>
-        /// ItemDropDownListChosen1 control.
+        /// lblCustomer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AccSys.Web.DbControls.ItemDropDownListChosen ItemDropDownListChosen1;
-        
+        protected global::System.Web.UI.WebControls.Label lblCustomer;
+
         /// <summary>
-        /// LedgerDropDownListChosen1 control.
+        /// lblSupplier control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AccSys.Web.DbControls.LedgerDropDownListChosen LedgerDropDownListChosen1;
+        protected global::System.Web.UI.WebControls.Label lblSupplier;
+
+        /// <summary>
+        /// lblGeneral control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblGeneral;
+
+        /// <summary>
+        /// lblCredit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCredit;
+
+        /// <summary>
+        /// lblDebit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDebit;
+
+        /// <summary>
+        /// lblJournal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblJournal;
     }
 }
