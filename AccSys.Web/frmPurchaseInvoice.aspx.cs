@@ -191,18 +191,22 @@ namespace AccSys.Web
                 if (sender.Equals(btnReset))
                     lblMsg.Text = "";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 lblMsg.Text = ex.CustomDialogMessage();
             }
         }
         private string CreateWhere()
         {
-            string where = string.Format(" CompanyID={0}", Session["CompanyID"] ?? 1);
+            string where = string.Format(" T_Purchase_Invoice.CompanyID={0}", Session["CompanyID"] ?? 1);
             where += string.Format(" AND (InvoiceDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim(), DateNumericFormat.YYYYMMDD), Tools.Utility.GetDateValue(txtToDate.Text.Trim(), DateNumericFormat.YYYYMMDD));
-            if(txtSrcInvNo.Text.Trim() != "")
+            if (txtSrcInvNo.Text.Trim() != "")
             {
                 where += string.Format(" AND InvoiceNo = '{0}'", txtSrcInvNo.Text.Trim());
+            }
+            if (!string.IsNullOrEmpty(ddlSrcAccount.SelectedValue) && ddlSrcAccount.SelectedValue != "0")
+            {
+                where += string.Format(" AND SupplierAccount = {0}", ddlSrcAccount.SelectedValue);
             }
             return where;
         }
@@ -211,8 +215,8 @@ namespace AccSys.Web
             try
             {
                 gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" InvoiceID, InvoiceType, InvoiceNo, InvoiceDate, TransAmount, TransRefId, StockrefId, CompanyId ";
-                odsCommon.SelectParameters["FromTable"].DefaultValue = @" T_Purchase_Invoice ";
+                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" InvoiceID, InvoiceType, T_Account.AccountTitle AS SupplierAccountName,  InvoiceNo, InvoiceDate, TransAmount, TransRefId, StockrefId, T_Purchase_Invoice.CompanyId ";
+                odsCommon.SelectParameters["FromTable"].DefaultValue = @" T_Purchase_Invoice INNER JOIN T_Account ON T_Purchase_Invoice.SupplierAccount = T_Account.AccountID";
                 odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
                 odsCommon.SelectParameters["OrderBy"].DefaultValue = " InvoiceDate DESC ";
 
@@ -251,7 +255,7 @@ namespace AccSys.Web
                 StockRefId = lblStockRefId.Text.ToInt(),
                 CompanyId = GlobalFunctions.isNull(Session["CompanyID"], 0)
             };
-            
+
             if (Session[_sessionDatatableName] != null)
             {
                 model.InvoiceItems = (DataTable)Session[_sessionDatatableName];
@@ -392,7 +396,7 @@ namespace AccSys.Web
                 Session[_sessionDatatableName] = null;
                 var dtItems = GetSessionDataTable();
                 var invItems = new DaPurchaseInvoice().GetPurchaseInvoiceDetails(connection, invId);
-                foreach(DataRow row in invItems.Rows)
+                foreach (DataRow row in invItems.Rows)
                 {
                     var itemId = GlobalFunctions.isNull(row["ItemID"], 0);
                     dtItems.Rows.Add(row["SLNo"], row["ItemID"], row["ItemName"], row["ItemCategory"], row["InvQty"], row["UnitPrice"], row["PriceAmount"], row["OrderID"], row["OrderNo"]);
@@ -424,7 +428,7 @@ namespace AccSys.Web
             var orderItems = new DaOrder().GetOrderItems(ConnectionHelper.getConnection(), orderId);
             Session[_sessionDatatableName] = null;
             var dtItems = GetSessionDataTable();
-            foreach(DataRow row in orderItems.Rows)
+            foreach (DataRow row in orderItems.Rows)
             {
                 dtItems.Rows.Add(0, row["ItemID"], row["ItemName"], row["ItemCategory"], row["OrderQty"], row["UnitPrice"], row["OrderValue"], orderId, orderNo);
             }

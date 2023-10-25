@@ -28,26 +28,31 @@
                 Chart of accounts
             </div>
             <div class="panel-body grid">
-                <table class="datatable" style="margin-left:0">
+                <table class="datatable" style="margin-left: 0">
                     <tr class="row">
                         <th>Cash accounts</th>
-                        <td><asp:Label ID="lblCash" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblCash" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>Bank accounts</th>
-                        <td><asp:Label ID="lblBank" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblBank" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>Customer accounts</th>
-                        <td><asp:Label ID="lblCustomer" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblCustomer" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>Supplier accounts</th>
-                        <td><asp:Label ID="lblSupplier" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblSupplier" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>General accounts</th>
-                        <td><asp:Label ID="lblGeneral" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblGeneral" runat="server" Text="0"></asp:Label></td>
                     </tr>
                 </table>
             </div>
@@ -57,27 +62,38 @@
                 Transactions
             </div>
             <div class="panel-body grid">
-                <table class="datatable" style="margin-left:0">
+                <table class="datatable" style="margin-left: 0">
                     <tr class="row">
                         <th>Credit vouchers</th>
-                        <td><asp:Label ID="lblCredit" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblCredit" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>Debit vouchers</th>
-                        <td><asp:Label ID="lblDebit" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblDebit" runat="server" Text="0"></asp:Label></td>
                     </tr>
                     <tr class="row">
                         <th>Journal vouchers</th>
-                        <td><asp:Label ID="lblJournal" runat="server" Text="0" ></asp:Label></td>
+                        <td>
+                            <asp:Label ID="lblJournal" runat="server" Text="0"></asp:Label></td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="panel panel-success board">
             <div class="panel-heading">
-                Users
+                Recent
             </div>
-            <div class="panel-body">
+            <div class="panel-body grid">
+                <table class="datatable" style="margin-left: 0">
+                    <tr class="row">
+                        <th>Last transaction on</th>
+                        <td>
+                            <asp:Label ID="lblLastTransTime" runat="server" Text=""></asp:Label>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

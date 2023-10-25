@@ -263,17 +263,22 @@
                             Invoices          
                         </label>
                         <label>
+                            <asp:Literal ID="Literal4" Text="Party" runat="server"></asp:Literal>
+                        </label>
+                        <cc1:AccountDropDownListChosen ID="ddlSrcAccount" Width="250px" runat="server" NullItemText="Select an account" NullItemValue="0">
+                        </cc1:AccountDropDownListChosen>
+                        <label>
                             <asp:Literal ID="Literal3" Text="Invoice No." runat="server"></asp:Literal>
                         </label>
-                        <asp:TextBox ID="txtSrcInvNo" runat="server"></asp:TextBox>
+                        <asp:TextBox ID="txtSrcInvNo" runat="server" Width="100px"></asp:TextBox>
                         <label>
                             <asp:Literal ID="Literal1" Text="Date" runat="server"></asp:Literal>
                         </label>
-                        <asp:TextBox ID="txtFromDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <asp:TextBox ID="txtFromDate" runat="server" Width="110px" TextMode="Date"></asp:TextBox>
                         <ajax:CalendarExtender ID="CalendarExtender11" runat="server" TargetControlID="txtFromDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
                         <label>
                             <asp:Literal ID="Literal2" Text="-" runat="server"></asp:Literal></label>
-                        <asp:TextBox ID="txtToDate" runat="server" Width="140px" TextMode="Date"></asp:TextBox>
+                        <asp:TextBox ID="txtToDate" runat="server" Width="110px" TextMode="Date"></asp:TextBox>
                         <ajax:CalendarExtender ID="CalendarExtender33" runat="server" TargetControlID="txtToDate" Format="dd/MM/yyyy"></ajax:CalendarExtender>
                         <asp:LinkButton SecurityCommandName="View" ID="btnSearch" runat="server" OnClick="btnSearch_Click" Text="Search" CssClass="btn btn-sm btn-default glyphicon glyphicon-search" />
                     </div>
@@ -303,6 +308,11 @@
                         <asp:TemplateField HeaderText="Date" SortExpression="InvoiceDate">
                             <ItemTemplate>
                                 <asp:Label ID="lblInvoiceDate" runat="server" Text='<%# Bind("InvoiceDate", "{0:dd/MM/yyyy}") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Supplier Account" SortExpression="SupplierAccountName">
+                            <ItemTemplate>
+                                <asp:Label ID="lblSupplierAccountName" runat="server" Text='<%# Bind("SupplierAccountName") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Type" SortExpression="InvoiceType">

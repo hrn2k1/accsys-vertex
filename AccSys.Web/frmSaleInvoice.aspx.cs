@@ -194,8 +194,16 @@ namespace AccSys.Web
         }
         private string CreateWhere()
         {
-            string where = string.Format(" CompanyID={0}", Session.CompanyId());
+            string where = string.Format(" T_Sales_Invoice.CompanyID={0}", Session.CompanyId());
             where += string.Format(" AND (InvoiceDate BETWEEN '{0:yyyy-MM-dd}' AND '{1:yyyy-MM-dd}')", Tools.Utility.GetDateValue(txtFromDate.Text.Trim(), DateNumericFormat.YYYYMMDD), Tools.Utility.GetDateValue(txtToDate.Text.Trim(), DateNumericFormat.YYYYMMDD));
+            if (txtSrcInvNo.Text.Trim() != "")
+            {
+                where += string.Format(" AND InvoiceNo = '{0}'", txtSrcInvNo.Text.Trim());
+            }
+            if (!string.IsNullOrEmpty(ddlSrcAccount.SelectedValue) && ddlSrcAccount.SelectedValue != "0")
+            {
+                where += string.Format(" AND CustomerAccount = {0}", ddlSrcAccount.SelectedValue);
+            }
             return where;
         }
         protected void btnSearch_Click(object sender, EventArgs e)
@@ -203,8 +211,8 @@ namespace AccSys.Web
             try
             {
                 gvData.DataSourceID = "odsCommon";
-                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" InvoiceID, InvoiceType, InvoiceNo, InvoiceDate, TransAmount, TransRefId, StockrefId, CompanyId ";
-                odsCommon.SelectParameters["FromTable"].DefaultValue = @" T_Sales_Invoice ";
+                odsCommon.SelectParameters["SelectedColumns"].DefaultValue = @" InvoiceID, InvoiceType, T_Account.AccountTitle AS CustomerAccountName, InvoiceNo, InvoiceDate, TransAmount, TransRefId, StockrefId, T_Sales_Invoice.CompanyId ";
+                odsCommon.SelectParameters["FromTable"].DefaultValue = @" T_Sales_Invoice INNER JOIN T_Account ON T_Sales_Invoice.CustomerAccount = T_Account.AccountID";
                 odsCommon.SelectParameters["Where"].DefaultValue = CreateWhere();
                 odsCommon.SelectParameters["OrderBy"].DefaultValue = " InvoiceDate DESC ";
 

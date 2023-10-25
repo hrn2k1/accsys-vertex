@@ -78,6 +78,24 @@ namespace AccSys.Web
                     }
                 }
             }
+            qstr = $"SELECT MAX(TransDate) AS LastTransTime FROM T_Transaction_Master WHERE CompanyID = {Session.CompanyId()}";
+            using (var conn = new SqlConnection(ConnectionHelper.DefaultConnectionString))
+            {
+                using (var cmd = new SqlCommand(qstr, conn))
+                {
+                    if (conn.State != ConnectionState.Open) conn.Open();
+                    var obj = cmd.ExecuteScalar();
+                    conn.Close();
+                    if (obj != null && obj != DBNull.Value)
+                    {
+                        lblLastTransTime.Text = ((DateTime)obj).ToString(" dd-MMM-yyyy");
+                    }
+                    else
+                    {
+                        lblLastTransTime.Text = "";
+                    }
+                }
+            }
         }
     }
 }
