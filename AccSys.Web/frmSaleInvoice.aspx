@@ -284,7 +284,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="min-height: 300px">
                 <asp:GridView ID="gvData" runat="server" AllowPaging="True" CssClass="datatable"
                     GridLines="None" AllowSorting="True" AutoGenerateColumns="False"
                     EmptyDataText="No Data Found.">
