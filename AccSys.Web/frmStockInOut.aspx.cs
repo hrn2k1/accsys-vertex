@@ -109,6 +109,7 @@ namespace AccSys.Web
         {
             try
             {
+                lblRefId.Text = "0";
                 DataTable dtItems = GetSessionDataTable();
                 int ItemID = Convert.ToInt32(ddlItem.SelectedValue);
                 if (ItemID <= 0) return;
@@ -165,6 +166,7 @@ namespace AccSys.Web
         protected void btnAddOrder_Click(object sender, EventArgs e)
         {
             var orderId = ddlOrder.SelectedValue.ToInt();
+            lblRefId.Text = orderId.ToString();
             var orderNo = ddlOrder.SelectedOrderNo();
             var orderItems = new DaOrder().GetOrderItems(ConnectionHelper.getConnection(), orderId);
             Session[_sessionDatatableName] = null;
@@ -182,6 +184,7 @@ namespace AccSys.Web
         protected void btnAddReq_Click(object sender, EventArgs e)
         {
             var reqId = ddlReq.SelectedValue.ToInt();
+            lblRefId.Text = reqId.ToString();
             var reqNo = ddlReq.SelectedRequisitionNo();
             var orderItems = new DaInventoryRequisition().GetRequisitionItems(ConnectionHelper.getConnection(), reqId);
             Session[_sessionDatatableName] = null;

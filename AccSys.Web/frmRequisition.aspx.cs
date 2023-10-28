@@ -17,6 +17,8 @@ namespace AccSys.Web
         {
             if (!IsPostBack)
             {
+                var companyId = Session.CompanyId();
+                txtReqNo.Text = GlobalFunctions.GenerateNo(companyId, "T_Requisition_Master", "ReqNo", "RQ-");
                 txtDate.Text = DateTime.Now.ToString(_dateFormat);
                 txtFromDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now.AddDays(-30));
                 txtToDate.Text = string.Format("{0:" + _dateFormat + "}", DateTime.Now);
@@ -127,9 +129,6 @@ namespace AccSys.Web
         {
             if (Validation() == false) return;
             SqlTransaction trans = null;
-            int ReqMID = 0;
-            var obReqMaster = new ReqMaster();
-            var obReqDetail = new ReqDetail();
             var obDaReq = new DaInventoryRequisition();
             try
             {
@@ -137,13 +136,13 @@ namespace AccSys.Web
                 trans = connection.BeginTransaction();
 
                 //Save ReqMaster
-                obReqMaster = CreateReqMaster();
-                ReqMID = obDaReq.SaveUpdateReqMaster(obReqMaster, connection, trans);
+                var obReqMaster = CreateReqMaster();
+                var ReqMID = obDaReq.SaveUpdateReqMaster(obReqMaster, connection, trans);
 
                 //Save ReqDetail
                 foreach (GridViewRow row in gvReqItems.Rows)
                 {
-                    obReqDetail = CreateReqDetail(ReqMID, row);
+                    var obReqDetail = CreateReqDetail(ReqMID, row);
                     obDaReq.SaveUpdateReqDetail(obReqDetail, connection, trans);
                 }
                 trans.Commit();
@@ -202,7 +201,8 @@ namespace AccSys.Web
         }
         protected void btnReset_Click(object sender, EventArgs e)
         {
-            txtReqNo.Text = "";
+            var companyId = Session.CompanyId();
+            txtReqNo.Text = GlobalFunctions.GenerateNo(companyId, "T_Requisition_Master", "ReqNo", "RQ-"); ;
             txtReqBy.Text = "";
             txtDate.Text = DateTime.Now.ToString(_dateFormat);
             ddlSection.SelectedIndex = 0;

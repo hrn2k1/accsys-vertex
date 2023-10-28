@@ -314,7 +314,7 @@
                                 <asp:Label ID="lblChalanDate" runat="server" Text='<%# Bind("ChalanDate", "{0:dd/MM/yyyy}") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="RefId" SortExpression="RefID">
+                        <asp:TemplateField HeaderText="RefId" SortExpression="RefID" Visible="false">
                             <ItemTemplate>
                                 <asp:Label ID="lblRefId" runat="server" Text='<%# Bind("RefID") %>'></asp:Label>
                             </ItemTemplate>
