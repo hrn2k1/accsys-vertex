@@ -298,7 +298,7 @@ namespace AccSys.Web
         protected void lbtnDelete_Click(object sender, EventArgs e)
         {
             Label lblModule = (Label)((LinkButton)sender).NamingContainer.FindControl("lblModule");
-            if (lblModule.Text != "Stock InOut")
+            if (lblModule.Text != "Stock InOut" && lblModule.Text != "Stock In Out")
             {
                 lblMsg.Text = UIMessage.Message2User("You can't delete it from here. Delete from " + lblModule.Text, UserUILookType.Danger);
                 return;
@@ -371,7 +371,7 @@ namespace AccSys.Web
             try
             {
                 Label lblModule = (Label)((LinkButton)sender).NamingContainer.FindControl("lblModule");
-                if (lblModule.Text != "Stock InOut")
+                if (lblModule.Text != "Stock InOut" && lblModule.Text != "Stock In Out")
                 {
                     lblMsg.Text = UIMessage.Message2User("You can't edit it from here. Edit from " + lblModule.Text, UserUILookType.Danger);
                     return;
